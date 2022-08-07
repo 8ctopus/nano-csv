@@ -8,6 +8,7 @@ class CSV
 
     private string $file;
     private int $size;
+    private int $startOffset;
 
     private BOM $bom;
     private LineEnding $lineEnding;
@@ -41,14 +42,14 @@ class CSV
     public function autoDetect() : self
     {
         // open file
-        $handle = fopen($this->file, 'r', false, null);
+        $this->handle = fopen($this->file, 'r', false, null);
 
-        if ($handle === false) {
+        if ($this->handle === false) {
             throw new CSVException('open file');
         }
 
         // get file info
-        $stat = fstat($handle);
+        $stat = fstat($this->handle);
 
         if ($stat === false) {
             throw new CSVException('file stat');
@@ -57,10 +58,43 @@ class CSV
         // get size
         $this->size = $stat['size'];
 
-        // get bom
-        $this->bom = $this->bom($handle);
+        if ($this->size === 0) {
+            throw new CSVException('empty file');
+        }
 
-        $this->lineEnding = $this->lineEnding($handle);
+        // get bom
+        $this->bom = $this->bom();
+
+        // set data start offset and encoding
+        switch ($this->bom) {
+            case BOM::Utf8:
+                $this->startOffset = 3;
+                $this->encoding = 'UTF-8';
+                break;
+
+            case BOM::Utf16LE:
+                $this->startOffset = 2;
+                $this->encoding = 'UTF-16LE';
+                break;
+
+            case BOM::Utf16BE:
+                $this->startOffset = 2;
+                $this->encoding = 'UTF-16BE';
+                break;
+
+            default:
+                $this->startOffset = 0;
+                $this->encoding = '';
+                break;
+        }
+
+        // seek to where data starts
+        if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
+            throw new CSVException('fseek');
+        }
+
+        // get line ending
+        $this->lineEnding = $this->lineEnding();
 
         return $this;
     }
@@ -68,18 +102,11 @@ class CSV
     /**
      * Check for byte order mark (bom)
      *
-     * @param  resource $handle
-     *
      * @return BOM
      */
-    private function bom($handle) : BOM
+    private function bom() : BOM
     {
-        $data = str_split(fread($handle, 3));
-
-        // seek back to zero
-        if (fseek($handle, 0, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
-        }
+        $data = str_split(fread($this->handle, $this->size > 3 ? 3 : $this->size));
 
         $boms = [
             BOM::Utf8->toStr() => [0xEF, 0xBB, 0xBF],
@@ -103,39 +130,13 @@ class CSV
     /**
      * Get line ending
      *
-     * @param resource $handle
-     *
      * @throws CSVException
      *
      * @return LineEnding
      */
-    private function lineEnding($handle) : LineEnding
+    private function lineEnding() : LineEnding
     {
-        $position = ftell($handle);
-
-        if ($position === false) {
-            throw new CSVException('ftell');
-        }
-
-        $line = fread($handle, $this->size > 500 ? 500 : $this->size);
-
-        if (fseek($handle, $position, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
-        }
-
-        switch ($this->bom) {
-            case BOM::Utf16LE:
-                $line = mb_convert_encoding($line, 'UTF-8', 'UTF-16LE');
-                break;
-
-            case BOM::Utf16BE:
-                $line = mb_convert_encoding($line, 'UTF-8', 'UTF-16BE');
-                break;
-        }
-
-        if ($line === false) {
-            throw new CSVException('convert encoding');
-        }
+        $line = $this->read($this->size > 500 ? 500 : $this->size, true);
 
         // get line ending
         $endings = [
@@ -151,6 +152,38 @@ class CSV
         }
 
         throw new CSVException('line ending');
+    }
+
+    private function read(int $size, bool $resetPosition) : string
+    {
+        // save position
+        if ($resetPosition) {
+            $position = ftell($this->handle);
+
+            if ($position === false) {
+                throw new CSVException('ftell');
+            }
+        }
+
+        $str = fread($this->handle, $size);
+
+        if ($str === false) {
+            throw new CSVException('fread');
+        }
+
+        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
+            throw new CSVException('fseek');
+        }
+
+        if (!empty($this->encoding)) {
+            $str = mb_convert_encoding($str, 'UTF-8', $this->encoding);
+        }
+
+        if ($str === false) {
+            throw new CSVException('convert encoding');
+        }
+
+        return $str;
     }
 
     /**
