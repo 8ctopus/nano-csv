@@ -42,4 +42,13 @@ enum LineEnding
             self::Mac => 'Mac',
         };
     }
+
+    public function ending() : string
+    {
+        return match ($this) {
+            self::Linux => "\n",
+            self::Windows => "\r\n",
+            self::Mac => "\r",
+        };
+    }
 }
