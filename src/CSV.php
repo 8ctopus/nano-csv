@@ -89,7 +89,7 @@ class CSV
 
         foreach ($boms as $name => $bom) {
             for ($i = 0; $i < sizeof($bom); ++$i) {
-                if ($bom[$i] !== $data[$i]) {
+                if ($bom[$i] !== ord($data[$i])) {
                     break;
                 }
 
@@ -123,6 +123,20 @@ class CSV
             throw new CSVException('fseek');
         }
 
+        switch ($this->bom) {
+            case BOM::Utf16LE:
+                $line = mb_convert_encoding($line, 'UTF-8', 'UTF-16LE');
+                break;
+
+            case BOM::Utf16BE:
+                $line = mb_convert_encoding($line, 'UTF-8', 'UTF-16BE');
+                break;
+        }
+
+        if ($line === false) {
+            throw new CSVException('convert encoding');
+        }
+
         // get line ending
         $endings = [
             LineEnding::Windows->toStr() => "\r\n",
@@ -149,7 +163,7 @@ class CSV
         return
             "file: {$this->file}" . PHP_EOL .
             "size: {$this->size}" . PHP_EOL .
-            "bom: {$this->bom->toStr()}" . PHP_EOL .
-            "ending: {$this->lineEnding->toStr()}" . PHP_EOL;
+            "BOM: {$this->bom->toStr()}" . PHP_EOL .
+            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL;
     }
 }

@@ -25,15 +25,15 @@ enum BOM
                 return self::Utf8;
 
             case 'utf16le':
-            case 'utf16-le':
+            case 'utf-16le':
                 return self::Utf16LE;
 
             case 'utf16be':
-            case 'utf16-be':
+            case 'utf-16be':
                 return self::Utf16BE;
 
             default:
-                throw new ActivationCode24Exception('unknown BOM');
+                throw new CSVException('unknown BOM');
         }
     }
 
@@ -45,9 +45,9 @@ enum BOM
     {
         return match ($this) {
             self::None => 'None',
-            self::Utf8 => 'Utf8',
-            self::Utf16LE => 'Utf16LE',
-            self::Utf16BE => 'Utf16BE',
+            self::Utf8 => 'UTF-8',
+            self::Utf16LE => 'UTF-16LE',
+            self::Utf16BE => 'UTF-16BE',
         };
     }
 }
