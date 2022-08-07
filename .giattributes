@@ -1,0 +1,2 @@
+samples/ascii-windows.csv eol=crlf
+samples/utf8-windows.csv eol=crlf
