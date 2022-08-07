@@ -63,7 +63,7 @@ class CSV
         }
 
         // get bom
-        $this->bom = $this->bom();
+        $this->bom = $this->getBOM();
 
         // set data start offset and encoding
         switch ($this->bom) {
@@ -93,18 +93,23 @@ class CSV
             throw new CSVException('fseek');
         }
 
+        // detect encoding
+        if (empty($this->encoding)) {
+            $this->encoding = $this->detectEncoding();
+        }
+
         // get line ending
-        $this->lineEnding = $this->lineEnding();
+        $this->lineEnding = $this->detectLineEnding();
 
         return $this;
     }
 
     /**
-     * Check for byte order mark (bom)
+     * Get byte order mark (bom)
      *
      * @return BOM
      */
-    private function bom() : BOM
+    private function getBOM() : BOM
     {
         $data = str_split(fread($this->handle, $this->size > 3 ? 3 : $this->size));
 
@@ -128,13 +133,13 @@ class CSV
     }
 
     /**
-     * Get line ending
+     * Detect line ending
      *
      * @throws CSVException
      *
      * @return LineEnding
      */
-    private function lineEnding() : LineEnding
+    private function detectLineEnding() : LineEnding
     {
         $line = $this->read($this->size > 500 ? 500 : $this->size, true);
 
@@ -151,7 +156,27 @@ class CSV
             }
         }
 
-        throw new CSVException('line ending');
+        throw new CSVException('detect line ending');
+    }
+
+    /**
+     * Detect encoding
+     *
+     * @throws CSVException
+     *
+     * @return string
+     */
+    private function detectEncoding() : string
+    {
+        $line = $this->read($this->size > 500 ? 500 : $this->size, true);
+
+        $encoding = mb_detect_encoding($line, ['auto'], true);
+
+        if (!$encoding) {
+            throw new CSVException('detect encoding');
+        }
+
+        return $encoding;
     }
 
     private function read(int $size, bool $resetPosition) : string
@@ -197,6 +222,7 @@ class CSV
             "file: {$this->file}" . PHP_EOL .
             "size: {$this->size}" . PHP_EOL .
             "BOM: {$this->bom->toStr()}" . PHP_EOL .
+            "encoding: {$this->encoding}" . PHP_EOL .
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL;
     }
 }
