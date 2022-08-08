@@ -136,7 +136,6 @@ class CSV
             $this->enclosure = $this->detectEnclosure();
         }
 
-
         return $this;
     }
 

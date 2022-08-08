@@ -27,7 +27,11 @@ foreach ($files as $file) {
     echo $csv
         ->autoDetect() . PHP_EOL;
 
+    $i = 0;
+
     while ($row = $csv->readNextRow()) {
-        echo $row[0] . PHP_EOL;
+        while (++$i < 6) {
+            echo implode(', ', $row) . PHP_EOL;
+        }
     }
 }

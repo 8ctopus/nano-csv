@@ -18,10 +18,10 @@ require_once './vendor/autoload.php';
 $csv = new CSV(__DIR__ .'/samples/utf16le-windows-header.csv')
 
 echo $csv
-    ->autoDetect();
+    ->autoDetect() . PHP_EOL;
 
 while ($row = $csv->readNextRow()) {
-    echo $row[0] . PHP_EOL;
+    echo implode(', ', $row) . PHP_EOL;
 }
 ```
 
@@ -35,6 +35,9 @@ separator: ,
 enclosure: "
 header: true
 columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age
+
+Adam Donachie, BAL, Catcher, 74, 180, 22.99
+Paul Bako, BAL, Catcher, 74, 215, 34.69
 ```
 
 ## tests
