@@ -215,12 +215,23 @@ class CSV
     {
         $line = $this->readLine(true);
 
+        return $this->lineToArray($line);
+    }
+
+    private function lineToArray(string $line) : array
+    {
         // line to array using separator
         $columns = explode($this->separator, $line);
 
         // cleanup whitespace multibyte
         foreach ($columns as &$column) {
             $column = preg_replace("/^\s+|\s+$/u", '', $column);
+        }
+
+        if (isset($this->enclosure)) {
+            foreach ($columns as &$column) {
+                $column = preg_replace("/^{$this->enclosure}|{$this->enclosure}$/u", '', $column);
+            }
         }
 
         return $columns;
@@ -274,7 +285,6 @@ class CSV
     private function cleanupColumns() : void
     {
         foreach ($this->columns as &$column) {
-            $column = ltrim($column, $this->enclosure);
             $column = preg_replace("/^{$this->enclosure}|{$this->enclosure}$/u", '', $column);
         }
     }
@@ -285,13 +295,54 @@ class CSV
      */
     private function detectHeader() : bool
     {
+        // look for keywords
+        $keywords = [
+            'name',
+            'firstname',
+            'lastname',
+            'year',
+            'month',
+            'day',
+            'hour',
+            'time',
+            'length',
+            'size',
+            'average',
+        ];
+
+        $keyword = 0;
+
         foreach ($this->columns as $column) {
-            if (is_numeric($column)) {
-                return false;
+            if (in_array(mb_strtolower($column), $keywords, true)) {
+                ++$keyword;
             }
         }
 
-        return true;
+        // look for numeric columns
+        $numeric = 0;
+
+        foreach ($this->columns as $column) {
+            if (is_numeric($column)) {
+                ++$numeric;
+            }
+        }
+
+        // look for numeric columns in second row
+        $row = $this->readRow(1, true);
+
+        $numericSecond = 0;
+
+        foreach ($row as $field) {
+            if (is_numeric($field)) {
+                ++$numericSecond;
+            }
+        }
+
+        if ($numericSecond > $numeric) {
+            return true;
+        }
+
+        return $keyword - $numeric > 0;
     }
 
     /**
@@ -304,6 +355,24 @@ class CSV
      */
     public function readRow(int $row, bool $resetPosition) : array
     {
+        // save position
+        if ($resetPosition) {
+            $position = ftell($this->handle);
+
+            if ($position === false) {
+                throw new CSVException('ftell');
+            }
+        }
+
+        for ($i = 0; $i <= $row; ++$i) {
+            $line = $this->readLine(false);
+        }
+
+        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
+            throw new CSVException('fseek');
+        }
+
+        return $this->lineToArray($line);
     }
 
     /**
