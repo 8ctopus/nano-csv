@@ -76,27 +76,8 @@ class CSV
         $this->bom = $this->getBOM();
 
         // set data start offset and encoding
-        switch ($this->bom) {
-            case BOM::Utf8:
-                $this->startOffset = 3;
-                $this->encoding = 'UTF-8';
-                break;
-
-            case BOM::Utf16LE:
-                $this->startOffset = 2;
-                $this->encoding = 'UTF-16LE';
-                break;
-
-            case BOM::Utf16BE:
-                $this->startOffset = 2;
-                $this->encoding = 'UTF-16BE';
-                break;
-
-            default:
-                $this->startOffset = 0;
-                $this->encoding = '';
-                break;
-        }
+        $this->startOffset = $this->bom->startOffset();
+        $this->encoding = $this->bom->encoding();
 
         // seek to where data starts
         if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
@@ -127,9 +108,9 @@ class CSV
         $data = str_split(fread($this->handle, $this->size > 3 ? 3 : $this->size));
 
         $boms = [
-            BOM::Utf8->toStr() => [0xEF, 0xBB, 0xBF],
-            BOM::Utf16LE->toStr() => [0xFF, 0xFE],
-            BOM::Utf16BE->toStr() => [0xFE, 0xFF],
+            BOM::Utf8->encoding() => [0xEF, 0xBB, 0xBF],
+            BOM::Utf16LE->encoding() => [0xFF, 0xFE],
+            BOM::Utf16BE->encoding() => [0xFE, 0xFF],
         ];
 
         foreach ($boms as $name => $bom) {
@@ -291,6 +272,14 @@ class CSV
      */
     private function detectHeader() : bool
     {
+        $columns = [];
+
+        foreach ($this->columns as $column) {
+            if (is_numeric($column)) {
+                $columns[$column] = 'numeric';
+            }
+        }
+
         return false;
     }
 
@@ -357,6 +346,16 @@ class CSV
     }
 
     /**
+     * Read row
+     *
+     * @return array
+     */
+    public function readRow(bool $resetPosition) : array
+    {
+
+    }
+
+    /**
      * Debug
      *
      * @return string
@@ -369,7 +368,7 @@ class CSV
         return
             "file: {$this->file}" . PHP_EOL .
             "size: {$this->size}" . PHP_EOL .
-            "BOM: {$this->bom->toStr()}" . PHP_EOL .
+            "BOM: {$this->bom->debug()}" . PHP_EOL .
             "encoding: {$this->encoding}" . PHP_EOL .
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
             "separator: {$this->separator}" . PHP_EOL .

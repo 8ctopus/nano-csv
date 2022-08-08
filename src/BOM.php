@@ -37,11 +37,27 @@ enum BOM
         }
     }
 
-    /**
-     * to string
-     * @return string
-     */
-    public function toStr() : string
+    public function startOffset() : int
+    {
+        return match ($this) {
+            self::None => 0,
+            self::Utf8 => 3,
+            self::Utf16LE => 2,
+            self::Utf16BE => 2,
+        };
+    }
+
+    public function encoding() : string
+    {
+        return match ($this) {
+            self::None => '',
+            self::Utf8 => 'UTF-8',
+            self::Utf16LE => 'UTF-16LE',
+            self::Utf16BE => 'UTF-16BE',
+        };
+    }
+
+    public function debug() : string
     {
         return match ($this) {
             self::None => 'None',
