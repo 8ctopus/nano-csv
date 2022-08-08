@@ -403,16 +403,13 @@ class CSV
         $enclosures = [
             '"' => 0,
             '\'' => 0,
+            ''  => 0,
         ];
 
         foreach ($this->columns as $column) {
-            foreach ($enclosures as $enclosure) {
-                if (str_starts_with($column, $enclosure)) {
-                    ++$column;
-                }
-
-                if (str_ends_with($column, $enclosure)) {
-                    ++$column;
+            foreach ($enclosures as $enclosure => &$count) {
+                if (str_starts_with($column, $enclosure) && str_ends_with($column, $enclosure)) {
+                    ++$count;
                 }
             }
         }

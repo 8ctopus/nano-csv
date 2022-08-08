@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \Oct8pus\CSV\CSV
+ * @covers \Oct8pus\CSV\BOM
+ * @covers \Oct8pus\CSV\LineEnding
+ * @covers \Oct8pus\CSV\CSVException
  */
 final class CSVTest extends TestCase
 {
@@ -53,7 +56,7 @@ final class CSVTest extends TestCase
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Linux' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
-                    'enclosure: "' . PHP_EOL .
+                    'enclosure: ' . PHP_EOL .
                     'header: false' . PHP_EOL .
                     'columns (2): column 0, column 1' . PHP_EOL
             ],
@@ -66,7 +69,7 @@ final class CSVTest extends TestCase
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
-                    'enclosure: "' . PHP_EOL .
+                    'enclosure: ' . PHP_EOL .
                     'header: true' . PHP_EOL .
                     'columns (14): Region, Country, Item Type, Sales Channel, Order Priority, Order Date, Order ID, Ship Date, Units Sold, Unit Price, Unit Cost, Total Revenue, Total Cost, Total Profit' . PHP_EOL
             ],
