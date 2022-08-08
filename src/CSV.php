@@ -140,15 +140,16 @@ class CSV
      * Read row
      *
      * @param int  $row
-     * @param bool $resetOffset
      *
      * @return array
      */
-    public function readRow(int $row, bool $resetOffset) : array
+    public function readRow(int $row) : array
     {
-        // save position
-        if ($resetOffset) {
-            $offset = $this->currentOffset;
+        // save offset
+        $offset = $this->currentOffset;
+
+        if (isset($this->header)) {
+
         }
 
         for ($i = 0; $i <= $row; ++$i) {
@@ -469,7 +470,7 @@ class CSV
         }
 
         // look for numeric columns in second row
-        $row = $this->readRow(1, true);
+        $row = $this->readRow(1);
 
         $numericSecond = 0;
 
