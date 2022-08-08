@@ -11,7 +11,9 @@ enum BOM
 
     /**
      * from string
-     * @param  string $str
+     *
+     * @param string $str
+     *
      * @return self
      */
     public static function fromStr(string $str) : self

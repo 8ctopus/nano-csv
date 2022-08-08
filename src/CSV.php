@@ -31,6 +31,28 @@ class CSV
     }
 
     /**
+     * Debug
+     *
+     * @return string
+     */
+    public function __toString() : string
+    {
+        $columns = implode(', ', $this->columns);
+        $header = $this->header ? 'true' : 'false';
+
+        return
+            "file: {$this->file}" . PHP_EOL .
+            "size: {$this->size}" . PHP_EOL .
+            "BOM: {$this->bom->debug()}" . PHP_EOL .
+            "encoding: {$this->encoding}" . PHP_EOL .
+            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
+            "separator: {$this->separator}" . PHP_EOL .
+            "enclosure: {$this->enclosure}" . PHP_EOL .
+            "header: {$header}" . PHP_EOL .
+            "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
+    }
+
+    /**
      * Set file
      *
      * @param string $file
@@ -112,6 +134,36 @@ class CSV
     }
 
     /**
+     * Read row
+     *
+     * @param int  $row
+     * @param bool $resetPosition
+     *
+     * @return array
+     */
+    public function readRow(int $row, bool $resetPosition) : array
+    {
+        // save position
+        if ($resetPosition) {
+            $position = ftell($this->handle);
+
+            if ($position === false) {
+                throw new CSVException('ftell');
+            }
+        }
+
+        for ($i = 0; $i <= $row; ++$i) {
+            $line = $this->readLine(false);
+        }
+
+        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
+            throw new CSVException('fseek');
+        }
+
+        return $this->lineToArray($line);
+    }
+
+    /**
      * Get byte order mark (bom)
      *
      * @return BOM
@@ -188,6 +240,7 @@ class CSV
 
     /**
      * Detect field separator
+     *
      * @return string
      */
     private function detectSeparator() : string
@@ -209,6 +262,7 @@ class CSV
 
     /**
      * Read columns
+     *
      * @return array
      */
     private function readColumns() : array
@@ -225,7 +279,7 @@ class CSV
 
         // cleanup whitespace multibyte
         foreach ($columns as &$column) {
-            $column = preg_replace("/^\s+|\s+$/u", '', $column);
+            $column = preg_replace('/^\\s+|\\s+$/u', '', $column);
         }
 
         if (isset($this->enclosure)) {
@@ -239,6 +293,7 @@ class CSV
 
     /**
      * Detect enclosure
+     *
      * @return string
      */
     private function detectEnclosure() : string
@@ -280,6 +335,7 @@ class CSV
 
     /**
      * Cleanup columns
+     *
      * @return void
      */
     private function cleanupColumns() : void
@@ -291,6 +347,7 @@ class CSV
 
     /**
      * Detect if file has a header
+     *
      * @return bool
      */
     private function detectHeader() : bool
@@ -346,40 +403,10 @@ class CSV
     }
 
     /**
-     * Read row
-     *
-     * @param int $row
-     * @param bool $resetPosition
-     *
-     * @return array
-     */
-    public function readRow(int $row, bool $resetPosition) : array
-    {
-        // save position
-        if ($resetPosition) {
-            $position = ftell($this->handle);
-
-            if ($position === false) {
-                throw new CSVException('ftell');
-            }
-        }
-
-        for ($i = 0; $i <= $row; ++$i) {
-            $line = $this->readLine(false);
-        }
-
-        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
-        }
-
-        return $this->lineToArray($line);
-    }
-
-    /**
      * Read from file
      *
-     * @param  int    $size
-     * @param  bool   $resetPosition
+     * @param int  $size
+     * @param bool $resetPosition
      *
      * @return string
      */
@@ -418,7 +445,7 @@ class CSV
     /**
      * Read line
      *
-     * @param  bool $resetPosition
+     * @param bool $resetPosition
      *
      * @return string
      */
@@ -435,27 +462,5 @@ class CSV
                 return mb_substr($str, 0, $position);
             }
         }
-    }
-
-    /**
-     * Debug
-     *
-     * @return string
-     */
-    public function __toString() : string
-    {
-        $columns = implode(', ', $this->columns);
-        $header = $this->header ? 'true' : 'false';
-
-        return
-            "file: {$this->file}" . PHP_EOL .
-            "size: {$this->size}" . PHP_EOL .
-            "BOM: {$this->bom->debug()}" . PHP_EOL .
-            "encoding: {$this->encoding}" . PHP_EOL .
-            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
-            "separator: {$this->separator}" . PHP_EOL .
-            "enclosure: {$this->enclosure}" . PHP_EOL .
-            "header: {$header}" . PHP_EOL .
-            "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
     }
 }

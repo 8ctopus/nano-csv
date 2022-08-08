@@ -13,8 +13,11 @@ final class CSVTest extends TestCase
 {
     /**
      * @dataProvider getDetectCases
+     *
+     * @param string $file
+     * @param array $expected
      */
-    public function testDetect(string $file, $expected) : void
+    public function testDetect(string $file, array $expected) : void
     {
         $csv = new CSV();
         $csv

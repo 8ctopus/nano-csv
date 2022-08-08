@@ -10,7 +10,9 @@ enum LineEnding
 
     /**
      * from string
-     * @param  string $str
+     *
+     * @param string $str
+     *
      * @return self
      */
     public static function fromStr(string $str) : self
@@ -32,6 +34,7 @@ enum LineEnding
 
     /**
      * to string
+     *
      * @return string
      */
     public function toStr() : string
