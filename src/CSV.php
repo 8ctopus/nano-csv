@@ -9,6 +9,7 @@ class CSV
     private string $file;
     private int $size;
     private int $startOffset;
+    private int $currentOffset;
 
     private BOM $bom;
     private LineEnding $lineEnding;
@@ -28,6 +29,7 @@ class CSV
      */
     public function __construct()
     {
+        $this->currentOffset = 0;
     }
 
     /**
@@ -98,20 +100,26 @@ class CSV
         // get bom
         $this->bom = $this->getBOM();
 
-        // set data start offset and encoding
+        // set data start offset
         $this->startOffset = $this->bom->startOffset();
-        $this->encoding = $this->bom->encoding();
+        $this->currentOffset = $this->startOffset;
 
         // seek to where data starts
-        if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
+        if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
             throw new CSVException('fseek');
         }
 
+        // set encoding
+        $this->encoding = $this->bom->encoding();
+
+        $text = $this->read($this->size > 500 ? 500 : $this->size, true);
+
         if (empty($this->encoding)) {
-            $this->encoding = $this->detectEncoding();
+            $this->encoding = $this->detectEncoding($text);
         }
 
-        $this->lineEnding = $this->detectLineEnding();
+        $this->lineEnding = $this->detectLineEnding($text);
+
         $this->separator = $this->detectSeparator();
 
         $this->columns = $this->readColumns();
@@ -137,30 +145,115 @@ class CSV
      * Read row
      *
      * @param int  $row
-     * @param bool $resetPosition
+     * @param bool $resetOffset
      *
      * @return array
      */
-    public function readRow(int $row, bool $resetPosition) : array
+    public function readRow(int $row, bool $resetOffset) : array
     {
         // save position
-        if ($resetPosition) {
-            $position = ftell($this->handle);
-
-            if ($position === false) {
-                throw new CSVException('ftell');
-            }
+        if ($resetOffset) {
+            $offset = $this->currentOffset;
         }
 
         for ($i = 0; $i <= $row; ++$i) {
             $line = $this->readLine(false);
         }
 
-        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
+        if (isset($offset)) {
+            if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
+                throw new CSVException('fseek');
+            }
+
+            $this->currentOffset = $offset;
         }
 
         return $this->lineToArray($line);
+    }
+
+    /**
+     * Read line
+     *
+     * @param bool $resetOffset
+     *
+     * @return string
+     */
+    private function readLine(bool $resetOffset) : string
+    {
+        $offset = $this->currentOffset;
+
+        $str = '';
+        $length = 100;
+        $read = 0;
+
+        while (1) {
+            $str .= $this->read($length, false);
+            $read += $length;
+
+            $position = mb_strpos($str, $this->lineEnding->ending(), 0);
+
+            if ($position !== false) {
+                if ($resetOffset) {
+                    $this->currentOffset = $offset;
+                } else {
+                    $this->currentOffset = $offset + $position + strlen($this->lineEnding->ending());
+                }
+
+                if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
+                    throw new CSVException('fseek');
+                }
+
+                return mb_substr($str, 0, $position);
+            }
+        }
+
+        throw new CSVException();
+    }
+
+    /**
+     * Read from file
+     *
+     * @param int  $length
+     * @param bool $resetOffset
+     *
+     * @return string
+     */
+    private function read(int $length, bool $resetOffset) : string
+    {
+        // save position
+        if ($resetOffset) {
+            $offset = $this->currentOffset;
+        }
+
+        if ($this->currentOffset + $length > $this->size) {
+            throw new CSVException('out of bounds');
+        }
+
+        $str = fread($this->handle, $length);
+
+        if ($str === false) {
+            throw new CSVException('fread');
+        }
+
+        if (isset($offset)) {
+            if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
+                throw new CSVException('fseek');
+            }
+
+            $this->currentOffset = $offset;
+        } else {
+            $this->currentOffset += $length;
+        }
+
+        if (!empty($this->encoding)) {
+            $str = mb_convert_encoding($str, 'UTF-8', $this->encoding);
+        }
+
+        if ($str === false) {
+            throw new CSVException('convert encoding');
+        }
+
+        return $str;
     }
 
     /**
@@ -170,7 +263,7 @@ class CSV
      */
     private function getBOM() : BOM
     {
-        $data = str_split(fread($this->handle, $this->size > 3 ? 3 : $this->size));
+        $data = str_split($this->read($this->size > 3 ? 3 : $this->size, true));
 
         $boms = [
             BOM::Utf8->encoding() => [0xEF, 0xBB, 0xBF],
@@ -194,15 +287,15 @@ class CSV
     /**
      * Detect encoding
      *
+     * @param string $text
+     *
      * @throws CSVException
      *
      * @return string
      */
-    private function detectEncoding() : string
+    private function detectEncoding(string $text) : string
     {
-        $line = $this->read($this->size > 500 ? 500 : $this->size, true);
-
-        $encoding = mb_detect_encoding($line, ['auto'], true);
+        $encoding = mb_detect_encoding($text, ['auto'], true);
 
         if (!$encoding) {
             throw new CSVException('detect encoding');
@@ -214,15 +307,14 @@ class CSV
     /**
      * Detect line ending
      *
+     * @param string $text
+     *
      * @throws CSVException
      *
      * @return LineEnding
      */
-    private function detectLineEnding() : LineEnding
+    private function detectLineEnding(string $text) : LineEnding
     {
-        $line = $this->read($this->size > 500 ? 500 : $this->size, true);
-
-        // get line ending
         $endings = [
             LineEnding::Windows->toStr() => "\r\n",
             LineEnding::Linux->toStr() => "\n",
@@ -230,7 +322,7 @@ class CSV
         ];
 
         foreach ($endings as $name => $ending) {
-            if (str_contains($line, $ending)) {
+            if (str_contains($text, $ending)) {
                 return LineEnding::fromStr($name);
             }
         }
@@ -400,67 +492,5 @@ class CSV
         }
 
         return $keyword - $numeric > 0;
-    }
-
-    /**
-     * Read from file
-     *
-     * @param int  $size
-     * @param bool $resetPosition
-     *
-     * @return string
-     */
-    private function read(int $size, bool $resetPosition) : string
-    {
-        // save position
-        if ($resetPosition) {
-            $position = ftell($this->handle);
-
-            if ($position === false) {
-                throw new CSVException('ftell');
-            }
-        }
-
-        $str = fread($this->handle, $size);
-
-        if ($str === false) {
-            throw new CSVException('fread');
-        }
-
-        if (isset($position) && fseek($this->handle, $position, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
-        }
-
-        if (!empty($this->encoding)) {
-            $str = mb_convert_encoding($str, 'UTF-8', $this->encoding);
-        }
-
-        if ($str === false) {
-            throw new CSVException('convert encoding');
-        }
-
-        return $str;
-    }
-
-    /**
-     * Read line
-     *
-     * @param bool $resetPosition
-     *
-     * @return string
-     */
-    private function readLine(bool $resetPosition) : string
-    {
-        $str = '';
-
-        while (1) {
-            $str .= $this->read(500, $resetPosition);
-
-            $position = mb_strpos($str, $this->lineEnding->ending(), 0);
-
-            if ($position) {
-                return mb_substr($str, 0, $position);
-            }
-        }
     }
 }
