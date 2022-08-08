@@ -107,6 +107,7 @@ class CSV
         // set encoding
         $this->encoding = $this->bom->encoding();
 
+        // read part of file
         $text = $this->read($this->size > 500 ? 500 : $this->size, true);
 
         if (empty($this->encoding)) {
@@ -189,17 +190,19 @@ class CSV
             $position = mb_strpos($str, $this->lineEnding->ending(), 0);
 
             if ($position !== false) {
+                $line = mb_substr($str, 0, $position);
+
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
                 } else {
-                    $this->currentOffset = $offset + $position + strlen($this->lineEnding->ending());
+                    $this->currentOffset = $offset + strlen(mb_convert_encoding($line, $this->encoding, 'UTF-8')) + strlen($this->lineEnding->ending());
                 }
 
                 if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
                     throw new CSVException('fseek');
                 }
 
-                return mb_substr($str, 0, $position);
+                return $line;
             }
         }
 

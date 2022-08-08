@@ -12,11 +12,9 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
 
 $files = scandir($dir);
 
-/*
 $files = [
     'utf16be-windows-header.csv',
 ];
-*/
 
 foreach ($files as $file) {
     if (!str_ends_with($file, '.csv')) {
@@ -26,4 +24,6 @@ foreach ($files as $file) {
     $csv = new CSV($dir . $file);
     echo $csv
         ->autoDetect() . PHP_EOL;
+
+    var_dump($csv->readRow(1));
 }
