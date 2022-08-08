@@ -127,13 +127,14 @@ final class CSVTest extends TestCase
             ],
         ];
     }
+
     /**
-     * @dataProvider getRowCases
+     * @dataProvider getFirstRowCases
      *
      * @param string $file
      * @param array $expected
      */
-    public function testGetRow(string $file, array $expected) : void
+    public function testGetFirstRow(string $file, array $expected) : void
     {
         $csv = new CSV($file);
         $csv
@@ -142,7 +143,7 @@ final class CSVTest extends TestCase
         $this->assertEquals($expected, $csv->readRow(0));
     }
 
-    public function getRowCases() : array
+    public function getFirstRowCases() : array
     {
         return [
             [
@@ -172,6 +173,55 @@ final class CSVTest extends TestCase
             [
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' => ['Adam Donachie', 'BAL', 'Catcher', '74', '180', '22.99'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getFourthRowCases
+     *
+     * @param string $file
+     * @param array $expected
+     */
+    public function testGetFourthRow(string $file, array $expected) : void
+    {
+        $csv = new CSV($file);
+        $csv
+            ->autoDetect();
+
+        $this->assertEquals($expected, $csv->readRow(3));
+    }
+
+    public function getFourthRowCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/ascii-linux-header.csv',
+                'expected' => ['4', '16'],
+            ],
+            [
+                'file' => 'samples/ascii-linux-no-header.csv',
+                'expected' => ['4', '16'],
+            ],
+            [
+                'file' => 'samples/ascii-windows-header.csv',
+                'expected' => ['Sub-Saharan Africa', 'Sao Tome and Principe', 'Fruits', 'Online', 'C', '6/20/2014', '514321792', '7/5/2014', '8102', '9.33', '6.92', '75591.66', '56065.84', '19525.82'],
+            ],
+            [
+                'file' => 'samples/ascii-mac-header.csv',
+                'expected' => ['Aug', '2.3', '6', '3', '2', '4', '4', '4', '7', '8', '2', '2', '3'],
+            ],
+            [
+                'file' => 'samples/utf16be-windows-header.csv',
+                'expected' => ['Kevin Millar', 'BAL', 'First Baseman', '72', '210', '35.43'],
+            ],
+            [
+                'file' => 'samples/utf16le-windows-header.csv',
+                'expected' => ['Kevin Millar', 'BAL', 'First Baseman', '72', '210', '35.43'],
+            ],
+            [
+                'file' => 'samples/utf8-windows-header.csv',
+                'expected' => ['Kevin Millar', 'BAL', 'First Baseman', '72', '210', '35.43'],
             ],
         ];
     }
