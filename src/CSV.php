@@ -29,6 +29,13 @@ class CSV
     {
     }
 
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return self
+     */
     public function setFile(string $file) : self
     {
         $this->file = $file;
@@ -36,7 +43,7 @@ class CSV
     }
 
     /**
-     * Autodetect
+     * Autodetect csv properties
      *
      * @throws CSVException
      *
@@ -107,11 +114,11 @@ class CSV
         // detect separator
         $this->separator = $this->detectSeparator();
 
-        // detect enclosure
-        $this->enclosure = $this->detectEnclosure();
-
         // detect columns
         $this->columns = $this->detectColumns();
+
+        // detect enclosure
+        $this->enclosure = $this->detectEnclosure();
 
         // detect header
         $this->header = $this->detectHeader();
@@ -194,6 +201,10 @@ class CSV
         throw new CSVException('detect line ending');
     }
 
+    /**
+     * Detect field separator
+     * @return string
+     */
     private function detectSeparator() : string
     {
         $line = $this->readLine(true);
@@ -211,14 +222,41 @@ class CSV
         return array_search(max($separators), $separators);
     }
 
-    private function detectEnclosure() : string
-    {
-        return '';
-    }
-
+    /**
+     * Detect columns
+     * @return array
+     */
     private function detectColumns() : array
     {
-        return [];
+        $line = $this->readLine(true);
+
+        $columns = explode($this->separator, $line);
+
+        foreach ($columns as &$column) {
+            $column = trim($column);
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Detect enclosure
+     * @return string
+     */
+    private function detectEnclosure() : string
+    {
+        $line = $this->readLine(true);
+
+        $enclosures = [
+            '"' => 0,
+            '\'' => 0,
+        ];
+
+        foreach ($enclosures as $enclosure => &$count) {
+            $count = mb_substr_count($line, $enclosure, null);
+        }
+
+        return array_search(max($enclosures), $enclosures);
     }
 
     private function detectHeader() : bool
@@ -226,6 +264,14 @@ class CSV
         return false;
     }
 
+    /**
+     * Read from file
+     *
+     * @param  int    $size
+     * @param  bool   $resetPosition
+     *
+     * @return string
+     */
     private function read(int $size, bool $resetPosition) : string
     {
         // save position
@@ -258,6 +304,13 @@ class CSV
         return $str;
     }
 
+    /**
+     * Read line
+     *
+     * @param  bool $resetPosition
+     *
+     * @return string
+     */
     private function readLine(bool $resetPosition) : string
     {
         $str = 0;
@@ -280,12 +333,18 @@ class CSV
      */
     public function __toString() : string
     {
+        $count = sizeof($this->columns);
+
+        $columns = implode(', ', $this->columns);
+
         return
             "file: {$this->file}" . PHP_EOL .
             "size: {$this->size}" . PHP_EOL .
             "BOM: {$this->bom->toStr()}" . PHP_EOL .
             "encoding: {$this->encoding}" . PHP_EOL .
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
-            "separator: {$this->separator}" . PHP_EOL;
+            "separator: {$this->separator}" . PHP_EOL .
+            "enclosure: {$this->enclosure}" . PHP_EOL .
+            "columns {$count}: {$columns}" . PHP_EOL;
     }
 }
