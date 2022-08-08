@@ -15,18 +15,22 @@ use Oct8pus\CSV\CSV;
 
 require_once './vendor/autoload.php';
 
-$csv = new CSV(__DIR__ .'/samples/utf16le-windows.csv')
+$csv = new CSV(__DIR__ .'/samples/utf16le-windows-header.csv')
 
 echo $csv
     ->autoDetect();
 ```
 
 ```txt
-file: K:\dev\github\nano-csv\samples\utf16le-windows.csv
+file: K:\dev\github\nano-csv\samples\utf16le-windows-header.csv
 size: 115852
 BOM: UTF-16LE
 encoding: UTF-16LE
 line ending: Windows
+separator: ,
+enclosure: "
+header: true
+columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age
 ```
 
 ## tests
