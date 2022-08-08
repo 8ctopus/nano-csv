@@ -103,24 +103,15 @@ class CSV
             throw new CSVException('fseek');
         }
 
-        // detect encoding
         if (empty($this->encoding)) {
             $this->encoding = $this->detectEncoding();
         }
 
-        // detect line ending
         $this->lineEnding = $this->detectLineEnding();
-
-        // detect separator
         $this->separator = $this->detectSeparator();
-
-        // detect columns
-        $this->columns = $this->detectColumns();
-
-        // detect enclosure
+        $this->columns = $this->readColumns();
         $this->enclosure = $this->detectEnclosure();
-
-        // detect header
+        $this->cleanupColumns = $this->cleanupColumns();
         $this->header = $this->detectHeader();
 
         return $this;
@@ -223,10 +214,10 @@ class CSV
     }
 
     /**
-     * Detect columns
+     * Read columns
      * @return array
      */
-    private function detectColumns() : array
+    private function readColumns() : array
     {
         $line = $this->readLine(true);
 
@@ -247,7 +238,7 @@ class CSV
      */
     private function detectEnclosure() : string
     {
-        /*
+        /* alternate way
         $line = $this->readLine(true);
 
         $enclosures = [
@@ -280,6 +271,18 @@ class CSV
         }
 
         return array_search(max($enclosures), $enclosures);
+    }
+
+    /**
+     * Cleanup columns
+     * @return void
+     */
+    private function cleanupColumns() : void
+    {
+        foreach ($this->columns as &$column) {
+            $column = ltrim($column, $this->enclosure);
+            $column = preg_replace("/^{$this->enclosure}|{$this->enclosure}$/u", '', $column);
+        }
     }
 
     /**
