@@ -15,9 +15,9 @@ use Oct8pus\CSV\CSV;
 
 require_once './vendor/autoload.php';
 
-$csv = new CSV()
+$csv = new CSV(__DIR__ .'/samples/utf16le-windows.csv')
+
 echo $csv
-    ->setFile(__DIR__ .'/samples/utf16le-windows.csv')
     ->autoDetect();
 ```
 
