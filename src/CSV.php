@@ -230,10 +230,12 @@ class CSV
     {
         $line = $this->readLine(true);
 
+        // line to array using separator
         $columns = explode($this->separator, $line);
 
+        // cleanup whitespace multibyte
         foreach ($columns as &$column) {
-            $column = trim($column);
+            $column = preg_replace("/^\s+|\s+$/u", '', $column);
         }
 
         return $columns;
@@ -245,6 +247,7 @@ class CSV
      */
     private function detectEnclosure() : string
     {
+        /*
         $line = $this->readLine(true);
 
         $enclosures = [
@@ -254,6 +257,26 @@ class CSV
 
         foreach ($enclosures as $enclosure => &$count) {
             $count = mb_substr_count($line, $enclosure, null);
+        }
+
+        return array_search(max($enclosures), $enclosures);
+        */
+
+        $enclosures = [
+            '"' => 0,
+            '\'' => 0,
+        ];
+
+        foreach ($this->columns as $column) {
+            foreach ($enclosures as $enclosure) {
+                if (str_starts_with($column, $enclosure)) {
+                    ++$column;
+                }
+
+                if (str_ends_with($column, $enclosure)) {
+                    ++$column;
+                }
+            }
         }
 
         return array_search(max($enclosures), $enclosures);
