@@ -25,10 +25,18 @@ class CSV
     /**
      * Constructor
      *
+     * @param string $file
+     *
      * @return self
      */
-    public function __construct()
+    public function __construct(string $file)
     {
+        if (!file_exists($file)) {
+            throw new CSVException('file does not exist');
+        }
+
+        $this->file = $file;
+
         $this->currentOffset = 0;
     }
 
@@ -52,19 +60,6 @@ class CSV
             "enclosure: {$this->enclosure}" . PHP_EOL .
             "header: {$header}" . PHP_EOL .
             "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
-    }
-
-    /**
-     * Set file
-     *
-     * @param string $file
-     *
-     * @return self
-     */
-    public function setFile(string $file) : self
-    {
-        $this->file = $file;
-        return $this;
     }
 
     /**
