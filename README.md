@@ -19,6 +19,10 @@ $csv = new CSV(__DIR__ .'/samples/utf16le-windows-header.csv')
 
 echo $csv
     ->autoDetect();
+
+while ($row = $csv->readNextRow()) {
+    echo $row[0] . PHP_EOL;
+}
 ```
 
 ```txt

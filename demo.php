@@ -12,12 +12,11 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
 
 $files = scandir($dir);
 
-/*
 $files = [
-    //'utf16be-windows-header.csv',
-    'ascii-mac-header.csv',
+//    'utf16be-windows-header.csv',
+//    'ascii-mac-header.csv',
+    'utf16le-windows-header.csv',
 ];
-*/
 
 foreach ($files as $file) {
     if (!str_ends_with($file, '.csv')) {
@@ -31,6 +30,4 @@ foreach ($files as $file) {
     while ($row = $csv->readNextRow()) {
         echo $row[0] . PHP_EOL;
     }
-
-    //var_dump($csv->readRow(0));
 }
