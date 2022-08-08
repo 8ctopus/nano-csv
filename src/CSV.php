@@ -17,6 +17,7 @@ class CSV
     private string $enclosure;
     private string $escape;
     private array $columns;
+    private int $columnsCount;
 
     private bool $header;
 
@@ -90,10 +91,22 @@ class CSV
 
         $this->lineEnding = $this->detectLineEnding();
         $this->separator = $this->detectSeparator();
+
         $this->columns = $this->readColumns();
+        $this->columnsCount = count($this->columns);
+
         $this->enclosure = $this->detectEnclosure();
         $this->cleanupColumns = $this->cleanupColumns();
         $this->header = $this->detectHeader();
+
+        if (!$this->header) {
+            // reset column names
+            $this->columns = [];
+
+            for ($i = 0; $i < $this->columnsCount; ++$i) {
+                $this->columns[] = "column {$i}";
+            }
+        }
 
         return $this;
     }
@@ -272,15 +285,25 @@ class CSV
      */
     private function detectHeader() : bool
     {
-        $columns = [];
-
         foreach ($this->columns as $column) {
             if (is_numeric($column)) {
-                $columns[$column] = 'numeric';
+                return false;
             }
         }
 
-        return false;
+        return true;
+    }
+
+    /**
+     * Read row
+     *
+     * @param int $row
+     * @param bool $resetPosition
+     *
+     * @return array
+     */
+    public function readRow(int $row, bool $resetPosition) : array
+    {
     }
 
     /**
@@ -346,24 +369,14 @@ class CSV
     }
 
     /**
-     * Read row
-     *
-     * @return array
-     */
-    public function readRow(bool $resetPosition) : array
-    {
-
-    }
-
-    /**
      * Debug
      *
      * @return string
      */
     public function __toString() : string
     {
-        $count = sizeof($this->columns);
         $columns = implode(', ', $this->columns);
+        $header = $this->header ? 'true' : 'false';
 
         return
             "file: {$this->file}" . PHP_EOL .
@@ -373,6 +386,7 @@ class CSV
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
             "separator: {$this->separator}" . PHP_EOL .
             "enclosure: {$this->enclosure}" . PHP_EOL .
-            "columns ({$count}): {$columns}" . PHP_EOL;
+            "header: {$header}" . PHP_EOL .
+            "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
     }
 }
