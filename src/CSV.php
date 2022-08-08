@@ -259,6 +259,10 @@ class CSV
         return array_search(max($enclosures), $enclosures);
     }
 
+    /**
+     * Detect if file has a header
+     * @return bool
+     */
     private function detectHeader() : bool
     {
         return false;
@@ -334,7 +338,6 @@ class CSV
     public function __toString() : string
     {
         $count = sizeof($this->columns);
-
         $columns = implode(', ', $this->columns);
 
         return
