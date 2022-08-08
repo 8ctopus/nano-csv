@@ -118,21 +118,24 @@ class CSV
 
         $this->separator = $this->detectSeparator();
 
-        $this->columns = $this->readColumns();
-        $this->columnsCount = count($this->columns);
+        $this->columnsCount = $this->readColumnsCount();
 
-        $this->enclosure = $this->detectEnclosure();
-        $this->cleanupColumns = $this->cleanupColumns();
         $this->header = $this->detectHeader();
 
-        if (!$this->header) {
-            // reset column names
+        if ($this->header) {
+            $this->columns = $this->readColumns();
+            $this->enclosure = $this->detectEnclosure();
+            $this->trimColumns();
+        } else {
             $this->columns = [];
 
             for ($i = 0; $i < $this->columnsCount; ++$i) {
                 $this->columns[] = "column {$i}";
             }
+
+            $this->enclosure = $this->detectEnclosure();
         }
+
 
         return $this;
     }
@@ -148,6 +151,10 @@ class CSV
     {
         // save offset
         $offset = $this->currentOffset;
+
+        if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
+            throw new CSVException('fseek');
+        }
 
         if (isset($this->header) && $this->header) {
             $row += 1;
@@ -169,33 +176,60 @@ class CSV
     }
 
     /**
+     * Read next row
+     *
+     * @return ?array
+     */
+    public function readNextRow() : ?array
+    {
+        $line = $this->readLine(false);
+
+        if (!$line) {
+            return null;
+        }
+
+        return $this->lineToArray($line);
+    }
+
+    /**
      * Read line
      *
      * @param bool $resetOffset
      *
-     * @return string
+     * @return ?string
      */
-    private function readLine(bool $resetOffset) : string
+    private function readLine(bool $resetOffset) : ?string
     {
+        if ($this->currentOffset >= $this->size) {
+            return null;
+        }
+
         $offset = $this->currentOffset;
 
         $str = '';
         $length = 100;
         $read = 0;
+        $end = false;
 
         while (1) {
+            // check for end of file
+            if ($read + $length + $offset > $this->size) {
+                $length = $this->size - $offset - $read;
+                $end = true;
+            }
+
             $str .= $this->read($length, false);
             $read += $length;
 
             $position = mb_strpos($str, $this->lineEnding->ending(), 0);
 
-            if ($position !== false) {
-                $line = mb_substr($str, 0, $position);
+            if ($position !== false || $end) {
+                $line = mb_substr($str, 0, $end ? null : $position);
 
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
                 } else {
-                    $this->currentOffset = $offset + strlen(mb_convert_encoding($line, $this->encoding, 'UTF-8')) + strlen($this->lineEnding->ending());
+                    $this->currentOffset = $offset + strlen(mb_convert_encoding($line, $this->encoding, 'UTF-8')) + strlen(mb_convert_encoding($this->lineEnding->ending(), $this->encoding, 'UTF-8'));
                 }
 
                 if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
@@ -219,13 +253,18 @@ class CSV
      */
     private function read(int $length, bool $resetOffset) : string
     {
-        // save position
+        if ($length <= 0) {
+            throw new CSVException('invalid length');
+        }
+
+        // save offset
         if ($resetOffset) {
             $offset = $this->currentOffset;
         }
 
         if ($this->currentOffset + $length > $this->size) {
-            throw new CSVException('out of bounds');
+            $pos = $this->currentOffset + $length;
+            throw new CSVException("out of bounds {$pos} / {$this->size}");
         }
 
         $str = fread($this->handle, $length);
@@ -429,11 +468,11 @@ class CSV
     }
 
     /**
-     * Cleanup columns
+     * Trim columns
      *
      * @return void
      */
-    private function cleanupColumns() : void
+    private function trimColumns() : void
     {
         foreach ($this->columns as &$column) {
             $column = preg_replace("/^{$this->enclosure}|{$this->enclosure}$/u", '', $column);
@@ -441,7 +480,7 @@ class CSV
     }
 
     /**
-     * Detect if file has a header
+     * Detect if csv has a header
      *
      * @return bool
      */
@@ -464,7 +503,9 @@ class CSV
 
         $keyword = 0;
 
-        foreach ($this->columns as $column) {
+        $columns = $this->readColumns();
+
+        foreach ($columns as $column) {
             if (in_array(mb_strtolower($column), $keywords, true)) {
                 ++$keyword;
             }
@@ -473,7 +514,7 @@ class CSV
         // look for numeric columns
         $numeric = 0;
 
-        foreach ($this->columns as $column) {
+        foreach ($columns as $column) {
             if (is_numeric($column)) {
                 ++$numeric;
             }
@@ -495,5 +536,10 @@ class CSV
         }
 
         return $keyword - $numeric > 0;
+    }
+
+    private function readColumnsCount() : int
+    {
+        return count($this->readColumns());
     }
 }
