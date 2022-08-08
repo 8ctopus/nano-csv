@@ -313,7 +313,7 @@ class CSV
      */
     private function readLine(bool $resetPosition) : string
     {
-        $str = 0;
+        $str = '';
 
         while (1) {
             $str .= $this->read(500, $resetPosition);
