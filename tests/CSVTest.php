@@ -15,12 +15,12 @@ use PHPUnit\Framework\TestCase;
 final class CSVTest extends TestCase
 {
     /**
-     * @dataProvider getDetectCases
+     * @dataProvider getAutoDetectCases
      *
      * @param string $file
      * @param string $expected
      */
-    public function testDetect(string $file, string $expected) : void
+    public function testAutoDetect(string $file, string $expected) : void
     {
         $csv = new CSV($file);
         $csv
@@ -31,7 +31,7 @@ final class CSVTest extends TestCase
         $this->assertEquals($expected, (string) $csv);
     }
 
-    public function getDetectCases() : array
+    public function getAutoDetectCases() : array
     {
         return [
             [
@@ -45,7 +45,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (2): Game Number, Game Length' . PHP_EOL
+                    'columns (2): Game Number, Game Length' . PHP_EOL,
             ],
             [
                 'file' => 'samples/ascii-linux-no-header.csv',
@@ -58,7 +58,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: ' . PHP_EOL .
                     'header: false' . PHP_EOL .
-                    'columns (2): column 0, column 1' . PHP_EOL
+                    'columns (2): column 0, column 1' . PHP_EOL,
             ],
             [
                 'file' => 'samples/ascii-windows-header.csv',
@@ -71,7 +71,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: ' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (14): Region, Country, Item Type, Sales Channel, Order Priority, Order Date, Order ID, Ship Date, Units Sold, Unit Price, Unit Cost, Total Revenue, Total Cost, Total Profit' . PHP_EOL
+                    'columns (14): Region, Country, Item Type, Sales Channel, Order Priority, Order Date, Order ID, Ship Date, Units Sold, Unit Price, Unit Cost, Total Revenue, Total Cost, Total Profit' . PHP_EOL,
             ],
             [
                 'file' => 'samples/ascii-mac-header.csv',
@@ -84,7 +84,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (13): Month, Average, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015' . PHP_EOL
+                    'columns (13): Month, Average, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015' . PHP_EOL,
             ],
             [
                 'file' => 'samples/utf16be-windows-header.csv',
@@ -97,7 +97,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL
+                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
@@ -110,7 +110,7 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL
+                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
@@ -123,7 +123,55 @@ final class CSVTest extends TestCase
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
-                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL
+                    'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
+            ],
+        ];
+    }
+    /**
+     * @dataProvider getRowCases
+     *
+     * @param string $file
+     * @param array $expected
+     */
+    public function testGetRow(string $file, array $expected) : void
+    {
+        $csv = new CSV($file);
+        $csv
+            ->autoDetect();
+
+        $this->assertEquals($expected, $csv->readRow(0));
+    }
+
+    public function getRowCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/ascii-linux-header.csv',
+                'expected' => ['1', '30'],
+            ],
+            [
+                'file' => 'samples/ascii-linux-no-header.csv',
+                'expected' => ['1', '30'],
+            ],
+            [
+                'file' => 'samples/ascii-windows-header.csv',
+                'expected' => ['Australia and Oceania', 'Tuvalu', 'Baby Food', 'Offline', 'H', '5/28/2010', '669165933', '6/27/2010', '9925', '255.28', '159.42', '2533654.00', '1582243.50', '951410.50'],
+            ],
+            [
+                'file' => 'samples/ascii-mac-header.csv',
+                'expected' => ['May', '0.1', '0', '0', '1', '1', '0', '0', '0', '2', '0', '0', '0'],
+            ],
+            [
+                'file' => 'samples/utf16be-windows-header.csv',
+                'expected' => ['Adam Donachie', 'BAL', 'Catcher', '74', '180', '22.99'],
+            ],
+            [
+                'file' => 'samples/utf16le-windows-header.csv',
+                'expected' => ['Adam Donachie', 'BAL', 'Catcher', '74', '180', '22.99'],
+            ],
+            [
+                'file' => 'samples/utf8-windows-header.csv',
+                'expected' => ['Adam Donachie', 'BAL', 'Catcher', '74', '180', '22.99'],
             ],
         ];
     }

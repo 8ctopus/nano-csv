@@ -148,8 +148,8 @@ class CSV
         // save offset
         $offset = $this->currentOffset;
 
-        if (isset($this->header)) {
-
+        if (isset($this->header) && $this->header) {
+            $row += 1;
         }
 
         for ($i = 0; $i <= $row; ++$i) {
@@ -360,6 +360,13 @@ class CSV
         return $this->lineToArray($line);
     }
 
+    /**
+     * Convert line to array
+     *
+     * @param  string $line
+     *
+     * @return array
+     */
     private function lineToArray(string $line) : array
     {
         // line to array using separator
