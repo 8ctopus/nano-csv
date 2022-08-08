@@ -345,6 +345,6 @@ class CSV
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
             "separator: {$this->separator}" . PHP_EOL .
             "enclosure: {$this->enclosure}" . PHP_EOL .
-            "columns {$count}: {$columns}" . PHP_EOL;
+            "columns ({$count}): {$columns}" . PHP_EOL;
     }
 }
