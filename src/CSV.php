@@ -7,10 +7,10 @@ class CSV extends File
     private string $separator;
     private string $enclosure;
     private string $escape;
-    private array $columns;
-    private int $columnsCount;
 
     private bool $header;
+    private array $columns;
+    private int $columnsCount;
 
     /**
      * Constructor
