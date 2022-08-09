@@ -49,16 +49,16 @@ foreach ($files as $file) {
     echo $csv
         ->autoDetect();
 
+    for ($i = 0; $i < 2; ++$i) {
+        $row = $csv->readRow($i);
+        echo implode(', ', $row) . PHP_EOL;
+    }
+
+    echo PHP_EOL;
+
     $i = 0;
 
-/*
     while (($row = $csv->readNextRow()) && ++$i < 6) {
         echo implode(', ', $row) . PHP_EOL;
     }
-*/
-
-    $row = $csv->readRow(0);
-    echo implode(', ', $row) . PHP_EOL;
-
-    echo PHP_EOL;
 }
