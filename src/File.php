@@ -21,6 +21,8 @@ class File
      *
      * @param string $file
      *
+     * @throws FileException
+     *
      * @return self
      */
     public function __construct(string $file)
@@ -134,6 +136,8 @@ class File
      *
      * @param bool $resetOffset
      *
+     * @throws FileException
+     *
      * @return ?string
      */
     public function readCurrentLine(bool $resetOffset) : ?string
@@ -195,6 +199,8 @@ class File
      * @param int  $length
      * @param bool $resetOffset
      *
+     * @throws FileException
+     *
      * @return string
      */
     private function read(int $length, bool $resetOffset) : string
@@ -232,6 +238,15 @@ class File
         return $str;
     }
 
+    /**
+     * Seek
+     *
+     * @param  int    $offset
+     *
+     * @throws FileException
+     *
+     * @return void
+     */
     private function seek(int $offset) : void
     {
         if (fseek($this->handle, $offset, SEEK_SET) !== 0) {

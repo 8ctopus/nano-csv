@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \Oct8pus\CSV\CSV
- * @covers \Oct8pus\CSV\BOM
- * @covers \Oct8pus\CSV\LineEnding
  * @covers \Oct8pus\CSV\CSVException
  */
 final class CSVTest extends TestCase
