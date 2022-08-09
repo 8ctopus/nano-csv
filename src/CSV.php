@@ -158,6 +158,16 @@ class CSV extends File
     }
 
     /**
+     * Read rows count without header
+     *
+     * @return int
+     */
+    public function rowsCount() : int
+    {
+        return $this->linesCount() - $this->header ? 1 : 0;
+    }
+
+    /**
      * Detect field separator
      *
      * @return string

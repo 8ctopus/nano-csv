@@ -26,6 +26,12 @@ foreach ($files as $file) {
         continue;
     }
 
+    $file = new File($dir . $file);
+    echo $file->autoDetect();
+
+    echo 'lines count: '. $file->linesCount() . PHP_EOL . PHP_EOL;
+    continue;
+
 /*
     $file = new File($dir . $file);
     echo $file->autoDetect() . PHP_EOL;
@@ -59,6 +65,7 @@ foreach ($files as $file) {
     //FIX ME echo 'escape: ' . $csv->getEscape() . PHP_EOL;
     echo 'columns (' . $csv->getColumnsCount() . '): ' . implode(', ', $csv->getColumns()) . PHP_EOL;
 
+    echo 'rows count: ' . $csv->rowsCount() . PHP_EOL;
     $csv->setSeparator('|');
     $csv->setEnclosure('|');
     $csv->setEscape('\\');
