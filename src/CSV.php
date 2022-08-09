@@ -55,7 +55,7 @@ class CSV extends File
 
         $this->separator = $this->detectSeparator();
 
-        $this->columnsCount = $this->readColumnsCount();
+        $this->columnsCount = count($this->readColumns());
 
         $this->header = $this->detectHeader();
 
@@ -287,11 +287,6 @@ class CSV extends File
         }
 
         return $keyword - $numeric > 0;
-    }
-
-    private function readColumnsCount() : int
-    {
-        return count($this->readColumns());
     }
 
     /**
