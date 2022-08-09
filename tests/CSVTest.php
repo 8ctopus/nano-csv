@@ -134,7 +134,22 @@ final class CSVTest extends TestCase
      * @param string $file
      * @param array $expected
      */
-    public function testGetFirstRow(string $file, array $expected) : void
+    public function testReadNextRow(string $file, array $expected) : void
+    {
+        $csv = new CSV($file);
+        $csv
+            ->autoDetect();
+
+        $this->assertEquals($expected, $csv->readNextRow());
+    }
+
+    /**
+     * @dataProvider getFirstRowCases
+     *
+     * @param string $file
+     * @param array $expected
+     */
+    public function testReadFirstRow(string $file, array $expected) : void
     {
         $csv = new CSV($file);
         $csv
