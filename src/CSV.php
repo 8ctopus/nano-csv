@@ -89,9 +89,7 @@ class CSV extends File
             $row += 1;
         }
 
-        for ($i = 0; $i <= $row; ++$i) {
-            $line = parent::readCurrentLine(false);
-        }
+        $line = parent::readLine($row);
 
         return $this->lineToArray($line);
     }
