@@ -172,6 +172,10 @@ class CSV extends File
             }
         }
 
+        if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
+            throw new CSVException('columns count');
+        }
+
         return $columns;
     }
 
