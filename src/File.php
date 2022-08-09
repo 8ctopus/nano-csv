@@ -221,6 +221,31 @@ class File
     }
 
     /**
+     * Read lines count
+     *
+     * @return int
+     */
+    public function linesCount() : int
+    {
+        // save offset
+        $offset = $this->currentOffset;
+
+        // seek to data start
+        $this->seek($this->startOffset);
+
+        $i = 0;
+
+        while ($line = $this->readNextLine()) {
+            ++$i;
+        }
+
+        // seek back to saved offset
+        $this->seek($offset);
+
+        return $i;
+    }
+
+    /**
      * Read from file
      *
      * @param int  $length
