@@ -14,8 +14,8 @@ $files = scandir($dir);
 
 $files = [
 //    'utf16be-windows-header.csv',
-//    'ascii-mac-header.csv',
-    'utf16le-windows-header.csv',
+    'ascii-mac-header.csv',
+//    'utf16le-windows-header.csv',
 ];
 
 foreach ($files as $file) {
@@ -30,8 +30,6 @@ foreach ($files as $file) {
     $i = 0;
 
     while ($row = $csv->readNextRow()) {
-        while (++$i < 6) {
-            echo implode(', ', $row) . PHP_EOL;
-        }
+        echo implode(', ', $row) . PHP_EOL;
     }
 }
