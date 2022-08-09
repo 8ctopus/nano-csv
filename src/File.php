@@ -217,8 +217,8 @@ class File
         }
 
         if ($this->currentOffset + $length > $this->size) {
-            $pos = $this->currentOffset + $length;
-            throw new CSVException("out of bounds {$pos} / {$this->size}");
+            $position = $this->currentOffset + $length;
+            throw new CSVException("out of bounds {$position} / {$this->size}");
         }
 
         $str = fread($this->handle, $length);
