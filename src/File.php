@@ -44,7 +44,7 @@ class File
         return
             "file: {$this->file}" . PHP_EOL .
             "size: {$this->size}" . PHP_EOL .
-            "BOM: {$this->bom->debug()}" . PHP_EOL .
+            "BOM: {$this->bom->toStr()}" . PHP_EOL .
             "encoding: {$this->encoding}" . PHP_EOL .
             "line ending: {$this->lineEnding->toStr()}" . PHP_EOL;
     }
@@ -289,10 +289,20 @@ class File
         $method = str_replace(['get', 'set'], '', $method);
         $method = lcfirst($method);
 
+        if (!in_array($method, [
+            'file',
+            'size',
+            'startOffset',
+            'currentOffset',
+            'bom',
+            'encoding',
+            'lineEnding',
+        ], true)) {
+            return null;
+        }
+
         if (property_exists($this, $method)) {
             return $this?->{$method};
         }
-
-        return null;
     }
 }

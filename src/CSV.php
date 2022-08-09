@@ -307,10 +307,18 @@ class CSV extends File
         $method = str_replace(['get', 'set'], '', $method);
         $method = lcfirst($method);
 
+        if (!in_array($method, [
+            'separator',
+            'enclosure',
+            'escape',
+            'columns',
+            'columnsCount',
+        ], true)) {
+            return parent::__call($method, $args);
+        }
+
         if (property_exists($this, $method)) {
             return $this?->{$method};
         }
-
-        return parent::__call($method, $args);
     }
 }

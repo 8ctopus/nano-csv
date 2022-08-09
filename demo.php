@@ -46,8 +46,22 @@ foreach ($files as $file) {
 */
 
     $csv = new CSV($dir . $file);
-    echo $csv
+    $csv
         ->autoDetect();
+
+    echo 'file: ' . $csv->getFile() . PHP_EOL;
+    echo 'size: ' . $csv->getSize() . PHP_EOL;
+    echo 'bom: ' . $csv->getBom()->toStr() . PHP_EOL;
+    echo 'encoding: ' . $csv->getEncoding() . PHP_EOL;
+    echo 'line ending: ' . $csv->getlineEnding()->toStr() . PHP_EOL;
+
+    echo 'separator: ' . $csv->getSeparator() . PHP_EOL;
+    echo 'enclosure: ' . $csv->getEnclosure() . PHP_EOL;
+    //echo 'escape: ' . $csv->getEscape() . PHP_EOL;
+    echo 'columns (' . $csv->getColumnsCount() . '): ' . implode(', ', $csv->getColumns()) . PHP_EOL;
+
+    echo PHP_EOL;
+    continue;
 
     for ($i = 0; $i < 2; ++$i) {
         $row = $csv->readRow($i);

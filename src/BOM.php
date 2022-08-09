@@ -89,7 +89,7 @@ enum BOM
         };
     }
 
-    public function debug() : string
+    public function toStr() : string
     {
         return match ($this) {
             self::None => 'None',
