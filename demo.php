@@ -29,25 +29,6 @@ foreach ($files as $file) {
     }
 
 /*
-    $csv = new CSV($dir . $file);
-    echo $csv
-        ->autoDetect();
-*/
-/*
-    $i = 0;
-
-    while (($row = $csv->readNextRow()) && ++$i < 6) {
-        echo implode(', ', $row) . PHP_EOL;
-    }
-*/
-/*
-    $row = $csv->readRow(0);
-
-    echo implode(', ', $row) . PHP_EOL;
-
-    echo PHP_EOL;
-*/
-
     $file = new File($dir . $file);
     echo $file->autoDetect() . PHP_EOL;
 
@@ -60,6 +41,24 @@ foreach ($files as $file) {
     while (($line = $file->readNextLine()) && ++$i <= 6) {
         echo $line . PHP_EOL;
     }
+
+    echo PHP_EOL;
+*/
+
+    $csv = new CSV($dir . $file);
+    echo $csv
+        ->autoDetect();
+
+    $i = 0;
+
+/*
+    while (($row = $csv->readNextRow()) && ++$i < 6) {
+        echo implode(', ', $row) . PHP_EOL;
+    }
+*/
+
+    $row = $csv->readRow(0);
+    echo implode(', ', $row) . PHP_EOL;
 
     echo PHP_EOL;
 }
