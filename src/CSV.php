@@ -63,6 +63,9 @@ class CSV extends File
             $this->columns = $this->readColumns();
             $this->enclosure = $this->detectEnclosure();
             $this->trimColumns();
+
+            // skip header
+            $this->readCurrentLine(false);
         } else {
             $this->columns = [];
 

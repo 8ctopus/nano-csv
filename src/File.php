@@ -12,7 +12,7 @@ class File
     private int $startOffset;
     private int $currentOffset;
 
-    protected BOM $bom;
+    private BOM $bom;
     protected string $encoding;
     private LineEnding $lineEnding;
 
