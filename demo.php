@@ -12,11 +12,13 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
 
 $files = scandir($dir);
 
+/*
 $files = [
 //    'utf16be-windows-header.csv',
     'ascii-mac-header.csv',
 //    'utf16le-windows-header.csv',
 ];
+*/
 
 foreach ($files as $file) {
     if (!str_ends_with($file, '.csv')) {
@@ -25,11 +27,13 @@ foreach ($files as $file) {
 
     $csv = new CSV($dir . $file);
     echo $csv
-        ->autoDetect() . PHP_EOL;
+        ->autoDetect();
 
     $i = 0;
 
-    while ($row = $csv->readNextRow()) {
+    while (($row = $csv->readNextRow()) && ++$i < 6) {
         echo implode(', ', $row) . PHP_EOL;
     }
+
+    echo PHP_EOL;
 }
