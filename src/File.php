@@ -277,7 +277,7 @@ class File
     }
 
     /**
-     * Get property as a method
+     * Get/set property
      *
      * @param string $method
      * @param array  $args
@@ -286,23 +286,19 @@ class File
      */
     public function __call(string $method, array $args) : mixed
     {
-        $method = str_replace(['get', 'set'], '', $method);
-        $method = lcfirst($method);
+        $operation = substr($method, 0, 3);
 
-        if (!in_array($method, [
-            'file',
-            'size',
-            'startOffset',
-            'currentOffset',
-            'bom',
-            'encoding',
-            'lineEnding',
-        ], true)) {
-            return null;
-        }
+        $property = str_replace(['get', 'set'], '', $method);
+        $property = lcfirst($property);
 
-        if (property_exists($this, $method)) {
-            return $this?->{$method};
+        switch ($operation) {
+            case 'get':
+                return $this->{$property};
+
+            case 'set':
+
+            default:
+                throw new FileException("unknown property {$property}");
         }
     }
 }

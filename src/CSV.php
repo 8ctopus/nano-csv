@@ -295,7 +295,7 @@ class CSV extends File
     }
 
     /**
-     * Get property as a method
+     * Get/set property
      *
      * @param string $method
      * @param array  $args
@@ -304,21 +304,33 @@ class CSV extends File
      */
     public function __call(string $method, array $args) : mixed
     {
-        $method = str_replace(['get', 'set'], '', $method);
-        $method = lcfirst($method);
+        $operation = substr($method, 0, 3);
 
-        if (!in_array($method, [
-            'separator',
-            'enclosure',
-            'escape',
-            'columns',
-            'columnsCount',
-        ], true)) {
-            return parent::__call($method, $args);
-        }
+        $property = str_replace(['get', 'set'], '', $method);
+        $property = lcfirst($property);
 
-        if (property_exists($this, $method)) {
-            return $this?->{$method};
+        switch ($operation) {
+            case 'get':
+                if (property_exists($this, $property)) {
+                    return $this->{$property};
+                } else {
+                    return parent::__call($method, $args);
+                }
+
+            case 'set':
+                if (in_array($property, [
+                    'separator',
+                    'enclosure',
+                    'escape',
+                    'columns',
+                    'columnsCount',
+                ], true)) {
+                    $this->{$property} = $args[0];
+                    return null;
+                }
+
+            default:
+                throw new CSVException("unknown property {$property}");
         }
     }
 }

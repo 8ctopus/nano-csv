@@ -57,8 +57,12 @@ foreach ($files as $file) {
 
     echo 'separator: ' . $csv->getSeparator() . PHP_EOL;
     echo 'enclosure: ' . $csv->getEnclosure() . PHP_EOL;
-    //echo 'escape: ' . $csv->getEscape() . PHP_EOL;
+    //FIX ME echo 'escape: ' . $csv->getEscape() . PHP_EOL;
     echo 'columns (' . $csv->getColumnsCount() . '): ' . implode(', ', $csv->getColumns()) . PHP_EOL;
+
+    $csv->setSeparator('|');
+    $csv->setEnclosure('|');
+    $csv->setEscape('\\');
 
     echo PHP_EOL;
     continue;
