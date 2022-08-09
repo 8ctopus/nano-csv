@@ -282,9 +282,9 @@ class File
      * @param string $method
      * @param array  $args
      *
-     * @return mixed
+     * @return mixed|null
      */
-    public function __call(string $method, array $args) : mixed
+    public function __call(string $method, array $args)
     {
         $operation = substr($method, 0, 3);
 
@@ -296,6 +296,7 @@ class File
                 return $this->{$property};
 
             case 'set':
+                // nothing can be set
 
             default:
                 throw new FileException("unknown property {$property}");

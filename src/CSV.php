@@ -300,9 +300,9 @@ class CSV extends File
      * @param string $method
      * @param array  $args
      *
-     * @return mixed
+     * @return mixed|void
      */
-    public function __call(string $method, array $args) : mixed
+    public function __call(string $method, array $args)
     {
         $operation = substr($method, 0, 3);
 
@@ -325,8 +325,13 @@ class CSV extends File
                     'columns',
                     'columnsCount',
                 ], true)) {
-                    $this->{$property} = $args[0];
-                    return null;
+
+                    if (!isset($this->{$property})) {
+                        $this->{$property} = $args[0];
+                        return;
+                    }
+
+                    throw new CSVException("property {$property} cannot be updated");
                 }
 
             default:
