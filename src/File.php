@@ -13,7 +13,7 @@ class File
     private int $currentOffset;
 
     private BOM $bom;
-    protected string $encoding;
+    private string $encoding;
     private LineEnding $lineEnding;
 
     /**
@@ -165,7 +165,7 @@ class File
             $str .= $this->read($length, false);
             $read += $length;
 
-            $position = mb_strpos($str, $this->lineEnding->ending(), 0);
+            $position = strpos($str, $this->lineEnding->ending($this->encoding), 0);
 
             if ($position !== false || $end) {
                 $line = mb_substr($str, 0, $end ? null : $position);
@@ -173,14 +173,14 @@ class File
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
                 } else {
-                    $this->currentOffset = $offset + strlen(mb_convert_encoding($line, $this->encoding, 'UTF-8')) + strlen(mb_convert_encoding($this->lineEnding->ending(), $this->encoding, 'UTF-8'));
+                    $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
                 }
 
                 if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
                     throw new FileException('fseek');
                 }
 
-                return $line;
+                return mb_convert_encoding($line, 'UTF-8', $this->encoding);
             }
         }
 
@@ -237,9 +237,11 @@ class File
             $this->currentOffset += $length;
         }
 
+/*
         if (!empty($this->encoding)) {
             $str = mb_convert_encoding($str, 'UTF-8', $this->encoding);
         }
+*/
 
         if ($str === false) {
             throw new FileException('convert encoding');

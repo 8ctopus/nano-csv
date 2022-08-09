@@ -46,12 +46,31 @@ enum LineEnding
         };
     }
 
-    public function ending() : string
+    public function ending(string $encoding) : string
     {
-        return match ($this) {
+        $ending = match ($this) {
             self::Linux => "\n",
             self::Windows => "\r\n",
             self::Mac => "\r",
+        };
+
+        return mb_convert_encoding($ending, $encoding, 'ASCII');
+    }
+
+    public function length(string $encoding) : int
+    {
+        if (in_array(strtoupper($encoding), ['UTF-16BE', 'UTF-16LE'], true)) {
+            return match ($this) {
+                self::Linux => 2,
+                self::Windows => 4,
+                self::Mac => 2,
+            };
+        }
+
+        return match ($this) {
+            self::Linux => 1,
+            self::Windows => 2,
+            self::Mac => 1,
         };
     }
 }
