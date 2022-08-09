@@ -80,16 +80,14 @@ class File
         }
 
         // get bom
-        $this->bom = $this->getBOM();
+        $this->bom = BOM::get($this->read($this->size > 3 ? 3 : $this->size, true));
 
         // set data start offset
         $this->startOffset = $this->bom->startOffset();
         $this->currentOffset = $this->startOffset;
 
         // seek to where data starts
-        if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
-            throw new FileException('fseek');
-        }
+        $this->seek($this->currentOffset);
 
         // set encoding
         $this->encoding = $this->bom->encoding();
@@ -118,19 +116,15 @@ class File
         // save offset
         $offset = $this->currentOffset;
 
-        if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
-            throw new FileException('fseek');
-        }
+        // seek to data start
+        $this->seek($this->startOffset);
 
         for ($i = 0; $i <= $number; ++$i) {
             $line = $this->readCurrentLine(false);
         }
 
-        if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
-            throw new FileException('fseek');
-        }
-
-        $this->currentOffset = $offset;
+        // seek back to saved offset
+        $this->seek($offset);
 
         return $line;
     }
@@ -168,7 +162,7 @@ class File
             $position = strpos($str, $this->lineEnding->ending($this->encoding), 0);
 
             if ($position !== false || $end) {
-                $line = mb_substr($str, 0, $end ? null : $position);
+                $line = substr($str, 0, $end ? null : $position);
 
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
@@ -176,9 +170,7 @@ class File
                     $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
                 }
 
-                if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
-                    throw new FileException('fseek');
-                }
+                $this->seek($this->currentOffset);
 
                 return mb_convert_encoding($line, 'UTF-8', $this->encoding);
             }
@@ -228,20 +220,10 @@ class File
         }
 
         if (isset($offset)) {
-            if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
-                throw new FileException('fseek');
-            }
-
-            $this->currentOffset = $offset;
+            $this->seek($offset);
         } else {
             $this->currentOffset += $length;
         }
-
-/*
-        if (!empty($this->encoding)) {
-            $str = mb_convert_encoding($str, 'UTF-8', $this->encoding);
-        }
-*/
 
         if ($str === false) {
             throw new FileException('convert encoding');
@@ -250,16 +232,13 @@ class File
         return $str;
     }
 
-    /**
-     * Get byte order mark (bom)
-     *
-     * @return BOM
-     */
-    private function getBOM() : BOM
+    private function seek(int $offset) : void
     {
-        $data = $this->read($this->size > 3 ? 3 : $this->size, true);
+        if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
+            throw new FileException();
+        }
 
-        return BOM::get($data);
+        $this->currentOffset = $offset;
     }
 
     /**
