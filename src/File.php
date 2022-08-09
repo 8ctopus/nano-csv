@@ -50,6 +50,33 @@ class File
     }
 
     /**
+     * Get/set property
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return null|mixed
+     */
+    public function __call(string $method, array $args)
+    {
+        $operation = substr($method, 0, 3);
+
+        $property = str_replace(['get', 'set'], '', $method);
+        $property = lcfirst($property);
+
+        switch ($operation) {
+            case 'get':
+                return $this->{$property};
+
+            case 'set':
+                // nothing can be set
+
+            default:
+                throw new FileException("unknown property {$property}");
+        }
+    }
+
+    /**
      * Autodetect file properties
      *
      * @throws FileException
@@ -241,7 +268,7 @@ class File
     /**
      * Seek
      *
-     * @param  int    $offset
+     * @param int $offset
      *
      * @throws FileException
      *
@@ -274,32 +301,5 @@ class File
         }
 
         return $encoding;
-    }
-
-    /**
-     * Get/set property
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed|null
-     */
-    public function __call(string $method, array $args)
-    {
-        $operation = substr($method, 0, 3);
-
-        $property = str_replace(['get', 'set'], '', $method);
-        $property = lcfirst($property);
-
-        switch ($operation) {
-            case 'get':
-                return $this->{$property};
-
-            case 'set':
-                // nothing can be set
-
-            default:
-                throw new FileException("unknown property {$property}");
-        }
     }
 }

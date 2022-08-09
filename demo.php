@@ -1,9 +1,7 @@
 <?php
 
 use Oct8pus\CSV\CSV;
-use Oct8pus\CSV\CSVException;
 use Oct8pus\CSV\File;
-use Oct8pus\CSV\FileException;
 
 require_once './vendor/autoload.php';
 

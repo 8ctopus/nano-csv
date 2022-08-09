@@ -43,6 +43,50 @@ class CSV extends File
     }
 
     /**
+     * Get/set property
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed|void
+     */
+    public function __call(string $method, array $args)
+    {
+        $operation = substr($method, 0, 3);
+
+        $property = str_replace(['get', 'set'], '', $method);
+        $property = lcfirst($property);
+
+        switch ($operation) {
+            case 'get':
+                if (property_exists($this, $property)) {
+                    return $this->{$property};
+                } else {
+                    return parent::__call($method, $args);
+                }
+
+            case 'set':
+                if (in_array($property, [
+                    'separator',
+                    'enclosure',
+                    'escape',
+                    'columns',
+                    'columnsCount',
+                ], true)) {
+                    if (!isset($this->{$property})) {
+                        $this->{$property} = $args[0];
+                        return;
+                    }
+
+                    throw new CSVException("property {$property} cannot be updated");
+                }
+
+            default:
+                throw new CSVException("unknown property {$property}");
+        }
+    }
+
+    /**
      * Autodetect csv properties
      *
      * @throws CSVException
@@ -82,14 +126,14 @@ class CSV extends File
     /**
      * Read row
      *
-     * @param int  $row
+     * @param int $row
      *
      * @return array
      */
     public function readRow(int $row) : array
     {
         if (isset($this->header) && $this->header) {
-            $row += 1;
+            ++$row;
         }
 
         $line = parent::readLine($row);
@@ -150,7 +194,7 @@ class CSV extends File
     /**
      * Convert line to array
      *
-     * @param  string $line
+     * @param string $line
      *
      * @throws CSVException
      *
@@ -204,7 +248,7 @@ class CSV extends File
         $enclosures = [
             '"' => 0,
             '\'' => 0,
-            ''  => 0,
+            '' => 0,
         ];
 
         foreach ($this->columns as $column) {
@@ -287,50 +331,5 @@ class CSV extends File
         }
 
         return $keyword - $numeric > 0;
-    }
-
-    /**
-     * Get/set property
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed|void
-     */
-    public function __call(string $method, array $args)
-    {
-        $operation = substr($method, 0, 3);
-
-        $property = str_replace(['get', 'set'], '', $method);
-        $property = lcfirst($property);
-
-        switch ($operation) {
-            case 'get':
-                if (property_exists($this, $property)) {
-                    return $this->{$property};
-                } else {
-                    return parent::__call($method, $args);
-                }
-
-            case 'set':
-                if (in_array($property, [
-                    'separator',
-                    'enclosure',
-                    'escape',
-                    'columns',
-                    'columnsCount',
-                ], true)) {
-
-                    if (!isset($this->{$property})) {
-                        $this->{$property} = $args[0];
-                        return;
-                    }
-
-                    throw new CSVException("property {$property} cannot be updated");
-                }
-
-            default:
-                throw new CSVException("unknown property {$property}");
-        }
     }
 }

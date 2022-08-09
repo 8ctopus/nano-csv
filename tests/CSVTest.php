@@ -130,7 +130,7 @@ final class CSVTest extends TestCase
      * @dataProvider getFirstRowCases
      *
      * @param string $file
-     * @param array $expected
+     * @param array  $expected
      */
     public function testReadNextRow(string $file, array $expected) : void
     {
@@ -145,7 +145,7 @@ final class CSVTest extends TestCase
      * @dataProvider getFirstRowCases
      *
      * @param string $file
-     * @param array $expected
+     * @param array  $expected
      */
     public function testReadFirstRow(string $file, array $expected) : void
     {
@@ -194,7 +194,7 @@ final class CSVTest extends TestCase
      * @dataProvider getFourthRowCases
      *
      * @param string $file
-     * @param array $expected
+     * @param array  $expected
      */
     public function testReadFourthRow(string $file, array $expected) : void
     {
@@ -209,7 +209,7 @@ final class CSVTest extends TestCase
      * @dataProvider getFourthRowCases
      *
      * @param string $file
-     * @param array $expected
+     * @param array  $expected
      */
     public function testReadNextRow2(string $file, array $expected) : void
     {

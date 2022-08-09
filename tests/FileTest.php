@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
+ * @covers \Oct8pus\CSV\BOM
  * @covers \Oct8pus\CSV\File
  * @covers \Oct8pus\CSV\FileException
- * @covers \Oct8pus\CSV\BOM
  * @covers \Oct8pus\CSV\LineEnding
  */
 final class FileTest extends TestCase
