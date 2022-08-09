@@ -26,7 +26,7 @@ class File
     public function __construct(string $file)
     {
         if (!file_exists($file)) {
-            throw new CSVException('file does not exist');
+            throw new FileException('file does not exist');
         }
 
         $this->file = $file;
@@ -50,7 +50,7 @@ class File
     /**
      * Autodetect file properties
      *
-     * @throws CSVException
+     * @throws FileException
      *
      * @return self
      */
@@ -60,7 +60,7 @@ class File
         $this->handle = fopen($this->file, 'r', false, null);
 
         if ($this->handle === false) {
-            throw new CSVException('open file');
+            throw new FileException('open file');
         }
 
         $this->currentOffset = 0;
@@ -69,14 +69,14 @@ class File
         $stat = fstat($this->handle);
 
         if ($stat === false) {
-            throw new CSVException('file stat');
+            throw new FileException('file stat');
         }
 
         // get size
         $this->size = $stat['size'];
 
         if ($this->size === 0) {
-            throw new CSVException('empty file');
+            throw new FileException('empty file');
         }
 
         // get bom
@@ -88,7 +88,7 @@ class File
 
         // seek to where data starts
         if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
+            throw new FileException('fseek');
         }
 
         // set encoding
@@ -119,7 +119,7 @@ class File
         $offset = $this->currentOffset;
 
         if (fseek($this->handle, $this->startOffset, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
+            throw new FileException('fseek');
         }
 
         for ($i = 0; $i <= $number; ++$i) {
@@ -127,7 +127,7 @@ class File
         }
 
         if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
-            throw new CSVException('fseek');
+            throw new FileException('fseek');
         }
 
         $this->currentOffset = $offset;
@@ -177,14 +177,14 @@ class File
                 }
 
                 if (fseek($this->handle, $this->currentOffset, SEEK_SET) !== 0) {
-                    throw new CSVException('fseek');
+                    throw new FileException('fseek');
                 }
 
                 return $line;
             }
         }
 
-        throw new CSVException();
+        throw new FileException();
     }
 
     /**
@@ -208,7 +208,7 @@ class File
     private function read(int $length, bool $resetOffset) : string
     {
         if ($length <= 0) {
-            throw new CSVException('invalid length');
+            throw new FileException('invalid length');
         }
 
         // save offset
@@ -218,18 +218,18 @@ class File
 
         if ($this->currentOffset + $length > $this->size) {
             $position = $this->currentOffset + $length;
-            throw new CSVException("out of bounds {$position} / {$this->size}");
+            throw new FileException("out of bounds {$position} / {$this->size}");
         }
 
         $str = fread($this->handle, $length);
 
         if ($str === false) {
-            throw new CSVException('fread');
+            throw new FileException('fread');
         }
 
         if (isset($offset)) {
             if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
-                throw new CSVException('fseek');
+                throw new FileException('fseek');
             }
 
             $this->currentOffset = $offset;
@@ -242,7 +242,7 @@ class File
         }
 
         if ($str === false) {
-            throw new CSVException('convert encoding');
+            throw new FileException('convert encoding');
         }
 
         return $str;
@@ -265,7 +265,7 @@ class File
      *
      * @param string $text
      *
-     * @throws CSVException
+     * @throws FileException
      *
      * @return string
      */
@@ -274,7 +274,7 @@ class File
         $encoding = mb_detect_encoding($text, ['auto'], true);
 
         if (!$encoding) {
-            throw new CSVException('detect encoding');
+            throw new FileException('detect encoding');
         }
 
         return $encoding;
@@ -285,7 +285,7 @@ class File
      *
      * @param string $text
      *
-     * @throws CSVException
+     * @throws FileException
      *
      * @return LineEnding
      */
@@ -303,6 +303,6 @@ class File
             }
         }
 
-        throw new CSVException('detect line ending');
+        throw new FileException('detect line ending');
     }
 }

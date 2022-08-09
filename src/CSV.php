@@ -152,6 +152,8 @@ class CSV extends File
      *
      * @param  string $line
      *
+     * @throws CSVException
+     *
      * @return array
      */
     private function lineToArray(string $line) : array
