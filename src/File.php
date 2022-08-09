@@ -275,4 +275,24 @@ class File
 
         return $encoding;
     }
+
+    /**
+     * Get property as a method
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call(string $method, array $args) : mixed
+    {
+        $method = str_replace(['get', 'set'], '', $method);
+        $method = lcfirst($method);
+
+        if (property_exists($this, $method)) {
+            return $this?->{$method};
+        }
+
+        return null;
+    }
 }
