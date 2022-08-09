@@ -46,9 +46,10 @@ foreach ($files as $file) {
 */
 
     $csv = new CSV($dir . $file);
-    $csv
+    echo $csv
         ->autoDetect();
 
+/*
     echo 'file: ' . $csv->getFile() . PHP_EOL;
     echo 'size: ' . $csv->getSize() . PHP_EOL;
     echo 'bom: ' . $csv->getBom()->toStr() . PHP_EOL;
@@ -66,6 +67,7 @@ foreach ($files as $file) {
 
     echo PHP_EOL;
     continue;
+*/
 
     for ($i = 0; $i < 2; ++$i) {
         $row = $csv->readRow($i);
