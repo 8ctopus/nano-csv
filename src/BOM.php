@@ -39,6 +39,36 @@ enum BOM
         }
     }
 
+    /**
+     * Get byte order mark (bom)
+     *
+     * @param $data first 3 bytes of file
+     *
+     * @return BOM
+     */
+    public static function get(string $data) : BOM
+    {
+        $data = str_split($data);
+
+        $boms = [
+            BOM::Utf8->encoding() => [0xEF, 0xBB, 0xBF],
+            BOM::Utf16LE->encoding() => [0xFF, 0xFE],
+            BOM::Utf16BE->encoding() => [0xFE, 0xFF],
+        ];
+
+        foreach ($boms as $name => $bom) {
+            for ($i = 0; $i < sizeof($bom); ++$i) {
+                if ($bom[$i] !== ord($data[$i])) {
+                    break;
+                }
+
+                return BOM::fromStr($name);
+            }
+        }
+
+        return BOM::None;
+    }
+
     public function startOffset() : int
     {
         return match ($this) {
