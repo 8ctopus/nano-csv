@@ -4,8 +4,8 @@ namespace Oct8pus\CSV;
 
 enum LineEnding
 {
-    case Linux;
     case Windows;
+    case Linux;
     case Mac;
 
     /**
@@ -44,6 +44,15 @@ enum LineEnding
             self::Windows => 'Windows',
             self::Mac => 'Mac',
         };
+    }
+
+    public static function detect(string $text, string $encoding) : self
+    {
+        foreach (self::cases() as $case) {
+            if (str_contains($text, $case->ending($encoding))) {
+                return $case;
+            }
+        }
     }
 
     public function ending(string $encoding) : string

@@ -101,7 +101,7 @@ class File
             $this->encoding = $this->detectEncoding($text);
         }
 
-        $this->lineEnding = $this->detectLineEnding($text);
+        $this->lineEnding = LineEnding::detect($text, $this->encoding);
 
         return $this;
     }
@@ -280,31 +280,5 @@ class File
         }
 
         return $encoding;
-    }
-
-    /**
-     * Detect line ending
-     *
-     * @param string $text
-     *
-     * @throws FileException
-     *
-     * @return LineEnding
-     */
-    private function detectLineEnding(string $text) : LineEnding
-    {
-        $endings = [
-            LineEnding::Windows->toStr() => "\r\n",
-            LineEnding::Linux->toStr() => "\n",
-            LineEnding::Mac->toStr() => "\r",
-        ];
-
-        foreach ($endings as $name => $ending) {
-            if (str_contains($text, $ending)) {
-                return LineEnding::fromStr($name);
-            }
-        }
-
-        throw new FileException('detect line ending');
     }
 }
