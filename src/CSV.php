@@ -241,6 +241,10 @@ class CSV extends File
         // line to array using separator
         $columns = explode($this->separator, $line);
 
+        if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
+            throw new CSVException('columns count');
+        }
+
         // cleanup whitespace multibyte
         foreach ($columns as &$column) {
             $column = preg_replace('/^\\s+|\\s+$/u', '', $column);
@@ -250,10 +254,6 @@ class CSV extends File
             foreach ($columns as &$column) {
                 $column = preg_replace("/^{$this->enclosure}|{$this->enclosure}$/u", '', $column);
             }
-        }
-
-        if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
-            throw new CSVException('columns count');
         }
 
         if ($format) {
