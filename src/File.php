@@ -9,8 +9,8 @@ class File
     private string $file;
 
     private int $size;
-    private int $startOffset;
-    private int $currentOffset;
+    protected int $startOffset;
+    protected int $currentOffset;
 
     private BOM $bom;
     private string $encoding;
@@ -315,7 +315,7 @@ class File
      *
      * @return void
      */
-    private function seek(int $offset) : void
+    protected function seek(int $offset) : void
     {
         if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
             throw new FileException();

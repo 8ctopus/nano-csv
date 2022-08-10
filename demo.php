@@ -14,10 +14,10 @@ $files = scandir($dir);
 
 $files = [
 //    'ascii-linux-header.csv',
-//    'ascii-mac-header.csv',
+    'ascii-mac-header.csv',
 //    'ascii-windows-header.csv',
-    'utf16be-windows-header.csv',
-    'utf16le-windows-header.csv',
+//    'utf16be-windows-header.csv',
+//    'utf16le-windows-header.csv',
 ];
 
 foreach ($files as $file) {
@@ -25,12 +25,13 @@ foreach ($files as $file) {
         continue;
     }
 
+/*
     $file = new File($dir . $file);
     echo $file->autoDetect();
 
     echo 'lines count: '. $file->linesCount() . PHP_EOL . PHP_EOL;
     continue;
-
+*/
 /*
     $file = new File($dir . $file);
     echo $file->autoDetect() . PHP_EOL;
@@ -51,6 +52,9 @@ foreach ($files as $file) {
     $csv = new CSV($dir . $file);
     echo $csv
         ->autoDetect();
+
+    echo 'rows count: '. $csv->rowsCount() . PHP_EOL . PHP_EOL;
+    continue;
 
 /*
     echo 'file: ' . $csv->getFile() . PHP_EOL;

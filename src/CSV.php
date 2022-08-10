@@ -171,7 +171,24 @@ class CSV extends File
      */
     public function rowsCount() : int
     {
-        return $this->linesCount() - $this->header ? 1 : 0;
+        // save offset
+        $offset = $this->currentOffset;
+
+        // seek to data start
+        $this->seek($this->startOffset);
+
+        $i = 0;
+
+        while (($line = $this->readNextLine()) !== null) {
+            if ($line !== '') {
+                ++$i;
+            }
+        }
+
+        // seek back to saved offset
+        $this->seek($offset);
+
+        return $i - ($this->header ? 1 : 0);
     }
 
     /**
