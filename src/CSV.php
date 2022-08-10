@@ -237,7 +237,8 @@ class CSV extends File
     private function lineToArray(string $line, bool $format) : array
     {
         // line to array using separator
-        $columns = explode($this->separator, $line);
+        //$columns = explode($this->separator, $line);
+        $columns = str_getcsv($line, $this->separator, $this->enclosure, '\\');
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
             $count = count($columns);
