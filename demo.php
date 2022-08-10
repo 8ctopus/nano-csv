@@ -12,6 +12,7 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
 
 $files = scandir($dir);
 
+/*
 $files = [
 //    'ascii-linux-header.csv',
     'ascii-mac-header.csv',
@@ -19,33 +20,16 @@ $files = [
 //    'utf16be-windows-header.csv',
 //    'utf16le-windows-header.csv',
 ];
+*/
 
 foreach ($files as $file) {
     if (!str_ends_with($file, '.csv')) {
         continue;
     }
 
-/*
-    $file = new File($dir . $file);
-    echo $file->autoDetect();
-
-    echo $file->readLine(0) . PHP_EOL;
-    echo $file->readLine(1) . PHP_EOL;
-    echo $file->readLine(2) . PHP_EOL . PHP_EOL;
-
-    $i = 0;
-
-    while (($line = $file->readNextLine()) !== null) {
-        echo $line . PHP_EOL;
-    }
-
-    echo PHP_EOL;
-    continue;
-*/
-
     $csv = new CSV($dir . $file);
     echo $csv
-        ->autoDetect();
+        ->autoDetect() . PHP_EOL;
 
     continue;
 
@@ -65,6 +49,24 @@ foreach ($files as $file) {
     $csv->setSeparator('|');
     $csv->setEnclosure('|');
     $csv->setEscape('\\');
+
+    echo PHP_EOL;
+    continue;
+*/
+
+/*
+    $file = new File($dir . $file);
+    echo $file->autoDetect();
+
+    echo $file->readLine(0) . PHP_EOL;
+    echo $file->readLine(1) . PHP_EOL;
+    echo $file->readLine(2) . PHP_EOL . PHP_EOL;
+
+    $i = 0;
+
+    while (($line = $file->readNextLine()) !== null) {
+        echo $line . PHP_EOL;
+    }
 
     echo PHP_EOL;
     continue;
