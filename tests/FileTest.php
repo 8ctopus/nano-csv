@@ -249,15 +249,15 @@ final class FileTest extends TestCase
         return [
             [
                 'file' => 'samples/ascii-linux-header.csv',
-                'expected' => 101,
+                'expected' => 102,
             ],
             [
                 'file' => 'samples/ascii-linux-no-header.csv',
-                'expected' => 100,
+                'expected' => 101,
             ],
             [
                 'file' => 'samples/ascii-windows-header.csv',
-                'expected' => 101,
+                'expected' => 102,
             ],
             [
                 'file' => 'samples/ascii-mac-header.csv',
@@ -265,7 +265,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf16be-windows-header.csv',
-                'expected' => 1035,
+                'expected' => 1036,
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
@@ -273,7 +273,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
-                'expected' => 1035,
+                'expected' => 1036,
             ],
         ];
     }

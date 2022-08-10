@@ -14,9 +14,10 @@ $files = scandir($dir);
 
 $files = [
 //    'ascii-linux-header.csv',
-//    'utf16be-windows-header.csv',
-    'ascii-mac-header.csv',
-//    'utf16le-windows-header.csv',
+//    'ascii-mac-header.csv',
+//    'ascii-windows-header.csv',
+    'utf16be-windows-header.csv',
+    'utf16le-windows-header.csv',
 ];
 
 foreach ($files as $file) {

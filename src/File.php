@@ -174,15 +174,17 @@ class File
      */
     public function readCurrentLine(bool $resetOffset) : ?string
     {
-        if ($this->currentOffset === $this->size) {
+        if ($this->currentOffset >= $this->size) {
             return null;
         }
 
+        // save current offset
         $offset = $this->currentOffset;
 
         $str = '';
         $length = 100;
         $read = 0;
+
         $potentialEnd = false;
         $end = false;
 
@@ -196,7 +198,7 @@ class File
             $str .= $this->read($length, false);
             $read += $length;
 
-            $position = strpos($str, $this->lineEnding->ending($this->encoding), 0);
+            $position = strpos($str, $this->lineEnding->ending($this->encoding), 1);
 
             if ($potentialEnd && $position === false) {
                 $end = true;
@@ -209,7 +211,7 @@ class File
                     $this->currentOffset = $offset;
                 } else {
                     if (!$end) {
-                        $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
+                        $this->currentOffset = $offset + $position;
                     } else {
                         $this->currentOffset = $offset + $read;
                     }
@@ -217,7 +219,7 @@ class File
 
                 $this->seek($this->currentOffset);
 
-                return mb_convert_encoding($line, 'UTF-8', $this->encoding);
+                return trim(mb_convert_encoding($line, 'UTF-8', $this->encoding), "\r\n");
             }
         }
 
@@ -249,7 +251,7 @@ class File
 
         $i = 0;
 
-        while ($line = $this->readNextLine()) {
+        while ($this->readNextLine() !== null) {
             ++$i;
         }
 
