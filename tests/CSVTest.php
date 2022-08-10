@@ -101,7 +101,7 @@ final class CSVTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 115814' . PHP_EOL .
+                    'size: 115810' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .

@@ -82,7 +82,7 @@ final class FileTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 115814' . PHP_EOL .
+                    'size: 115810' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL,
@@ -225,6 +225,55 @@ final class FileTest extends TestCase
             [
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' => '"Adam Donachie", "BAL", "Catcher", 74, 180, 22.99',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getLinesCountCases
+     *
+     * @param string $file
+     * @param int $expected
+     */
+    public function testLinesCount(string $file, int $expected) : void
+    {
+        $file = new File($file);
+        $file
+            ->autoDetect();
+
+        $this->assertEquals($expected, $file->linesCount());
+    }
+
+    public function getLinesCountCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/ascii-linux-header.csv',
+                'expected' => 101,
+            ],
+            [
+                'file' => 'samples/ascii-linux-no-header.csv',
+                'expected' => 100,
+            ],
+            [
+                'file' => 'samples/ascii-windows-header.csv',
+                'expected' => 101,
+            ],
+            [
+                'file' => 'samples/ascii-mac-header.csv',
+                'expected' => 9,
+            ],
+            [
+                'file' => 'samples/utf16be-windows-header.csv',
+                'expected' => 1035,
+            ],
+            [
+                'file' => 'samples/utf16le-windows-header.csv',
+                'expected' => 1035,
+            ],
+            [
+                'file' => 'samples/utf8-windows-header.csv',
+                'expected' => 1035,
             ],
         ];
     }
