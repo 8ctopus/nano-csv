@@ -100,9 +100,9 @@ class CSV extends File
 
         $this->separator = $this->detectSeparator();
 
-        $this->columnsCount = count($this->readColumns());
-
         $this->header = $this->detectHeader();
+
+        $this->columnsCount = count($this->readColumns());
 
         if ($this->header) {
             $this->columns = $this->readColumns();
@@ -331,6 +331,7 @@ class CSV extends File
             'name',
             'firstname',
             'lastname',
+            'date',
             'year',
             'month',
             'day',
@@ -339,6 +340,12 @@ class CSV extends File
             'length',
             'size',
             'average',
+            'description',
+            'currency',
+            'gross',
+            'fee',
+            'net',
+            'balance',
         ];
 
         $keyword = 0;
