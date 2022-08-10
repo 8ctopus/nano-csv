@@ -203,7 +203,7 @@ class File
             }
 
             if ($position !== false || $end) {
-                $line = substr($str, 0, $end ? $length : $position);
+                $line = substr($str, 0, $end ? $read : $position);
 
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
@@ -211,7 +211,7 @@ class File
                     if (!$end) {
                         $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
                     } else {
-                        $this->currentOffset = $offset + $length;
+                        $this->currentOffset = $offset + $read;
                     }
                 }
 
