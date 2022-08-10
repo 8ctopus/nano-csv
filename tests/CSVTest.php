@@ -146,8 +146,8 @@ final class CSVTest extends TestCase
                     'encoding: UTF-8' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
                     'lines count: 1036' . PHP_EOL .
-                    'separator: ,' . PHP_EOL .
-                    'enclosure: "' . PHP_EOL .
+                    'separator: tab' . PHP_EOL .
+                    'enclosure: \'' . PHP_EOL .
                     'header: true' . PHP_EOL .
                     'rows count: 1034' . PHP_EOL .
                     'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,

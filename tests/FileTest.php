@@ -176,7 +176,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
-                'expected' => '"Name", "Team", "Position", "Height(inches)", "Weight(lbs)", "Age"',
+                'expected' => "'Name'\t 'Team'\t 'Position'\t 'Height(inches)'\t 'Weight(lbs)'\t 'Age'",
             ],
         ];
     }
@@ -242,7 +242,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
-                'expected' => '"Adam Donachie", "BAL", "Catcher", 74, 180, 22.99',
+                'expected' => "'Adam Donachie'\t 'BAL'\t 'Catcher'\t 74\t 180\t 22.99",
             ],
         ];
     }

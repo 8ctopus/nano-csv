@@ -36,7 +36,7 @@ class CSV extends File
 
         return
             parent::__toString() .
-            "separator: {$this->separator}" . PHP_EOL .
+            "separator: {$this->separator()}" . PHP_EOL .
             "enclosure: {$this->enclosure}" . PHP_EOL .
             "header: {$header}" . PHP_EOL .
             "rows count: {$this->rowsCount()}" . PHP_EOL .
@@ -204,7 +204,7 @@ class CSV extends File
         $separators = [
             ',' => 0,
             ';' => 0,
-            '\t' => 0,
+            "\t" => 0,
         ];
 
         foreach ($separators as $separator => &$count) {
@@ -375,5 +375,16 @@ class CSV extends File
         }
 
         return $keyword - $numeric > 0;
+    }
+
+    private function separator() : string
+    {
+        switch ($this->separator) {
+            case "\t":
+                return 'tab';
+
+            default:
+                return $this->separator;
+        }
     }
 }
