@@ -99,6 +99,7 @@ class CSV extends File
         parent::autoDetect();
 
         $this->separator = $this->detectSeparator();
+        $this->enclosure = $this->detectEnclosure();
 
         $this->header = $this->detectHeader();
 
@@ -106,7 +107,6 @@ class CSV extends File
 
         if ($this->header) {
             $this->columns = $this->readColumns();
-            $this->enclosure = $this->detectEnclosure();
             $this->trimColumns();
 
             // skip header
@@ -117,8 +117,6 @@ class CSV extends File
             for ($i = 0; $i < $this->columnsCount; ++$i) {
                 $this->columns[] = "column {$i}";
             }
-
-            $this->enclosure = $this->detectEnclosure();
         }
 
         return $this;
@@ -275,6 +273,23 @@ class CSV extends File
      */
     private function detectEnclosure() : string
     {
+        $line = parent::readCurrentLine(true);
+
+        $enclosures = [
+            '"' => 0,
+            '\'' => 0,
+        ];
+
+        foreach ($enclosures as $enclosure => &$count) {
+            $count = substr_count($line, $enclosure, 0, null);
+        }
+
+        if (max($enclosures) === 0) {
+            return '';
+        }
+
+        return array_search(max($enclosures), $enclosures);
+
         /* alternate way
         $line = parent::readCurrentLine(true);
 
@@ -290,6 +305,7 @@ class CSV extends File
         return array_search(max($enclosures), $enclosures);
         */
 
+        /*
         $enclosures = [
             '"' => 0,
             '\'' => 0,
@@ -305,6 +321,7 @@ class CSV extends File
         }
 
         return array_search(max($enclosures), $enclosures);
+        */
     }
 
     /**
