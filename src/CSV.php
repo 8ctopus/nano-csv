@@ -355,6 +355,7 @@ class CSV extends File
             'day',
             'hour',
             'time',
+            'time zone',
             'length',
             'size',
             'average',
@@ -364,6 +365,13 @@ class CSV extends File
             'fee',
             'net',
             'balance',
+            'type',
+            'status',
+            'title',
+            'phone',
+            'phone number',
+            'start date',
+            'end date',
         ];
 
         $keyword = 0;

@@ -123,7 +123,7 @@ class File
         $this->encoding = $this->bom->encoding();
 
         // read part of file
-        $length = $this->size > 500 ? 500 : $this->size;
+        $length = $this->size > 1000 ? 1000 : $this->size;
         $text = $this->read($length - $this->startOffset, true);
 
         if (empty($this->encoding)) {

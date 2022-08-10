@@ -126,7 +126,7 @@ final class CSVTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 103374' . PHP_EOL .
+                    'size: 103358' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
@@ -210,7 +210,7 @@ final class CSVTest extends TestCase
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
-                'expected' => ['Adam Donachie', 'BAL', 'Catcher', '74', '180', '22.99'],
+                'expected' => ['小林 竜也', 'BAL', 'Catcher', '74', '180', '22.99'],
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
