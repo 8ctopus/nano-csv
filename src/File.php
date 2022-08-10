@@ -336,7 +336,7 @@ class File
      */
     private function detectEncoding(string $text) : string
     {
-        $encoding = mb_detect_encoding($text, ['auto'], true);
+        $encoding = mb_detect_encoding($text, ['auto', 'UTF-8', 'Windows-1252', 'ISO-8859-1'], true);
 
         if (!$encoding) {
             throw new FileException('detect encoding');
