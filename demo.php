@@ -12,14 +12,12 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
 
 $files = scandir($dir);
 
-/*
 $files = [
 //    'ascii-linux-header.csv',
-    'utf16be-windows-header.csv',
-//    'ascii-mac-header.csv',
+//    'utf16be-windows-header.csv',
+    'ascii-mac-header.csv',
 //    'utf16le-windows-header.csv',
 ];
-*/
 
 foreach ($files as $file) {
     if (!str_ends_with($file, '.csv')) {
