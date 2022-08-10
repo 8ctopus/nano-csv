@@ -122,7 +122,8 @@ class File
         $this->encoding = $this->bom->encoding();
 
         // read part of file
-        $text = $this->read($this->size > 500 ? 500 : $this->size, true);
+        $length = $this->size > 500 ? 500 : $this->size;
+        $text = $this->read($length - $this->startOffset, true);
 
         if (empty($this->encoding)) {
             $this->encoding = $this->detectEncoding($text);
