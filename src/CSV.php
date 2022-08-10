@@ -39,6 +39,7 @@ class CSV extends File
             "separator: {$this->separator}" . PHP_EOL .
             "enclosure: {$this->enclosure}" . PHP_EOL .
             "header: {$header}" . PHP_EOL .
+            "rows count: {$this->rowsCount()}" . PHP_EOL .
             "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
     }
 

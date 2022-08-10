@@ -29,31 +29,24 @@ foreach ($files as $file) {
     $file = new File($dir . $file);
     echo $file->autoDetect();
 
-    echo 'lines count: '. $file->linesCount() . PHP_EOL . PHP_EOL;
-    continue;
-*/
-/*
-    $file = new File($dir . $file);
-    echo $file->autoDetect() . PHP_EOL;
-
     echo $file->readLine(0) . PHP_EOL;
     echo $file->readLine(1) . PHP_EOL;
     echo $file->readLine(2) . PHP_EOL . PHP_EOL;
 
     $i = 0;
 
-    while (($line = $file->readNextLine()) && ++$i <= 6) {
+    while (($line = $file->readNextLine()) !== null) {
         echo $line . PHP_EOL;
     }
 
     echo PHP_EOL;
+    continue;
 */
 
     $csv = new CSV($dir . $file);
     echo $csv
         ->autoDetect();
 
-    echo 'rows count: '. $csv->rowsCount() . PHP_EOL . PHP_EOL;
     continue;
 
 /*

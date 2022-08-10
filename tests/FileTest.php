@@ -41,7 +41,9 @@ final class FileTest extends TestCase
                     'size: 723' . PHP_EOL .
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
-                    'line ending: Linux' . PHP_EOL,            ],
+                    'line ending: Linux' . PHP_EOL .
+                    'lines count: 102' . PHP_EOL
+            ],
             [
                 'file' => 'samples/ascii-linux-no-header.csv',
                 'expected' =>
@@ -49,7 +51,8 @@ final class FileTest extends TestCase
                     'size: 694' . PHP_EOL .
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
-                    'line ending: Linux' . PHP_EOL,
+                    'line ending: Linux' . PHP_EOL .
+                    'lines count: 101' . PHP_EOL
             ],
             [
                 'file' => 'samples/ascii-windows-header.csv',
@@ -58,7 +61,8 @@ final class FileTest extends TestCase
                     'size: 12744' . PHP_EOL .
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
-                    'line ending: Windows' . PHP_EOL,
+                    'line ending: Windows' . PHP_EOL .
+                    'lines count: 102' . PHP_EOL
             ],
             [
                 'file' => 'samples/ascii-mac-header.csv',
@@ -67,7 +71,8 @@ final class FileTest extends TestCase
                     'size: 500' . PHP_EOL .
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
-                    'line ending: Mac' . PHP_EOL,
+                    'line ending: Mac' . PHP_EOL .
+                    'lines count: 9' . PHP_EOL
             ],
             [
                 'file' => 'samples/utf16be-windows-header.csv',
@@ -76,7 +81,8 @@ final class FileTest extends TestCase
                     'size: 115814' . PHP_EOL .
                     'BOM: UTF-16BE' . PHP_EOL .
                     'encoding: UTF-16BE' . PHP_EOL .
-                    'line ending: Windows' . PHP_EOL,
+                    'line ending: Windows' . PHP_EOL .
+                    'lines count: 1036' . PHP_EOL
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
@@ -85,7 +91,8 @@ final class FileTest extends TestCase
                     'size: 115810' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
-                    'line ending: Windows' . PHP_EOL,
+                    'line ending: Windows' . PHP_EOL .
+                    'lines count: 1035' . PHP_EOL
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
@@ -94,7 +101,8 @@ final class FileTest extends TestCase
                     'size: 57933' . PHP_EOL .
                     'BOM: UTF-8' . PHP_EOL .
                     'encoding: UTF-8' . PHP_EOL .
-                    'line ending: Windows' . PHP_EOL,
+                    'line ending: Windows' . PHP_EOL .
+                    'lines count: 1036' . PHP_EOL
             ],
         ];
     }
@@ -225,55 +233,6 @@ final class FileTest extends TestCase
             [
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' => '"Adam Donachie", "BAL", "Catcher", 74, 180, 22.99',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider getLinesCountCases
-     *
-     * @param string $file
-     * @param int $expected
-     */
-    public function testLinesCount(string $file, int $expected) : void
-    {
-        $file = new File($file);
-        $file
-            ->autoDetect();
-
-        $this->assertEquals($expected, $file->linesCount());
-    }
-
-    public function getLinesCountCases() : array
-    {
-        return [
-            [
-                'file' => 'samples/ascii-linux-header.csv',
-                'expected' => 102,
-            ],
-            [
-                'file' => 'samples/ascii-linux-no-header.csv',
-                'expected' => 101,
-            ],
-            [
-                'file' => 'samples/ascii-windows-header.csv',
-                'expected' => 102,
-            ],
-            [
-                'file' => 'samples/ascii-mac-header.csv',
-                'expected' => 9,
-            ],
-            [
-                'file' => 'samples/utf16be-windows-header.csv',
-                'expected' => 1036,
-            ],
-            [
-                'file' => 'samples/utf16le-windows-header.csv',
-                'expected' => 1035,
-            ],
-            [
-                'file' => 'samples/utf8-windows-header.csv',
-                'expected' => 1036,
             ],
         ];
     }

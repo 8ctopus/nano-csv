@@ -40,9 +40,11 @@ final class CSVTest extends TestCase
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Linux' . PHP_EOL .
+                    'lines count: 102' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 100' . PHP_EOL .
                     'columns (2): Game Number, Game Length' . PHP_EOL,
             ],
             [
@@ -53,9 +55,11 @@ final class CSVTest extends TestCase
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Linux' . PHP_EOL .
+                    'lines count: 101' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: ' . PHP_EOL .
                     'header: false' . PHP_EOL .
+                    'rows count: 100' . PHP_EOL .
                     'columns (2): column 0, column 1' . PHP_EOL,
             ],
             [
@@ -66,9 +70,11 @@ final class CSVTest extends TestCase
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
+                    'lines count: 102' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: ' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 100' . PHP_EOL .
                     'columns (14): Region, Country, Item Type, Sales Channel, Order Priority, Order Date, Order ID, Ship Date, Units Sold, Unit Price, Unit Cost, Total Revenue, Total Cost, Total Profit' . PHP_EOL,
             ],
             [
@@ -79,9 +85,11 @@ final class CSVTest extends TestCase
                     'BOM: None' . PHP_EOL .
                     'encoding: ASCII' . PHP_EOL .
                     'line ending: Mac' . PHP_EOL .
+                    'lines count: 9' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 8' . PHP_EOL .
                     'columns (13): Month, Average, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015' . PHP_EOL,
             ],
             [
@@ -92,9 +100,11 @@ final class CSVTest extends TestCase
                     'BOM: UTF-16BE' . PHP_EOL .
                     'encoding: UTF-16BE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
+                    'lines count: 1036' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 1034' . PHP_EOL .
                     'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
             ],
             [
@@ -105,9 +115,11 @@ final class CSVTest extends TestCase
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
+                    'lines count: 1035' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 1034' . PHP_EOL .
                     'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
             ],
             [
@@ -118,9 +130,11 @@ final class CSVTest extends TestCase
                     'BOM: UTF-8' . PHP_EOL .
                     'encoding: UTF-8' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
+                    'lines count: 1036' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
                     'enclosure: "' . PHP_EOL .
                     'header: true' . PHP_EOL .
+                    'rows count: 1034' . PHP_EOL .
                     'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,
             ],
         ];
@@ -303,55 +317,6 @@ final class CSVTest extends TestCase
             [
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' => ['Kevin Millar', 'BAL', 'First Baseman', 72, 210, 35.43],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider getRowsCountCases
-     *
-     * @param string $file
-     * @param int $expected
-     */
-    public function testRowsCount(string $file, int $expected) : void
-    {
-        $csv = new CSV($file);
-        $csv
-            ->autoDetect();
-
-        $this->assertEquals($expected, $csv->rowsCount());
-    }
-
-    public function getRowsCountCases() : array
-    {
-        return [
-            [
-                'file' => 'samples/ascii-linux-header.csv',
-                'expected' => 100,
-            ],
-            [
-                'file' => 'samples/ascii-linux-no-header.csv',
-                'expected' => 100,
-            ],
-            [
-                'file' => 'samples/ascii-windows-header.csv',
-                'expected' => 100,
-            ],
-            [
-                'file' => 'samples/ascii-mac-header.csv',
-                'expected' => 8,
-            ],
-            [
-                'file' => 'samples/utf16be-windows-header.csv',
-                'expected' => 1034,
-            ],
-            [
-                'file' => 'samples/utf16le-windows-header.csv',
-                'expected' => 1034,
-            ],
-            [
-                'file' => 'samples/utf8-windows-header.csv',
-                'expected' => 1034,
             ],
         ];
     }

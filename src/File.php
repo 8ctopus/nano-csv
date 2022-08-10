@@ -46,7 +46,8 @@ class File
             "size: {$this->size}" . PHP_EOL .
             "BOM: {$this->bom->toStr()}" . PHP_EOL .
             "encoding: {$this->encoding}" . PHP_EOL .
-            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL;
+            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
+            "lines count: {$this->linesCount()}" . PHP_EOL;
     }
 
     /**
