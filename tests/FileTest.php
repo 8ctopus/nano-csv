@@ -75,6 +75,16 @@ final class FileTest extends TestCase
                     'lines count: 9' . PHP_EOL
             ],
             [
+                'file' => 'samples/windows-1252-mac-header.csv',
+                'expected' =>
+                    'file: samples/windows-1252-mac-header.csv' . PHP_EOL .
+                    'size: 523' . PHP_EOL .
+                    'BOM: None' . PHP_EOL .
+                    'encoding: Windows-1252' . PHP_EOL .
+                    'line ending: Mac' . PHP_EOL .
+                    'lines count: 9' . PHP_EOL
+            ],
+            [
                 'file' => 'samples/utf16be-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16be-windows-header.csv' . PHP_EOL .

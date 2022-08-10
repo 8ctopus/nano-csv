@@ -93,6 +93,21 @@ final class CSVTest extends TestCase
                     'columns (13): Month, Average, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015' . PHP_EOL,
             ],
             [
+                'file' => 'samples/windows-1252-mac-header.csv',
+                'expected' =>
+                    'file: samples/windows-1252-mac-header.csv' . PHP_EOL .
+                    'size: 523' . PHP_EOL .
+                    'BOM: None' . PHP_EOL .
+                    'encoding: Windows-1252' . PHP_EOL .
+                    'line ending: Mac' . PHP_EOL .
+                    'lines count: 9' . PHP_EOL .
+                    'separator: ;' . PHP_EOL .
+                    'enclosure: \'' . PHP_EOL .
+                    'header: true' . PHP_EOL .
+                    'rows count: 8' . PHP_EOL .
+                    'columns (13): mois, moyenne, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015' . PHP_EOL,
+            ],
+            [
                 'file' => 'samples/utf16be-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16be-windows-header.csv' . PHP_EOL .
