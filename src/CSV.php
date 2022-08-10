@@ -242,7 +242,8 @@ class CSV extends File
         $columns = explode($this->separator, $line);
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
-            throw new CSVException('columns count');
+            $count = count($columns);
+            throw new CSVException("columns count mismatch {$count} / {$this->columnsCount}");
         }
 
         // cleanup whitespace multibyte
