@@ -331,11 +331,11 @@ final class CSVTest extends TestCase
             ],
             [
                 'file' => 'samples/ascii-linux-no-header.csv',
-                'expected' => 101,
+                'expected' => 100,
             ],
             [
                 'file' => 'samples/ascii-windows-header.csv',
-                'expected' => 101,
+                'expected' => 100,
             ],
             [
                 'file' => 'samples/ascii-mac-header.csv',
