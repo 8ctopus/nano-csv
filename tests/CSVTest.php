@@ -57,7 +57,7 @@ final class CSVTest extends TestCase
                     'line ending: Linux' . PHP_EOL .
                     'lines count: 101' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
-                    'enclosure: ' . PHP_EOL .
+                    'enclosure: none' . PHP_EOL .
                     'header: false' . PHP_EOL .
                     'rows count: 100' . PHP_EOL .
                     'columns (2): column 0, column 1' . PHP_EOL,
@@ -72,7 +72,7 @@ final class CSVTest extends TestCase
                     'line ending: Windows' . PHP_EOL .
                     'lines count: 102' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
-                    'enclosure: ' . PHP_EOL .
+                    'enclosure: none' . PHP_EOL .
                     'header: true' . PHP_EOL .
                     'rows count: 100' . PHP_EOL .
                     'columns (14): Region, Country, Item Type, Sales Channel, Order Priority, Order Date, Order ID, Ship Date, Units Sold, Unit Price, Unit Cost, Total Revenue, Total Cost, Total Profit' . PHP_EOL,
@@ -126,13 +126,13 @@ final class CSVTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 115810' . PHP_EOL .
+                    'size: 103374' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
                     'lines count: 1035' . PHP_EOL .
                     'separator: ,' . PHP_EOL .
-                    'enclosure: "' . PHP_EOL .
+                    'enclosure: none' . PHP_EOL .
                     'header: true' . PHP_EOL .
                     'rows count: 1034' . PHP_EOL .
                     'columns (6): Name, Team, Position, Height(inches), Weight(lbs), Age' . PHP_EOL,

@@ -98,7 +98,7 @@ final class FileTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 115810' . PHP_EOL .
+                    'size: 103374' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL .
@@ -172,7 +172,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
-                'expected' => '"Name", "Team", "Position", "Height(inches)", "Weight(lbs)", "Age"',
+                'expected' => 'Name, Team, Position, Height(inches), Weight(lbs), Age',
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
@@ -238,7 +238,7 @@ final class FileTest extends TestCase
             ],
             [
                 'file' => 'samples/utf16le-windows-header.csv',
-                'expected' => '"Adam Donachie", "BAL", "Catcher", 74, 180, 22.99',
+                'expected' => 'Adam Donachie, BAL, Catcher, 74, 180, 22.99',
             ],
             [
                 'file' => 'samples/utf8-windows-header.csv',
