@@ -306,4 +306,53 @@ final class CSVTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider getRowsCountCases
+     *
+     * @param string $file
+     * @param int $expected
+     */
+    public function testRowsCount(string $file, int $expected) : void
+    {
+        $file = new File($file);
+        $file
+            ->autoDetect();
+
+        $this->assertEquals($expected, $file->linesCount());
+    }
+
+    public function getRowsCountCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/ascii-linux-header.csv',
+                'expected' => 101,
+            ],
+            [
+                'file' => 'samples/ascii-linux-no-header.csv',
+                'expected' => 101,
+            ],
+            [
+                'file' => 'samples/ascii-windows-header.csv',
+                'expected' => 101,
+            ],
+            [
+                'file' => 'samples/ascii-mac-header.csv',
+                'expected' => 8,
+            ],
+            [
+                'file' => 'samples/utf16be-windows-header.csv',
+                'expected' => 1035,
+            ],
+            [
+                'file' => 'samples/utf16le-windows-header.csv',
+                'expected' => 1035,
+            ],
+            [
+                'file' => 'samples/utf8-windows-header.csv',
+                'expected' => 1035,
+            ],
+        ];
+    }
 }
