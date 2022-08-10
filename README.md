@@ -27,7 +27,7 @@ while ($row = $csv->readNextRow()) {
 
 ```txt
 file: K:\dev\github\nano-csv/samples/utf16le-windows-header.csv
-size: 115850
+size: 115814
 BOM: UTF-16LE
 encoding: UTF-16LE
 line ending: Windows

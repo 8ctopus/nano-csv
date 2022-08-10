@@ -73,7 +73,7 @@ final class FileTest extends TestCase
                 'file' => 'samples/utf16be-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16be-windows-header.csv' . PHP_EOL .
-                    'size: 115850' . PHP_EOL .
+                    'size: 115814' . PHP_EOL .
                     'BOM: UTF-16BE' . PHP_EOL .
                     'encoding: UTF-16BE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL,
@@ -82,7 +82,7 @@ final class FileTest extends TestCase
                 'file' => 'samples/utf16le-windows-header.csv',
                 'expected' =>
                     'file: samples/utf16le-windows-header.csv' . PHP_EOL .
-                    'size: 115850' . PHP_EOL .
+                    'size: 115814' . PHP_EOL .
                     'BOM: UTF-16LE' . PHP_EOL .
                     'encoding: UTF-16LE' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL,
@@ -91,7 +91,7 @@ final class FileTest extends TestCase
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' =>
                     'file: samples/utf8-windows-header.csv' . PHP_EOL .
-                    'size: 57927' . PHP_EOL .
+                    'size: 57933' . PHP_EOL .
                     'BOM: UTF-8' . PHP_EOL .
                     'encoding: UTF-8' . PHP_EOL .
                     'line ending: Windows' . PHP_EOL,
