@@ -137,6 +137,10 @@ class CSV extends File
             ++$row;
         }
 
+        if (isset($this->rowsCount) && $row >= $this->rowsCount) {
+            throw new CSVException("out of bounds {$row} / {$this->rowsCount}");
+        }
+
         $line = parent::readLine($row);
 
         return $this->lineToArray($line, $format);

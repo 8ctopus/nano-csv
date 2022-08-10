@@ -136,26 +136,30 @@ class File
     /**
      * Read line
      *
-     * @param int $number
+     * @param int $line
      *
      * @return string
      */
-    public function readLine(int $number) : string
+    public function readLine(int $line) : string
     {
+        if (isset($this->linesCount) && $line >= $this->linesCount) {
+            throw new FileException("out of bounds {$line} / {$this->linesCount}");
+        }
+
         // save offset
         $offset = $this->currentOffset;
 
         // seek to data start
         $this->seek($this->startOffset);
 
-        for ($i = 0; $i <= $number; ++$i) {
-            $line = $this->readCurrentLine(false);
+        for ($i = 0; $i <= $line; ++$i) {
+            $str = $this->readCurrentLine(false);
         }
 
         // seek back to saved offset
         $this->seek($offset);
 
-        return $line;
+        return $str;
     }
 
     /**
