@@ -197,12 +197,16 @@ class File
             $position = strpos($str, $this->lineEnding->ending($this->encoding), 0);
 
             if ($position !== false || $end) {
-                $line = substr($str, 0, $end ? null : $position);
+                $line = substr($str, 0, $end ? $length : $position);
 
                 if ($resetOffset) {
                     $this->currentOffset = $offset;
                 } else {
-                    $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
+                    if (!$end) {
+                        $this->currentOffset = $offset + $position + $this->lineEnding->length($this->encoding);
+                    } else {
+                        $this->currentOffset = $offset + $length;
+                    }
                 }
 
                 $this->seek($this->currentOffset);
