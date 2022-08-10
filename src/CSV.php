@@ -125,7 +125,7 @@ class CSV extends File
     /**
      * Read row
      *
-     * @param int $row
+     * @param int  $row
      * @param bool $format - format numbers as numbers
      *
      * @return array
@@ -228,7 +228,7 @@ class CSV extends File
      * Convert line to array
      *
      * @param string $line
-     * @param bool $format - format numbers as numbers
+     * @param bool   $format - format numbers as numbers
      *
      * @throws CSVException
      *
@@ -413,6 +413,7 @@ class CSV extends File
 
     /**
      * Separator as string
+     *
      * @return string
      */
     private function separator() : string
@@ -428,12 +429,13 @@ class CSV extends File
 
     /**
      * Enclosure as string
+     *
      * @return string
      */
     private function enclosure() : string
     {
         switch ($this->enclosure) {
-            case "":
+            case '':
                 return 'none';
 
             default:

@@ -4,14 +4,12 @@ namespace Oct8pus\CSV;
 
 class File
 {
-    private $handle;
-
-    private string $file;
-
-    private int $size;
     protected int $startOffset;
     protected int $currentOffset;
 
+    private string $file;
+    private $handle;
+    private int $size;
     private BOM $bom;
     private string $encoding;
     private LineEnding $lineEnding;
@@ -263,6 +261,24 @@ class File
     }
 
     /**
+     * Seek
+     *
+     * @param int $offset
+     *
+     * @throws FileException
+     *
+     * @return void
+     */
+    protected function seek(int $offset) : void
+    {
+        if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
+            throw new FileException();
+        }
+
+        $this->currentOffset = $offset;
+    }
+
+    /**
      * Read from file
      *
      * @param int  $length
@@ -305,24 +321,6 @@ class File
         }
 
         return $str;
-    }
-
-    /**
-     * Seek
-     *
-     * @param int $offset
-     *
-     * @throws FileException
-     *
-     * @return void
-     */
-    protected function seek(int $offset) : void
-    {
-        if (fseek($this->handle, $offset, SEEK_SET) !== 0) {
-            throw new FileException();
-        }
-
-        $this->currentOffset = $offset;
     }
 
     /**
