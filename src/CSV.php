@@ -127,10 +127,11 @@ class CSV extends File
      * Read row
      *
      * @param int $row
+     * @param bool $format - format numbers as numbers
      *
      * @return array
      */
-    public function readRow(int $row) : array
+    public function readRow(int $row, bool $format = false) : array
     {
         if (isset($this->header) && $this->header) {
             ++$row;
@@ -138,15 +139,17 @@ class CSV extends File
 
         $line = parent::readLine($row);
 
-        return $this->lineToArray($line);
+        return $this->lineToArray($line, $format);
     }
 
     /**
      * Read next row
      *
+     * @param bool $format - format numbers as numbers
+     *
      * @return ?array
      */
-    public function readNextRow() : ?array
+    public function readNextRow(bool $format = false) : ?array
     {
         $line = parent::readCurrentLine(false);
 
@@ -154,7 +157,7 @@ class CSV extends File
             return null;
         }
 
-        return $this->lineToArray($line);
+        return $this->lineToArray($line, $format);
     }
 
     /**
@@ -198,19 +201,20 @@ class CSV extends File
     {
         $line = parent::readCurrentLine(true);
 
-        return $this->lineToArray($line);
+        return $this->lineToArray($line, false);
     }
 
     /**
      * Convert line to array
      *
      * @param string $line
+     * @param bool $format - format numbers as numbers
      *
      * @throws CSVException
      *
      * @return array
      */
-    private function lineToArray(string $line) : array
+    private function lineToArray(string $line, bool $format) : array
     {
         // line to array using separator
         $columns = explode($this->separator, $line);
@@ -228,6 +232,14 @@ class CSV extends File
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
             throw new CSVException('columns count');
+        }
+
+        if ($format) {
+            foreach ($columns as &$column) {
+                if (is_numeric($column)) {
+                    $column = (float) $column;
+                }
+            }
         }
 
         return $columns;
