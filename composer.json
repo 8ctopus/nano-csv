@@ -1,8 +1,8 @@
 {
     "name": "8ctopus/nano-csv",
     "type": "library",
-    "description": "Parse csv files",
-    "keywords": ["csv"],
+    "description": "Read csv files",
+    "keywords": ["csv", "parser", "read"],
     "license": "MIT",
     "authors": [
         {

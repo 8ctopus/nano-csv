@@ -7,7 +7,7 @@ Parse csv files
 ## features
 
 - auto detect file encoding and line endings
-- auto detect csv separator, enclosure, header
+- auto detect csv separator, enclosure and header presence
 - low memory footprint
 - unicode support
 
