@@ -272,6 +272,10 @@ class CSV extends File
             }
         }
 
+        if (isset($this->columns) && $this->options['associative']) {
+            return array_combine($this->columns, $columns);
+        }
+
         return $columns;
     }
 

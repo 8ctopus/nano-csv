@@ -164,7 +164,7 @@ final class CSVTest extends TestCase
     {
         $csv = new CSV($file, [
             'numbers' => false,
-            'associative' => true,
+            'associative' => false,
         ]);
 
         $csv->autoDetect();
@@ -182,7 +182,7 @@ final class CSVTest extends TestCase
     {
         $csv = new CSV($file, [
             'numbers' => false,
-            'associative' => true,
+            'associative' => false,
         ]);
 
         $csv->autoDetect();
@@ -234,7 +234,7 @@ final class CSVTest extends TestCase
     {
         $csv = new CSV($file, [
             'numbers' => false,
-            'associative' => true,
+            'associative' => false,
         ]);
 
         $csv->autoDetect();
@@ -252,7 +252,7 @@ final class CSVTest extends TestCase
     {
         $csv = new CSV($file, [
             'numbers' => false,
-            'associative' => true,
+            'associative' => false,
         ]);
 
         $csv
@@ -347,6 +347,116 @@ final class CSVTest extends TestCase
             [
                 'file' => 'samples/utf8-windows-header.csv',
                 'expected' => ['Kevin Millar', 'BAL', 'First Baseman', 72, 210, 35.43],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestAssociativeArrayCases
+     *
+     * @param string $file
+     * @param array  $expected
+     */
+    public function testAssociativeArray(string $file, array $expected) : void
+    {
+        $csv = new CSV($file, [
+            'numbers' => true,
+            'associative' => true,
+        ]);
+
+        $csv->autoDetect();
+
+        var_dump($csv->readRow(3));
+
+        $this->assertSame($expected, $csv->readRow(3));
+    }
+
+    public function getTestAssociativeArrayCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/ascii-linux-header.csv',
+                'expected' => [
+                    'Game Number' => 4,
+                    'Game Length' => 16,
+                ],
+            ],
+            [
+                'file' => 'samples/ascii-linux-no-header.csv',
+                'expected' => [
+                    'column 0' => 4,
+                    'column 1' => 16,
+                ],
+            ],
+            [
+                'file' => 'samples/ascii-windows-header.csv',
+                'expected' => [
+                    'Region' => 'Sub-Saharan Africa',
+                    'Country' => 'Sao Tome and Principe',
+                    'Item Type' => 'Fruits',
+                    'Sales Channel' => 'Online',
+                    'Order Priority' => 'C',
+                    'Order Date' => '6/20/2014',
+                    'Order ID' => 514321792,
+                    'Ship Date' => '7/5/2014',
+                    'Units Sold' => 8102,
+                    'Unit Price' => 9.33,
+                    'Unit Cost' => 6.92,
+                    'Total Revenue' => 75591.66,
+                    'Total Cost' => 56065.84,
+                    'Total Profit' => 19525.82,
+                ],
+            ],
+            [
+                'file' => 'samples/ascii-mac-header.csv',
+                'expected' => [
+                    'Month' => 'Aug',
+                    'Average' => 2.3,
+                    2005 => 6,
+                    2006 => 3,
+                    2007 => 2,
+                    2008 => 4,
+                    2009 => 4,
+                    2010 => 4,
+                    2011 => 7,
+                    2012 => 8,
+                    2013 => 2,
+                    2014 => 2,
+                    2015 => 3,
+                ],
+            ],
+            [
+                'file' => 'samples/utf16be-windows-header.csv',
+                'expected' => [
+                    'Name' => 'Kevin Millar',
+                    'Team' => 'BAL',
+                    'Position' => 'First Baseman',
+                    'Height(inches)' => 72,
+                    'Weight(lbs)' => 210,
+                    'Age' => 35.43,
+                ],
+            ],
+            [
+                'file' => 'samples/utf16le-windows-header.csv',
+                'expected' => [
+                    'Name' => 'Kevin Millar',
+                    'Team' => 'BAL',
+                    'Position' => 'First Baseman',
+                    'Height(inches)' => 72,
+                    'Weight(lbs)' => 210,
+                    'Age' => 35.43,
+                ],
+            ],
+            [
+                'file' => 'samples/utf8-windows-header.csv',
+                'expected' => [
+                    'Name' => 'Kevin Millar',
+                    'Team' => 'BAL',
+                    'Position' => 'First Baseman',
+                    'Height(inches)' => 72,
+                    'Weight(lbs)' => 210,
+                    'Age' => 35.43,
+                ],
             ],
         ];
     }
