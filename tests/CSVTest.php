@@ -25,7 +25,7 @@ final class CSVTest extends TestCase
 
         //echo $csv;
 
-        $this->assertEquals($expected, (string) $csv);
+        $this->assertSame($expected, (string) $csv);
     }
 
     public function getAutoDetectCases() : array
@@ -169,7 +169,7 @@ final class CSVTest extends TestCase
 
         $csv->autoDetect();
 
-        $this->assertTrue($expected === $csv->readNextRow());
+        $this->assertSame($expected, $csv->readNextRow());
     }
 
     /**
@@ -187,7 +187,7 @@ final class CSVTest extends TestCase
 
         $csv->autoDetect();
 
-        $this->assertTrue($expected === $csv->readRow(0));
+        $this->assertSame($expected, $csv->readRow(0));
     }
 
     public function getFirstRowCases() : array
@@ -239,7 +239,7 @@ final class CSVTest extends TestCase
 
         $csv->autoDetect();
 
-        $this->assertTrue($expected === $csv->readRow(3));
+        $this->assertSame($expected, $csv->readRow(3));
     }
 
     /**
@@ -262,7 +262,7 @@ final class CSVTest extends TestCase
         $csv->readNextRow();
         $csv->readNextRow();
 
-        $this->assertTrue($expected === $csv->readNextRow());
+        $this->assertSame($expected, $csv->readNextRow());
     }
 
     public function getFourthRowCases() : array
@@ -312,10 +312,9 @@ final class CSVTest extends TestCase
             'associative' => false,
         ]);
 
-        $csv
-            ->autoDetect();
+        $csv->autoDetect();
 
-        $this->assertTrue($expected === $csv->readRow(3));
+        $this->assertSame($expected, $csv->readRow(3));
     }
 
     public function getTestNumericRowsCases() : array

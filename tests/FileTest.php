@@ -28,7 +28,7 @@ final class FileTest extends TestCase
 
         //echo $file;
 
-        $this->assertEquals($expected, (string) $file);
+        $this->assertSame($expected, (string) $file);
     }
 
     public function getAutoDetectCases() : array
@@ -129,7 +129,7 @@ final class FileTest extends TestCase
         $file
             ->autoDetect();
 
-        $this->assertEquals($expected, $file->readNextLine());
+        $this->assertSame($expected, $file->readNextLine());
     }
 
     /**
@@ -144,7 +144,7 @@ final class FileTest extends TestCase
         $file
             ->autoDetect();
 
-        $this->assertEquals($expected, $file->readLine(0));
+        $this->assertSame($expected, $file->readLine(0));
     }
 
     public function getFirstLineCases() : array
@@ -195,7 +195,7 @@ final class FileTest extends TestCase
 
         $file->readNextLine();
 
-        $this->assertEquals($expected, $file->readNextLine());
+        $this->assertSame($expected, $file->readNextLine());
     }
 
     /**
@@ -210,7 +210,7 @@ final class FileTest extends TestCase
         $file
             ->autoDetect();
 
-        $this->assertEquals($expected, $file->readLine(1));
+        $this->assertSame($expected, $file->readLine(1));
     }
 
     public function getSecondLineCases() : array
