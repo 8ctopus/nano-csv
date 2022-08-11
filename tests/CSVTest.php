@@ -21,8 +21,7 @@ final class CSVTest extends TestCase
     public function testAutoDetect(string $file, string $expected) : void
     {
         $csv = new CSV($file);
-        $csv
-            ->autoDetect();
+        $csv->autoDetect();
 
         //echo $csv;
 
@@ -163,11 +162,14 @@ final class CSVTest extends TestCase
      */
     public function testReadNextRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file);
-        $csv
-            ->autoDetect();
+        $csv = new CSV($file, [
+            'numbers' => false,
+            'associative' => true,
+        ]);
 
-        $this->assertEquals($expected, $csv->readNextRow());
+        $csv->autoDetect();
+
+        $this->assertTrue($expected === $csv->readNextRow());
     }
 
     /**
@@ -178,11 +180,14 @@ final class CSVTest extends TestCase
      */
     public function testReadFirstRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file);
-        $csv
-            ->autoDetect();
+        $csv = new CSV($file, [
+            'numbers' => false,
+            'associative' => true,
+        ]);
 
-        $this->assertEquals($expected, $csv->readRow(0));
+        $csv->autoDetect();
+
+        $this->assertTrue($expected === $csv->readRow(0));
     }
 
     public function getFirstRowCases() : array
@@ -227,11 +232,14 @@ final class CSVTest extends TestCase
      */
     public function testReadFourthRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file);
-        $csv
-            ->autoDetect();
+        $csv = new CSV($file, [
+            'numbers' => false,
+            'associative' => true,
+        ]);
 
-        $this->assertEquals($expected, $csv->readRow(3));
+        $csv->autoDetect();
+
+        $this->assertTrue($expected === $csv->readRow(3));
     }
 
     /**
@@ -242,7 +250,11 @@ final class CSVTest extends TestCase
      */
     public function testReadNextRow2(string $file, array $expected) : void
     {
-        $csv = new CSV($file);
+        $csv = new CSV($file, [
+            'numbers' => false,
+            'associative' => true,
+        ]);
+
         $csv
             ->autoDetect();
 
@@ -250,7 +262,7 @@ final class CSVTest extends TestCase
         $csv->readNextRow();
         $csv->readNextRow();
 
-        $this->assertEquals($expected, $csv->readNextRow());
+        $this->assertTrue($expected === $csv->readNextRow());
     }
 
     public function getFourthRowCases() : array
@@ -295,11 +307,15 @@ final class CSVTest extends TestCase
      */
     public function testNumericRows(string $file, array $expected) : void
     {
-        $csv = new CSV($file);
+        $csv = new CSV($file, [
+            'numbers' => true,
+            'associative' => false,
+        ]);
+
         $csv
             ->autoDetect();
 
-        $this->assertEquals($expected, $csv->readRow(3, true));
+        $this->assertTrue($expected === $csv->readRow(3));
     }
 
     public function getTestNumericRowsCases() : array

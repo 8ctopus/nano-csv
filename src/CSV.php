@@ -4,6 +4,8 @@ namespace Oct8pus\CSV;
 
 class CSV extends File
 {
+    private array $options;
+
     private string $separator;
     private string $enclosure;
     private string $escape;
@@ -16,11 +18,20 @@ class CSV extends File
      * Constructor
      *
      * @param string $file
+     * @param ?array $options
      *
      * @return self
      */
-    public function __construct(string $file)
+    public function __construct(string $file, ?array $options = null)
     {
+        if ($options) {
+            $this->options = $options;
+        } else {
+            $this->options = [
+                'numbers' => false,
+                'associative' => false,
+            ];
+        }
         parent::__construct($file);
     }
 
@@ -126,11 +137,10 @@ class CSV extends File
      * Read row
      *
      * @param int  $row
-     * @param bool $format - format numbers as numbers
      *
      * @return array
      */
-    public function readRow(int $row, bool $format = false) : array
+    public function readRow(int $row) : array
     {
         if (isset($this->header) && $this->header) {
             ++$row;
@@ -142,17 +152,15 @@ class CSV extends File
 
         $line = parent::readLine($row);
 
-        return $this->lineToArray($line, $format);
+        return $this->lineToArray($line);
     }
 
     /**
      * Read next row
      *
-     * @param bool $format - format numbers as numbers
-     *
      * @return ?array
      */
-    public function readNextRow(bool $format = false) : ?array
+    public function readNextRow() : ?array
     {
         $line = parent::readCurrentLine(false);
 
@@ -160,7 +168,7 @@ class CSV extends File
             return null;
         }
 
-        return $this->lineToArray($line, $format);
+        return $this->lineToArray($line);
     }
 
     /**
@@ -228,13 +236,12 @@ class CSV extends File
      * Convert line to array
      *
      * @param string $line
-     * @param bool   $format - format numbers as numbers
      *
      * @throws CSVException
      *
      * @return array
      */
-    private function lineToArray(string $line, bool $format) : array
+    private function lineToArray(string $line) : array
     {
         // line to array using separator
         //$columns = explode($this->separator, $line);
@@ -256,10 +263,11 @@ class CSV extends File
             }
         }
 
-        if ($format) {
+        if ($this->options['numbers']) {
+            // convert numeric strings to numbers
             foreach ($columns as &$column) {
                 if (is_numeric($column)) {
-                    $column = (float) $column;
+                    $column = str_contains($column, '.') ? (float) $column : (int) $column;
                 }
             }
         }
