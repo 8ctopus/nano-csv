@@ -162,10 +162,7 @@ final class CSVTest extends TestCase
      */
     public function testReadNextRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => false,
-            'associative' => false,
-        ]);
+        $csv = new CSV($file);
 
         $csv->autoDetect();
 
@@ -180,10 +177,7 @@ final class CSVTest extends TestCase
      */
     public function testReadFirstRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => false,
-            'associative' => false,
-        ]);
+        $csv = new CSV($file);
 
         $csv->autoDetect();
 
@@ -232,10 +226,7 @@ final class CSVTest extends TestCase
      */
     public function testReadFourthRow(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => false,
-            'associative' => false,
-        ]);
+        $csv = new CSV($file);
 
         $csv->autoDetect();
 
@@ -250,13 +241,9 @@ final class CSVTest extends TestCase
      */
     public function testReadNextRow2(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => false,
-            'associative' => false,
-        ]);
+        $csv = new CSV($file);
 
-        $csv
-            ->autoDetect();
+        $csv->autoDetect();
 
         $csv->readNextRow();
         $csv->readNextRow();
@@ -307,12 +294,11 @@ final class CSVTest extends TestCase
      */
     public function testNumericRows(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => true,
-            'associative' => false,
-        ]);
+        $csv = new CSV($file);
 
-        $csv->autoDetect();
+        $csv
+            ->autoDetect()
+            ->setConvertNumbers(true);
 
         $this->assertSame($expected, $csv->readRow(3));
     }
@@ -359,14 +345,12 @@ final class CSVTest extends TestCase
      */
     public function testAssociativeArray(string $file, array $expected) : void
     {
-        $csv = new CSV($file, [
-            'numbers' => true,
-            'associative' => true,
-        ]);
+        $csv = new CSV($file);
 
-        $csv->autoDetect();
-
-        var_dump($csv->readRow(3));
+        $csv
+            ->autoDetect()
+            ->setConvertNumbers(true)
+            ->setAssociativeArray(true);
 
         $this->assertSame($expected, $csv->readRow(3));
     }

@@ -4,8 +4,6 @@ namespace Oct8pus\CSV;
 
 class CSV extends File
 {
-    private array $options;
-
     private string $separator;
     private string $enclosure;
     private string $escape;
@@ -14,24 +12,21 @@ class CSV extends File
     private array $columns;
     private int $columnsCount;
 
+    private bool $convertNumbers;
+    private bool $associativeArray;
+
     /**
      * Constructor
      *
      * @param string $file
-     * @param ?array $options
      *
      * @return self
      */
-    public function __construct(string $file, ?array $options = null)
+    public function __construct(string $file)
     {
-        if ($options) {
-            $this->options = $options;
-        } else {
-            $this->options = [
-                'numbers' => false,
-                'associative' => false,
-            ];
-        }
+        $this->associativeArray = false;
+        $this->convertNumbers = false;
+
         parent::__construct($file);
     }
 
@@ -87,10 +82,16 @@ class CSV extends File
                 ], true)) {
                     if (!isset($this->{$property})) {
                         $this->{$property} = $args[0];
-                        return;
+                        return $this;
                     }
 
                     throw new CSVException("property {$property} cannot be updated");
+                } elseif (in_array($property, [
+                    'convertNumbers',
+                    'associativeArray',
+                ], true)) {
+                    $this->{$property} = $args[0];
+                    return $this;
                 }
 
             default:
@@ -263,7 +264,7 @@ class CSV extends File
             }
         }
 
-        if ($this->options['numbers']) {
+        if ($this->convertNumbers) {
             // convert numeric strings to numbers
             foreach ($columns as &$column) {
                 if (is_numeric($column)) {
@@ -272,7 +273,8 @@ class CSV extends File
             }
         }
 
-        if (isset($this->columns) && $this->options['associative']) {
+        if (isset($this->columns) && $this->associativeArray) {
+            // associative array
             return array_combine($this->columns, $columns);
         }
 
