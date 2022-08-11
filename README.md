@@ -17,6 +17,8 @@ Parse csv files
 composer require 8ctopus/nano-csv
 ```
 
+- Simple csv parsing
+
 ```php
 use Oct8pus\CSV\CSV;
 
@@ -54,6 +56,33 @@ Oct, 2.0, 8, 0, 1, 3, 2, 5, 1, 5, 2, 3, 0
 Nov, 0.5, 3, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1
 Dec, 0.0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
 ```
+
+- More complex
+
+```php
+$csv = new CSV(__DIR__ .'/samples/ascii-mac-header.csv');
+
+$csv
+    ->autoDetect()
+    // convert string to number
+    ->setConvertNumbers(true)
+    // return associative array
+    ->setAssociativeArray(true);
+
+$average = 0;
+
+while ($row = $csv->readNextRow()) {
+    $average += $row['Average'];
+}
+
+echo "Average from May to Dec: {$average}" . PHP_EOL;
+```
+
+```txt
+Average from May to Dec: 9.6
+```
+
+Also look at the `demo-*` files.
 
 ## tests
 

@@ -8,8 +8,6 @@ require_once './vendor/autoload.php';
 // command line error handler
 (new \NunoMaduro\Collision\Provider())->register();
 
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR;
-
 $files = scandir($dir);
 
 /*
