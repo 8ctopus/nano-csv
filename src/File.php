@@ -13,6 +13,7 @@ class File
     private BOM $bom;
     private string $encoding;
     private LineEnding $lineEnding;
+    private int $linesCount;
 
     /**
      * Constructor
@@ -242,22 +243,29 @@ class File
      */
     public function linesCount() : int
     {
+        // get cached value
+        if (isset($this->linesCount)) {
+            return $this->linesCount;
+        }
+
         // save offset
         $offset = $this->currentOffset;
 
         // seek to data start
         $this->seek($this->startOffset);
 
-        $i = 0;
+        $linesCount = 0;
 
         while ($this->readNextLine() !== null) {
-            ++$i;
+            ++$linesCount;
         }
+
+        $this->linesCount = $linesCount;
 
         // seek back to saved offset
         $this->seek($offset);
 
-        return $i;
+        return $this->linesCount;
     }
 
     /**

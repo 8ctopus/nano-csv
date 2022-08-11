@@ -12,6 +12,7 @@ class CSV extends File
     private array $columns;
     private int $columnsCount;
 
+    private int $rowsCount;
     private bool $convertNumbers;
     private bool $associativeArray;
 
@@ -179,24 +180,31 @@ class CSV extends File
      */
     public function rowsCount() : int
     {
+        // get cached value
+        if (isset($this->linesCount)) {
+            return $this->linesCount;
+        }
+
         // save offset
         $offset = $this->currentOffset;
 
         // seek to data start
         $this->seek($this->startOffset);
 
-        $i = 0;
+        $rowsCount = 0;
 
         while (($line = $this->readNextLine()) !== null) {
             if ($line !== '') {
-                ++$i;
+                ++$rowsCount;
             }
         }
+
+        $this->rowsCount = $rowsCount - ($this->header ? 1 : 0);
 
         // seek back to saved offset
         $this->seek($offset);
 
-        return $i - ($this->header ? 1 : 0);
+        return $this->rowsCount;
     }
 
     /**
