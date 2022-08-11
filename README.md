@@ -8,8 +8,8 @@ Parse csv files
 
 - auto detect file encoding and line endings
 - auto detect csv separator, enclosure and header presence
-- low memory footprint
 - unicode support
+- no dependencies, fast and low memory footprint
 
 ## install and demo
 
