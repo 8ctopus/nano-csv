@@ -275,8 +275,14 @@ class CSV extends File
         if ($this->convertNumbers) {
             // convert numeric strings to numbers
             foreach ($columns as &$column) {
-                if (is_numeric($column)) {
-                    $column = str_contains($column, '.') ? (float) $column : (int) $column;
+                if (!is_numeric($column)) {
+                    continue;
+                }
+
+                if (filter_var($column, FILTER_VALIDATE_INT)) {
+                    $column = (int) $column;
+                } elseif (filter_var($column, FILTER_VALIDATE_FLOAT)) {
+                    $column = (float) $column;
                 }
             }
         }
