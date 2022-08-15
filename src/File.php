@@ -7,7 +7,7 @@ class File
     protected int $startOffset;
     protected int $currentOffset;
 
-    private string $file;
+    protected string $file;
     private $handle;
     private int $size;
     private BOM $bom;
