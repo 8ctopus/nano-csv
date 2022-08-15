@@ -27,6 +27,7 @@ class CSV extends File
     {
         $this->associativeArray = false;
         $this->convertNumbers = false;
+        $this->escape = '\\';
 
         parent::__construct($file);
     }
@@ -254,7 +255,7 @@ class CSV extends File
     {
         // line to array using separator
         //$columns = explode($this->separator, $line);
-        $columns = str_getcsv($line, $this->separator, $this->enclosure, '\\');
+        $columns = str_getcsv($line, $this->separator, $this->enclosure, $this->escape);
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
             $count = count($columns);
