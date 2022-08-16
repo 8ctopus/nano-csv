@@ -206,8 +206,10 @@ class XLS extends File
 
         $path = [];
         $row;
+        $column;
+        $cellColumn;
         $rows;
-        $useSharedString;
+        $sharedString;
 
         while ($xml->read()) {
             switch ($xml->nodeType) {
@@ -217,8 +219,13 @@ class XLS extends File
                     // create row
                     if ($xml->name === 'row') {
                         $row = [];
+                        $column = 'A';
                     } elseif ($xml->name === 'c') {
-                        $useSharedString = $xml->getAttribute('t') === 's';
+                        // cell value can be either a shared string or a number
+                        $sharedString = $xml->getAttribute('t') === 's';
+
+                        // get cell column
+                        $cellColumn = $xml->getAttribute('r')[0];
                     }
 
                     break;
@@ -235,8 +242,21 @@ class XLS extends File
 
                 case XMLReader::TEXT:
                     if (array_slice($path, -4, null, false) === ['sheetData', 'row', 'c', 'v']) {
+                        // insert empty cells
+                        if ($cellColumn !== $column) {
+                            $diff = ord($cellColumn) - ord($column);
+
+                            for ($i = 0; $i < $diff; ++$i) {
+                                $row[] = '';
+                            }
+
+                            $column = $cellColumn;
+                        } else {
+                            $column = chr(ord($column) + 1);
+                        }
+
                         // add cell
-                        $row[] = $useSharedString ? $shared[$xml->value] : $xml->value;
+                        $row[] = $sharedString ? $shared[$xml->value] : $xml->value;
                     }
 
                     break;
