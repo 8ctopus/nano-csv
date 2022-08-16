@@ -5,7 +5,7 @@ namespace Oct8pus\CSV;
 use XMLReader;
 use ZipArchive;
 
-class XLS
+class XLS extends CSV
 {
     /**
      * Constructor
@@ -16,17 +16,21 @@ class XLS
      */
     public function __construct(string $file)
     {
+        // extract xls into array
         $table = $this->extract($file);
 
         $info = pathinfo($file);
 
         $file = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '.csv';
 
+        // convert to csv in temp dir
         $this->convert($table, $file);
+
+        parent::__construct($file);
     }
 
     /**
-     * Extract
+     * Extract xlsx data
      *
      * @param string $file
      *
@@ -39,7 +43,7 @@ class XLS
         $zip = new ZipArchive();
 
         if (!$zip->open($file)) {
-            throw new CSVException();
+            throw new CSVException('open xlsx');
         }
 
         // extract required data
@@ -55,7 +59,7 @@ class XLS
                 $result = $zip->extractTo(sys_get_temp_dir(), $name);
 
                 if (!$result) {
-                    throw new CSVException();
+                    throw new CSVException('extract xlsx');
                 }
 
             }
@@ -165,6 +169,8 @@ class XLS
      *
      * @param array $table
      * @param string $file
+     *
+     * @throws CSVException
      *
      * @return void
      */
