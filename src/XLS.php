@@ -193,22 +193,18 @@ class XLS extends File
         }
 
         // parse sheet
-        $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0]);
-
         // <sheetData>
         // <row> row
         // <c r="A1" t="s"> cell using string value form shared strings
         // <c r="B1"> cell using number value
         // <v> value
+        $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0]);
 
-        // go to sheetData
-        //$xml->next('sheetData');
-
+        $table = [];
         $path = [];
         $row;
         $column;
         $cellColumn;
-        $rows;
         $sharedString;
 
         while ($xml->read()) {
@@ -235,15 +231,15 @@ class XLS extends File
 
                     // add row to rows
                     if ($xml->name === 'row') {
-                        $rows[] = $row;
+                        $table[] = $row;
                     }
 
                     break;
 
                 case XMLReader::TEXT:
                     if (array_slice($path, -4, null, false) === ['sheetData', 'row', 'c', 'v']) {
-                        // insert empty cells
                         if ($cellColumn !== $column) {
+                            // insert empty cells
                             $diff = ord($cellColumn) - ord($column);
 
                             for ($i = 0; $i < $diff; ++$i) {
@@ -263,7 +259,9 @@ class XLS extends File
             }
         }
 
-        var_dump($rows);
+        var_dump($table);
+
+        return $this;
     }
 
     /**
