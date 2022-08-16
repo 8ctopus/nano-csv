@@ -40,8 +40,10 @@ class XLSX extends CSV
     {
         $zip = new ZipArchive();
 
-        if (!$zip->open($file)) {
-            throw new CSVException('open xlsx');
+        $result = $zip->open($file, ZipArchive::RDONLY);
+
+        if ($result !== true) {
+            throw new CSVException("open xlsx {$result}");
         }
 
         // extract required data
