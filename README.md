@@ -1,15 +1,17 @@
 # nano csv
 
-Parse csv files
+Parse csv and Excel xlsx files
 
 [![Latest Stable Version](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv) [![Total Downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv) [![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv) [![PHP Version Require](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
 
 ## features
 
+- parse csv and Excel xlsx files
+- no dependencies, fast and low memory footprint
+- small code base: 1270 lines of code
 - auto detect file encoding and line endings
 - auto detect csv separator, enclosure and header presence
 - unicode support
-- no dependencies, fast and low memory footprint
 
 ## install and demo
 
@@ -80,6 +82,43 @@ echo "Average from May to Dec: {$average}" . PHP_EOL;
 
 ```txt
 Average from May to Dec: 9.6
+```
+
+- Excel xlsx parsing
+
+```php
+use Oct8pus\CSV\XLS;
+
+$xls = new XLS(__DIR__ .'/samples/test.xlsx');
+
+echo $xls
+    ->autoDetect() . PHP_EOL;
+
+while ($row = $xls->readNextRow()) {
+    echo implode(', ', $row) . PHP_EOL;
+}
+```
+
+```txt
+file: K:\dev\github\nano-csv/samples\test.csv
+size: 174
+BOM: UTF-8
+encoding: UTF-8
+line ending: Linux
+lines count: 9
+separator: ,
+enclosure: none
+header: true
+rows count: 7
+columns (5): name, class, weight, empty, height
+
+cat, mammal, 8, , 0.2
+rabbit, mammal, 0.6, , 0.2
+dog, mammal, 20, , 0.7
+puma, mammal, 30, , 0.6
+pinguin, bird, 10, , 0.4
+bear, mammal, 300, , 1
+bat, mammal, 0.1, , 0.1
 ```
 
 Also look at the `demo-*` files.

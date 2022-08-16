@@ -1,8 +1,8 @@
 {
     "name": "8ctopus/nano-csv",
     "type": "library",
-    "description": "Read csv files",
-    "keywords": ["csv", "parser", "read", "import"],
+    "description": "Read csv and Excel xlsx files",
+    "keywords": ["csv", "parser", "read", "import", "excel", "xlsx"],
     "license": "MIT",
     "authors": [
         {
