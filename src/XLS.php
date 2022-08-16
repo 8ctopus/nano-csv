@@ -171,32 +171,28 @@ class XLS extends File
         $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[1]);
 
         $shared = [];
-        $type = [];
+        $path = [];
 
         while ($xml->read()) {
             switch ($xml->nodeType) {
                 case XMLReader::ELEMENT:
-                    $type[] = $xml->name;
+                    $path[] = $xml->name;
                     break;
 
                 case XMLReader::END_ELEMENT:
-                    array_pop($type);
+                    array_pop($path);
                     break;
 
                 case XMLReader::TEXT:
-                    $count = count($type);
-
-                    if ($count >= 2 && $type[$count - 2] === 'si' && $type[$count - 1] === 't') {
+                    if (array_slice($path, -2, null, false) === ['si', 't']) {
                         $shared[] = $xml->value;
                     }
-                    break;
 
-                default:
                     break;
             }
         }
 
-        // read worksheet
+        // parse sheet
         $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0]);
 
         // <sheetData>
@@ -208,49 +204,42 @@ class XLS extends File
         // go to sheetData
         //$xml->next('sheetData');
 
+        $path = [];
+        $row;
         $rows;
-        $type;
+        $useSharedString;
 
         while ($xml->read()) {
-            if ($xml->nodeType === XMLReader::END_ELEMENT) {
-                switch ($xml->name) {
-                    case 'row':
-                        $rows[] = $row;
-                        unset($row);
-                        break;
+            switch ($xml->nodeType) {
+                case XMLReader::ELEMENT:
+                    $path[] = $xml->name;
 
-                    default:
-                }
-            } else if ($xml->nodeType === XMLReader::ELEMENT) {
-                switch ($xml->name) {
-                    case 'row':
+                    // create row
+                    if ($xml->name === 'row') {
                         $row = [];
-                        break;
+                    } elseif ($xml->name === 'c') {
+                        $useSharedString = $xml->getAttribute('t') === 's';
+                    }
 
-                    case 'c':
-                        if ($xml->hasAttributes) {
-                            $type = 'value';
+                    break;
 
-                            while ($xml->moveToNextAttribute()) {
-                                if ($xml->name === 't') {
-                                    $type = 'shared';
-                                }
-                            }
-                        }
+                case XMLReader::END_ELEMENT:
+                    array_pop($path);
 
-                        break;
+                    // add row to rows
+                    if ($xml->name === 'row') {
+                        $rows[] = $row;
+                    }
 
-                    case 'v':
-                        $cell = true;
-                        break;
+                    break;
 
-                    default:
-                }
-            } else if ($xml->nodeType === XMLReader::TEXT) {
-                if ($cell) {
-                    $row[] = $xml->value;
-                    $cell = false;
-                }
+                case XMLReader::TEXT:
+                    if (array_slice($path, -4, null, false) === ['sheetData', 'row', 'c', 'v']) {
+                        // add cell
+                        $row[] = $useSharedString ? $shared[$xml->value] : $xml->value;
+                    }
+
+                    break;
             }
         }
 
