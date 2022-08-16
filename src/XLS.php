@@ -19,9 +19,7 @@ class XLS extends CSV
         // extract xls into array
         $table = $this->extract($file);
 
-        $info = pathinfo($file);
-
-        $file = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '.csv';
+        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($file, PATHINFO_FILENAME) . '.csv';
 
         // convert to csv in temp dir
         $this->convert($table, $file);
