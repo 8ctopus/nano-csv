@@ -165,20 +165,38 @@ class XLS extends File
 
         $zip->close();
 
-        /*
-        $handle = fopen(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0], 'r', false);
-
-        if ($handle === false) {
-            throw new CSVException();
-        }
-
-        $stat = fstat($handle);
-
-        $data = fread($handle, $stat['size']);
-        */
-
+        // parse shared strings
         $xml = new XMLReader();
 
+        $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[1]);
+
+        $shared = [];
+        $type = [];
+
+        while ($xml->read()) {
+            switch ($xml->nodeType) {
+                case XMLReader::ELEMENT:
+                    $type[] = $xml->name;
+                    break;
+
+                case XMLReader::END_ELEMENT:
+                    array_pop($type);
+                    break;
+
+                case XMLReader::TEXT:
+                    $count = count($type);
+
+                    if ($count >= 2 && $type[$count - 2] === 'si' && $type[$count - 1] === 't') {
+                        $shared[] = $xml->value;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // read worksheet
         $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0]);
 
         // <sheetData>
