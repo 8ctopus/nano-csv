@@ -1,13 +1,13 @@
 <?php
 
-use Oct8pus\CSV\XLS;
+use Oct8pus\CSV\XLSX;
 
 require_once './vendor/autoload.php';
 
 // command line error handler
 (new \NunoMaduro\Collision\Provider())->register();
 
-$xls = new XLS(__DIR__ .'/samples/test.xlsx');
+$xls = new XLSX(__DIR__ .'/samples/test.xlsx');
 
 echo $xls
     ->autoDetect() . PHP_EOL;

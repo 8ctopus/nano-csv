@@ -5,7 +5,7 @@ namespace Oct8pus\CSV;
 use XMLReader;
 use ZipArchive;
 
-class XLS extends CSV
+class XLSX extends CSV
 {
     /**
      * Constructor

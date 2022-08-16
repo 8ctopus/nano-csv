@@ -87,9 +87,9 @@ Average from May to Dec: 9.6
 - Excel xlsx parsing
 
 ```php
-use Oct8pus\CSV\XLS;
+use Oct8pus\CSV\XLSX;
 
-$xls = new XLS(__DIR__ .'/samples/test.xlsx');
+$xls = new XLSX(__DIR__ .'/samples/test.xlsx');
 
 echo $xls
     ->autoDetect() . PHP_EOL;
