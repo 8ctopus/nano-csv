@@ -7,8 +7,6 @@ use ZipArchive;
 
 class XLS
 {
-    private string $file;
-
     /**
      * Constructor
      *
@@ -18,25 +16,29 @@ class XLS
      */
     public function __construct(string $file)
     {
-        $this->file = $file;
+        $table = $this->extract($file);
 
-        $table = $this->extract();
+        $info = pathinfo($file);
 
-        var_dump($table);
+        $file = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '.csv';
+
+        $this->convert($table, $file);
     }
 
     /**
      * Extract
      *
+     * @param string $file
+     *
      * @throws CSVException
      *
      * @return array
      */
-    private function extract() : array
+    private function extract(string $file) : array
     {
         $zip = new ZipArchive();
 
-        if (!$zip->open($this->file)) {
+        if (!$zip->open($file)) {
             throw new CSVException();
         }
 
@@ -156,5 +158,69 @@ class XLS
         }
 
         return $table;
+    }
+
+    /**
+     * Convert to csv
+     *
+     * @param array $table
+     * @param string $file
+     *
+     * @return void
+     */
+    private function convert(array $table, string $file) : void
+    {
+        // open file
+        $handle = fopen($file, 'w', false, null);
+
+        if ($handle === false) {
+            throw new CSVException('open file');
+        }
+
+        // write utf8 BOM
+        $bom = [0xEF, 0xBB, 0xBF];
+        $str = '';
+
+        foreach ($bom as $byte) {
+            $str .= chr($byte);
+        }
+
+        if (fwrite($handle, $str, 3) === false) {
+            throw new CSVException('write BOM');
+        }
+
+        $separator = ',';
+        $enclosure = '"';
+        $escape = '\\';
+        $eol = "\n";
+
+        foreach ($table as $row) {
+            $line = '';
+
+            // escape enclosure
+            foreach ($row as &$cell) {
+                if (str_contains($cell, $enclosure)) {
+                    $cell = str_replace($enclosure, $escape . $enclosure, $cell);
+
+                    // enclose
+                    $cell = $enclosure . $cell . $enclosure;
+                } elseif (str_contains($cell, $separator)) {
+                    // enclose
+                    $cell = $enclosure . $cell . $enclosure;
+                }
+            }
+
+            // convert row to line
+            $line = implode($separator, $row) . $eol;
+
+            // write line
+            if (fwrite($handle, $line, null) === false) {
+                throw new CSVException('write line');
+            }
+        }
+
+        if (!fclose($handle)) {
+            throw new CSVException('close file');
+        }
     }
 }
