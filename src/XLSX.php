@@ -168,6 +168,11 @@ class XLSX extends CSV
 
                     break;
             }
+
+            // empty elements are self-closing and do not have XMLReader::END_ELEMENT
+            if ($xml->isEmptyElement) {
+                array_pop($path);
+            }
         }
 
         return $table;
