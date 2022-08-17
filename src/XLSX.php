@@ -111,8 +111,6 @@ class XLSX extends CSV
         $table = [];
         $path = [];
         $row;
-        $column;
-        $cellColumn;
         $sharedString;
 
         while ($xml->read()) {
@@ -123,25 +121,18 @@ class XLSX extends CSV
                     // create row
                     if ($xml->name === 'row') {
                         $row = [];
-                        $column = 'A';
                     } elseif ($xml->name === 'c') {
                         // cell value can be either a shared string or a number
                         $sharedString = $xml->getAttribute('t') === 's';
 
                         // get cell column
-                        $cellColumn = $xml->getAttribute('r')[0];
+                        $column = $xml->getAttribute('r')[0];
 
-                        if ($cellColumn !== $column) {
-                            // insert empty cells
-                            $diff = ord($cellColumn) - ord($column);
+                        // insert empty cells if any
+                        $diff = ord($column) - ord('A') - count($row);
 
-                            for ($i = 0; $i < $diff; ++$i) {
-                                $row[] = '';
-                            }
-
-                            $column = $cellColumn;
-                        } else {
-                            $column = chr(ord($column) + 1);
+                        for ($i = 0; $i < $diff; ++$i) {
+                            $row[] = '';
                         }
 
                         // add cell
