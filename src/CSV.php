@@ -29,6 +29,12 @@ class CSV extends File
         $this->convertNumbers = false;
         $this->escape = '\\';
 
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+
+        if ($extension !== 'csv') {
+            throw new CSVException("invalid extension {$extension}");
+        }
+
         parent::__construct($file);
     }
 

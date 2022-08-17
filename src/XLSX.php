@@ -16,6 +16,12 @@ class XLSX extends CSV
      */
     public function __construct(string $file)
     {
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+
+        if ($extension !== 'xlsx') {
+            throw new CSVException("invalid extension {$extension}");
+        }
+
         // extract xls into array
         $table = $this->extract($file);
 
