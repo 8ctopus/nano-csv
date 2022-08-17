@@ -280,10 +280,17 @@ class CSV extends File
                     continue;
                 }
 
+                // check if int
                 if (filter_var($column, FILTER_VALIDATE_INT)) {
                     $column = (int) $column;
-                } elseif (filter_var($column, FILTER_VALIDATE_FLOAT)) {
+                    continue;
+                }
+
+                // check if float
+                // FIX ME https://github.com/php/php-src/pull/9338 FILTER_FLAG_DISALLOW_SCIENTIFIC
+                if (filter_var($column, FILTER_VALIDATE_FLOAT)) {
                     $column = (float) $column;
+                    continue;
                 }
             }
         }
