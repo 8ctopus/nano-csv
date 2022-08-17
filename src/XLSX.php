@@ -111,6 +111,7 @@ class XLSX extends CSV
         $table = [];
         $path = [];
         $row;
+        $columnsCount;
         $sharedString;
 
         while ($xml->read()) {
@@ -146,6 +147,15 @@ class XLSX extends CSV
 
                     // add row to rows
                     if ($xml->name === 'row') {
+                        if (empty($table)) {
+                            $columnsCount = count($row);
+                        }
+
+                        // complete not full rows
+                        for ($i = count($row); $i < $columnsCount; ++$i) {
+                            $row[] = '';
+                        }
+
                         $table[] = $row;
                     }
 

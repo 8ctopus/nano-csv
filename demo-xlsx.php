@@ -7,11 +7,11 @@ require_once './vendor/autoload.php';
 // command line error handler
 (new \NunoMaduro\Collision\Provider())->register();
 
-$xls = new XLSX(__DIR__ .'/samples/test.xlsx');
+$xlsx = new XLSX(__DIR__ .'/samples/test.xlsx');
 
-echo $xls
+echo $xlsx
     ->autoDetect() . PHP_EOL;
 
-while ($row = $xls->readNextRow()) {
+while ($row = $xlsx->readNextRow()) {
     echo implode(', ', $row) . PHP_EOL;
 }
