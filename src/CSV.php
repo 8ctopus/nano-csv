@@ -265,7 +265,7 @@ class CSV extends File
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
             $count = count($columns);
-            throw new CSVException("columns count mismatch {$count} / {$this->columnsCount}");
+            throw new CSVException("columns count mismatch - {$count} / {$this->columnsCount}");
         }
 
         // cleanup whitespace multibyte

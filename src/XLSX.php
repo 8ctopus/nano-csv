@@ -130,6 +130,22 @@ class XLSX extends CSV
 
                         // get cell column
                         $cellColumn = $xml->getAttribute('r')[0];
+
+                        if ($cellColumn !== $column) {
+                            // insert empty cells
+                            $diff = ord($cellColumn) - ord($column);
+
+                            for ($i = 0; $i < $diff; ++$i) {
+                                $row[] = '';
+                            }
+
+                            $column = $cellColumn;
+                        } else {
+                            $column = chr(ord($column) + 1);
+                        }
+
+                        // add cell
+                        $row[] = '';
                     }
 
                     break;
@@ -146,21 +162,8 @@ class XLSX extends CSV
 
                 case XMLReader::TEXT:
                     if (array_slice($path, -4, null, false) === ['sheetData', 'row', 'c', 'v']) {
-                        if ($cellColumn !== $column) {
-                            // insert empty cells
-                            $diff = ord($cellColumn) - ord($column);
-
-                            for ($i = 0; $i < $diff; ++$i) {
-                                $row[] = '';
-                            }
-
-                            $column = $cellColumn;
-                        } else {
-                            $column = chr(ord($column) + 1);
-                        }
-
-                        // add cell
-                        $row[] = $sharedString ? $shared[$xml->value] : $xml->value;
+                        // add cell text
+                        $row[count($row) - 1] = $sharedString ? $shared[$xml->value] : $xml->value;
                     }
 
                     break;
