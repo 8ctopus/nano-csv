@@ -135,6 +135,14 @@ vendor/bin/phpunit --coverage-html coverage
 vendor/bin/php-cs-fixer fix
 ```
 
+## todo
+
+- use readonly properties
+- detect escape char
+- refactor read
+- make a really tricky test file - detect escape character within enclosures
+- compare performance against most popular csv parsers
+
 ## credits
 
 https://filesamples.com/formats/csv \
