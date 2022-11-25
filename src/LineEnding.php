@@ -9,7 +9,7 @@ enum LineEnding
     case Mac;
 
     /**
-     * from string
+     * From string
      *
      * @param string $str
      *
@@ -33,7 +33,7 @@ enum LineEnding
     }
 
     /**
-     * to string
+     * To string
      *
      * @return string
      */
