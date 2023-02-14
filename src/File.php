@@ -61,7 +61,7 @@ class File
      *
      * @return null|mixed
      */
-    public function __call(string $method, array $args)
+    public function __call(string $method, array $args): mixed
     {
         $operation = substr($method, 0, 3);
 

@@ -61,7 +61,7 @@ enum BOM
         ];
 
         foreach ($boms as $name => $bom) {
-            for ($i = 0; $i < sizeof($bom); ++$i) {
+            for ($i = 0; $i < count($bom); ++$i) {
                 if ($bom[$i] !== ord($data[$i])) {
                     break;
                 }

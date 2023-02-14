@@ -25,7 +25,7 @@ class XLSX extends CSV
         // extract xls into array
         $table = $this->extract($file);
 
-        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($file, PATHINFO_FILENAME) . '.csv';
+        $file = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . pathinfo($file, PATHINFO_FILENAME) . '.csv';
 
         // convert to csv in temp dir
         $this->convert($table, $file);
@@ -153,7 +153,7 @@ class XLSX extends CSV
         // parse shared strings
         $xml = new XMLReader();
 
-        $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[1]);
+        $xml->open(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $list[1]);
 
         $shared = [];
         $path = [];
@@ -183,7 +183,7 @@ class XLSX extends CSV
         // <c r="A1" t="s"> cell using string value form shared strings
         // <c r="B1"> cell using number value
         // <v> value
-        $xml->open(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $list[0]);
+        $xml->open(sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $list[0]);
 
         $table = [];
         $path = [];

@@ -65,7 +65,7 @@ class CSV extends File
      *
      * @return mixed|void
      */
-    public function __call(string $method, array $args)
+    public function __call(string $method, array $args) : mixed
     {
         $operation = substr($method, 0, 3);
 
@@ -235,7 +235,7 @@ class CSV extends File
             $count = mb_substr_count($line, $separator, null);
         }
 
-        return array_search(max($separators), $separators);
+        return array_search(max($separators), $separators, true);
     }
 
     /**
@@ -333,7 +333,7 @@ class CSV extends File
             return '';
         }
 
-        return array_search(max($enclosures), $enclosures);
+        return array_search(max($enclosures), $enclosures, true);
         /* alternate way
         $line = parent::readCurrentLine(true);
 
