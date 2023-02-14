@@ -38,9 +38,9 @@ class XLSX extends CSV
      *
      * @param string $file
      *
-     * @throws CSVException
-     *
      * @return array
+     *
+     * @throws CSVException
      */
     private function extract(string $file) : array
     {
@@ -97,7 +97,6 @@ class XLSX extends CSV
                 if (!$result) {
                     throw new CSVException('extract xlsx');
                 }
-
             }
         }
 
@@ -212,12 +211,12 @@ class XLSX extends CSV
     /**
      * Convert to csv
      *
-     * @param array $table
+     * @param array  $table
      * @param string $file
      *
-     * @throws CSVException
-     *
      * @return void
+     *
+     * @throws CSVException
      */
     private function convert(array $table, string $file) : void
     {

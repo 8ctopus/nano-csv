@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \Oct8pus\CSV\XLSX
  * @covers \Oct8pus\CSV\CSVException
+ * @covers \Oct8pus\CSV\XLSX
  */
 final class XSLXTest extends TestCase
 {
@@ -28,9 +28,8 @@ final class XSLXTest extends TestCase
         $this->assertSame($expected, (string) $xlsx);
 
         // test loop (detect incomplete rows)
-        while (/*$row = */$xlsx->readNextRow()) {
-            //echo implode(', ', $row) . PHP_EOL;
-        }
+        while (/*$row = */ $xlsx->readNextRow());
+        //echo implode(', ', $row) . PHP_EOL;
     }
 
     public function getAutoDetectCases() : array
@@ -38,8 +37,7 @@ final class XSLXTest extends TestCase
         return [
             [
                 'file' => 'samples/test.xlsx',
-                'expected' =>
-                    'file: ' . sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.csv' . PHP_EOL .
+                'expected' => 'file: ' . sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.csv' . PHP_EOL .
                     'size: 174' . PHP_EOL .
                     'BOM: UTF-8' . PHP_EOL .
                     'encoding: UTF-8' . PHP_EOL .
@@ -53,8 +51,7 @@ final class XSLXTest extends TestCase
             ],
             [
                 'file' => 'samples/test2.xlsx',
-                'expected' =>
-                    'file: ' . sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test2.csv' . PHP_EOL .
+                'expected' => 'file: ' . sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test2.csv' . PHP_EOL .
                     'size: 1009' . PHP_EOL .
                     'BOM: UTF-8' . PHP_EOL .
                     'encoding: UTF-8' . PHP_EOL .

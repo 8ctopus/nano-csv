@@ -80,6 +80,7 @@ class CSV extends File
                     return parent::__call($method, $args);
                 }
 
+                // no break
             case 'set':
                 if (in_array($property, [
                     'separator',
@@ -102,6 +103,7 @@ class CSV extends File
                     return $this;
                 }
 
+                // no break
             default:
                 throw new CSVException("unknown property {$property}");
         }
@@ -110,9 +112,9 @@ class CSV extends File
     /**
      * Autodetect csv properties
      *
-     * @throws CSVException
-     *
      * @return self
+     *
+     * @throws CSVException
      */
     public function autoDetect() : self
     {
@@ -145,7 +147,7 @@ class CSV extends File
     /**
      * Read row
      *
-     * @param int  $row
+     * @param int $row
      *
      * @return array
      */
@@ -253,9 +255,9 @@ class CSV extends File
      *
      * @param string $line
      *
-     * @throws CSVException
-     *
      * @return array
+     *
+     * @throws CSVException
      */
     private function lineToArray(string $line) : array
     {
@@ -332,7 +334,6 @@ class CSV extends File
         }
 
         return array_search(max($enclosures), $enclosures);
-
         /* alternate way
         $line = parent::readCurrentLine(true);
 

@@ -7,7 +7,7 @@ require_once './vendor/autoload.php';
 // command line error handler
 (new \NunoMaduro\Collision\Provider())->register();
 
-$xlsx = new XLSX(__DIR__ .'/samples/test.xlsx');
+$xlsx = new XLSX(__DIR__ . '/samples/test.xlsx');
 
 echo $xlsx
     ->autoDetect() . PHP_EOL;

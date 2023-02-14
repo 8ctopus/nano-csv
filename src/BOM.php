@@ -5,8 +5,11 @@ namespace Oct8pus\CSV;
 enum BOM
 {
     case None;
+
     case Utf8;
+
     case Utf16LE;
+
     case Utf16BE;
 
     /**
@@ -22,6 +25,7 @@ enum BOM
             case 'none':
                 return self::None;
 
+            // no break
             case 'utf8':
             case 'utf-8':
                 return self::Utf8;

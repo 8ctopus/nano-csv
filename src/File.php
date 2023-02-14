@@ -10,7 +10,7 @@ class File
     private string $file;
 
     /**
-     * @var resource|false
+     * @var false|resource
      */
     private $handle;
     private int $size;
@@ -24,9 +24,9 @@ class File
      *
      * @param string $file
      *
-     * @throws FileException
-     *
      * @return self
+     *
+     * @throws FileException
      */
     public function __construct(string $file)
     {
@@ -83,9 +83,9 @@ class File
     /**
      * Autodetect file properties
      *
-     * @throws FileException
-     *
      * @return self
+     *
+     * @throws FileException
      */
     public function autoDetect() : self
     {
@@ -174,9 +174,9 @@ class File
      *
      * @param bool $resetOffset
      *
-     * @throws FileException
-     *
      * @return ?string
+     *
+     * @throws FileException
      */
     public function readCurrentLine(bool $resetOffset) : ?string
     {
@@ -279,9 +279,9 @@ class File
      *
      * @param int $offset
      *
-     * @throws FileException
-     *
      * @return void
+     *
+     * @throws FileException
      */
     protected function seek(int $offset) : void
     {
@@ -298,9 +298,9 @@ class File
      * @param int  $length
      * @param bool $resetOffset
      *
-     * @throws FileException
-     *
      * @return string
+     *
+     * @throws FileException
      */
     private function read(int $length, bool $resetOffset) : string
     {
@@ -342,9 +342,9 @@ class File
      *
      * @param string $text
      *
-     * @throws FileException
-     *
      * @return string
+     *
+     * @throws FileException
      */
     private function detectEncoding(string $text) : string
     {

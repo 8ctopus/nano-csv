@@ -5,7 +5,9 @@ namespace Oct8pus\CSV;
 enum LineEnding
 {
     case Windows;
+
     case Linux;
+
     case Mac;
 
     /**
@@ -21,6 +23,7 @@ enum LineEnding
             case 'linux':
                 return self::Linux;
 
+            // no break
             case 'windows':
                 return self::Windows;
 
