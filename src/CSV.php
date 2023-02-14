@@ -13,7 +13,7 @@ class CSV extends File
     private bool $header;
 
     /**
-     * @var array<string>
+     * @var array<int, mixed>
      */
     private array $columns;
     private int $columnsCount;
@@ -161,7 +161,7 @@ class CSV extends File
      *
      * @param int $row
      *
-     * @return array<string>
+     * @return array<int, mixed>
      */
     public function readRow(int $row) : array
     {
@@ -181,7 +181,7 @@ class CSV extends File
     /**
      * Read next row
      *
-     * @return ?array<string>
+     * @return ?array<int, mixed>
      */
     public function readNextRow() : ?array
     {
@@ -237,6 +237,10 @@ class CSV extends File
     {
         $line = parent::readCurrentLine(true);
 
+        if ($line === null) {
+            throw new CSVException('detect separator');
+        }
+
         $separators = [
             ',' => 0,
             ';' => 0,
@@ -253,11 +257,15 @@ class CSV extends File
     /**
      * Read columns
      *
-     * @return array<string>
+     * @return array<int, mixed>
      */
     private function readColumns() : array
     {
         $line = parent::readCurrentLine(true);
+
+        if ($line === null) {
+            throw new CSVException('no columns found');
+        }
 
         return $this->lineToArray($line);
     }
@@ -331,6 +339,10 @@ class CSV extends File
     private function detectEnclosure() : string
     {
         $line = parent::readCurrentLine(true);
+
+        if ($line === null) {
+            throw new CSVException('detect enclosure');
+        }
 
         $enclosures = [
             '"' => 0,
