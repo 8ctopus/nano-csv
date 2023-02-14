@@ -10,7 +10,7 @@ class File
     private string $file;
 
     /**
-     * @var false|resource
+     * @var resource
      */
     private $handle;
     private int $size;
@@ -90,12 +90,13 @@ class File
     public function autoDetect() : self
     {
         // open file
-        $this->handle = fopen($this->file, 'r', false, null);
+        $handle = fopen($this->file, 'r', false, null);
 
-        if ($this->handle === false) {
+        if ($handle === false) {
             throw new FileException('open file');
         }
 
+        $this->handle = $handle;
         $this->currentOffset = 0;
 
         // get file info
