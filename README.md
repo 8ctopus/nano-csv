@@ -2,7 +2,10 @@
 
 Parse csv and Excel xlsx files
 
-[![Latest Stable Version](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv) [![Total Downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv) [![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv) [![PHP Version Require](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
+[![Latest Stable Version](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
+[![Total Downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
+[![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
+[![PHP Version Require](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
 
 ## features
 
@@ -15,9 +18,7 @@ Parse csv and Excel xlsx files
 
 ## install and demo
 
-```sh
-composer require 8ctopus/nano-csv
-```
+    composer require 8ctopus/nano-csv
 
 - Simple csv parsing
 
@@ -142,5 +143,5 @@ Also look at the `demo-*` files.
 
 ## credits
 
-https://filesamples.com/formats/csv \
-https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/
+    https://filesamples.com/formats/csv
+    https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/
