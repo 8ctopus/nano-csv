@@ -57,7 +57,7 @@ class File
      * Get/set property
      *
      * @param string $method
-     * @param array  $args
+     * @param array<mixed>  $args
      *
      * @return null|mixed
      */
@@ -73,7 +73,7 @@ class File
                 return $this->{$property};
 
             case 'set':
-                // nothing can be set
+                throw new FileException("nothing can be set");
 
             default:
                 throw new FileException("unknown property {$property}");
@@ -165,6 +165,10 @@ class File
 
         // seek back to saved offset
         $this->seek($offset);
+
+        if (!isset($str)) {
+            throw new FileException('$str not set');
+        }
 
         return $str;
     }

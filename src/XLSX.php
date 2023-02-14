@@ -38,7 +38,7 @@ class XLSX extends CSV
      *
      * @param string $file
      *
-     * @return array
+     * @return array<int, array<int, mixed>>
      *
      * @throws CSVException
      */
@@ -283,7 +283,7 @@ class XLSX extends CSV
     /**
      * Convert to csv
      *
-     * @param array  $table
+     * @param array<int, array<int, mixed>>  $table
      * @param string $file
      *
      * @return void

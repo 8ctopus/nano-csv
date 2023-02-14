@@ -9,6 +9,10 @@ class CSV extends File
     private string $escape;
 
     private bool $header;
+
+    /**
+     * @var array<string>
+     */
     private array $columns;
     private int $columnsCount;
 
@@ -61,7 +65,7 @@ class CSV extends File
      * Get/set property
      *
      * @param string $method
-     * @param array  $args
+     * @param array<mixed> $args
      *
      * @return mixed|void
      */
@@ -149,7 +153,7 @@ class CSV extends File
      *
      * @param int $row
      *
-     * @return array
+     * @return array<string>
      */
     public function readRow(int $row) : array
     {
@@ -169,7 +173,7 @@ class CSV extends File
     /**
      * Read next row
      *
-     * @return ?array
+     * @return ?array<string>
      */
     public function readNextRow() : ?array
     {
@@ -241,7 +245,7 @@ class CSV extends File
     /**
      * Read columns
      *
-     * @return array
+     * @return array<string>
      */
     private function readColumns() : array
     {
@@ -255,7 +259,7 @@ class CSV extends File
      *
      * @param string $line
      *
-     * @return array
+     * @return array<string>
      *
      * @throws CSVException
      */
