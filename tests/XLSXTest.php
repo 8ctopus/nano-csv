@@ -28,7 +28,7 @@ final class XSLXTest extends TestCase
         $this->assertSame($expected, (string) $xlsx);
 
         // test loop (detect incomplete rows)
-        while ($row = $xlsx->readNextRow()) {
+        while (/*$row = */$xlsx->readNextRow()) {
             //echo implode(', ', $row) . PHP_EOL;
         }
     }

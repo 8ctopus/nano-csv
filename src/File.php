@@ -8,6 +8,10 @@ class File
     protected int $currentOffset;
 
     private string $file;
+
+    /**
+     * @var resource|false
+     */
     private $handle;
     private int $size;
     private BOM $bom;
@@ -140,6 +144,8 @@ class File
      * @param int $line
      *
      * @return string
+     *
+     * @throws FileException
      */
     public function readLine(int $line) : string
     {

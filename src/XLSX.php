@@ -140,9 +140,9 @@ class XLSX extends CSV
 
         $table = [];
         $path = [];
-        $row;
-        $columnsCount;
-        $sharedString;
+        $row = [];
+        $columnsCount = null;
+        $sharedString = null;
 
         while ($xml->read()) {
             switch ($xml->nodeType) {

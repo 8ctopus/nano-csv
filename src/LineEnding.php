@@ -53,6 +53,8 @@ enum LineEnding
                 return $case;
             }
         }
+
+        throw new CSVException('unknown line ending');
     }
 
     public function ending(string $encoding) : string
