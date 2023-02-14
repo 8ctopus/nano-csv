@@ -125,15 +125,12 @@ Also look at the `demo-*` files.
 
 ## tests
 
-```sh
-vendor/bin/phpunit --coverage-html coverage
-```
+    composer test
 
 ## clean code
 
-```sh
-vendor/bin/php-cs-fixer fix
-```
+    composer fix
+    composer fix-risky
 
 ## todo
 
