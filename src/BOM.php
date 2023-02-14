@@ -48,29 +48,31 @@ enum BOM
      *
      * @param $data first 3 bytes of file
      *
-     * @return BOM
+     * @return self
      */
-    public static function get(string $data) : BOM
+    public static function get(string $data) : self
     {
         $data = str_split($data);
 
         $boms = [
-            BOM::Utf8->encoding() => [0xEF, 0xBB, 0xBF],
-            BOM::Utf16LE->encoding() => [0xFF, 0xFE],
-            BOM::Utf16BE->encoding() => [0xFE, 0xFF],
+            self::Utf8->encoding() => [0xEF, 0xBB, 0xBF],
+            self::Utf16LE->encoding() => [0xFF, 0xFE],
+            self::Utf16BE->encoding() => [0xFE, 0xFF],
         ];
 
         foreach ($boms as $name => $bom) {
-            for ($i = 0; $i < count($bom); ++$i) {
+            $count = count($bom);
+
+            for ($i = 0; $i < $count; ++$i) {
                 if ($bom[$i] !== ord($data[$i])) {
                     break;
                 }
 
-                return BOM::fromStr($name);
+                return self::fromStr($name);
             }
         }
 
-        return BOM::None;
+        return self::None;
     }
 
     public function startOffset() : int
