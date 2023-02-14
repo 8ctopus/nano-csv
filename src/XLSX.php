@@ -291,8 +291,8 @@ class XLSX extends CSV
     /**
      * Convert to csv
      *
-     * @param array<int, array<int, string>>  $table
-     * @param string $file
+     * @param array<int, array<int, string>> $table
+     * @param string                         $file
      *
      * @return void
      *

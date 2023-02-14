@@ -58,8 +58,8 @@ class File
     /**
      * Get/set property
      *
-     * @param string $method
-     * @param array<mixed>  $args
+     * @param string       $method
+     * @param array<mixed> $args
      *
      * @return null|mixed
      */
@@ -75,7 +75,7 @@ class File
                 return $this->{$property};
 
             case 'set':
-                throw new FileException("nothing can be set");
+                throw new FileException('nothing can be set');
 
             default:
                 throw new FileException("unknown property {$property}");

@@ -67,7 +67,7 @@ class CSV extends File
      * Get/set property
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed|void
      */
@@ -358,7 +358,6 @@ class CSV extends File
         }
 
         return array_search(max($enclosures), $enclosures, true);
-
         /* alternate way
         $line = parent::readCurrentLine(true);
 
