@@ -228,8 +228,6 @@ class File
                 return trim(mb_convert_encoding($line, 'UTF-8', $this->encoding), "\r\n");
             }
         }
-
-        throw new FileException();
     }
 
     /**
@@ -328,10 +326,6 @@ class File
             $this->seek($offset);
         } else {
             $this->currentOffset += $length;
-        }
-
-        if ($str === false) {
-            throw new FileException('convert encoding');
         }
 
         return $str;

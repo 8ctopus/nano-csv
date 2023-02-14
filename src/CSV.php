@@ -247,7 +247,7 @@ class CSV extends File
     {
         $line = parent::readCurrentLine(true);
 
-        return $this->lineToArray($line, false);
+        return $this->lineToArray($line);
     }
 
     /**
@@ -334,6 +334,7 @@ class CSV extends File
         }
 
         return array_search(max($enclosures), $enclosures, true);
+
         /* alternate way
         $line = parent::readCurrentLine(true);
 
