@@ -267,7 +267,7 @@ class XLSX extends CSV
                 case XMLReader::TEXT:
                     if (array_slice($path, -4, null, false) === ['sheetData', 'row', 'c', 'v']) {
                         // add cell text
-                        $row[count($row) - 1] = $sharedString ? $shared[$xml->value] : $xml->value;
+                        $row[count($row) - 1] = $sharedString ? $shared[(int) $xml->value] : $xml->value;
                     }
 
                     break;

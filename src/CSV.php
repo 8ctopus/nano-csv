@@ -67,7 +67,7 @@ class CSV extends File
      * Get/set property
      *
      * @param string $method
-     * @param array<mixed> $args
+     * @param array $args
      *
      * @return mixed|void
      */
