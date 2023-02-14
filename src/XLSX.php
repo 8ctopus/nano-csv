@@ -50,77 +50,101 @@ class XLSX extends CSV
 
         if ($result !== true) {
             switch ($result) {
-                case ZipArchive::ER_OK           : $result = 'No error';
-                break;
+                case ZipArchive::ER_OK:
+                    $result = 'No error';
+                    break;
 
-                case ZipArchive::ER_MULTIDISK    : $result = 'Multi-disk zip archives not supported';
-                break;
+                case ZipArchive::ER_MULTIDISK:
+                    $result = 'Multi-disk zip archives not supported';
+                    break;
 
-                case ZipArchive::ER_RENAME       : $result = 'Renaming temporary file failed';
-                break;
+                case ZipArchive::ER_RENAME:
+                    $result = 'Renaming temporary file failed';
+                    break;
 
-                case ZipArchive::ER_CLOSE        : $result = 'Closing zip archive failed';
-                break;
+                case ZipArchive::ER_CLOSE:
+                    $result = 'Closing zip archive failed';
+                    break;
 
-                case ZipArchive::ER_SEEK         : $result = 'Seek error';
-                break;
+                case ZipArchive::ER_SEEK:
+                    $result = 'Seek error';
+                    break;
 
-                case ZipArchive::ER_READ         : $result = 'Read error';
-                break;
+                case ZipArchive::ER_READ:
+                    $result = 'Read error';
+                    break;
 
-                case ZipArchive::ER_WRITE        : $result = 'Write error';
-                break;
+                case ZipArchive::ER_WRITE:
+                    $result = 'Write error';
+                    break;
 
-                case ZipArchive::ER_CRC          : $result = 'CRC error';
-                break;
+                case ZipArchive::ER_CRC:
+                    $result = 'CRC error';
+                    break;
 
-                case ZipArchive::ER_ZIPCLOSED    : $result = 'Containing zip archive was closed';
-                break;
+                case ZipArchive::ER_ZIPCLOSED:
+                    $result = 'Containing zip archive was closed';
+                    break;
 
-                case ZipArchive::ER_NOENT        : $result = 'No such file';
-                break;
+                case ZipArchive::ER_NOENT:
+                    $result = 'No such file';
+                    break;
 
-                case ZipArchive::ER_EXISTS       : $result = 'File already exists';
-                break;
+                case ZipArchive::ER_EXISTS:
+                    $result = 'File already exists';
+                    break;
 
-                case ZipArchive::ER_OPEN         : $result = 'Can\'t open file';
-                break;
+                case ZipArchive::ER_OPEN:
+                    $result = 'Can\'t open file';
+                    break;
 
-                case ZipArchive::ER_TMPOPEN      : $result = 'Failure to create temporary file';
-                break;
+                case ZipArchive::ER_TMPOPEN:
+                    $result = 'Failure to create temporary file';
+                    break;
 
-                case ZipArchive::ER_ZLIB         : $result = 'Zlib error';
-                break;
+                case ZipArchive::ER_ZLIB:
+                    $result = 'Zlib error';
+                    break;
 
-                case ZipArchive::ER_MEMORY       : $result = 'Malloc failure';
-                break;
+                case ZipArchive::ER_MEMORY:
+                    $result = 'Malloc failure';
+                    break;
 
-                case ZipArchive::ER_CHANGED      : $result = 'Entry has been changed';
-                break;
+                case ZipArchive::ER_CHANGED:
+                    $result = 'Entry has been changed';
+                    break;
 
-                case ZipArchive::ER_COMPNOTSUPP  : $result = 'Compression method not supported';
-                break;
+                case ZipArchive::ER_COMPNOTSUPP:
+                    $result = 'Compression method not supported';
+                    break;
 
-                case ZipArchive::ER_EOF          : $result = 'Premature EOF';
-                break;
+                case ZipArchive::ER_EOF:
+                    $result = 'Premature EOF';
+                    break;
 
-                case ZipArchive::ER_INVAL        : $result = 'Invalid argument';
-                break;
+                case ZipArchive::ER_INVAL:
+                    $result = 'Invalid argument';
+                    break;
 
-                case ZipArchive::ER_NOZIP        : $result = 'Not a zip archive';
-                break;
+                case ZipArchive::ER_NOZIP:
+                    $result = 'Not a zip archive';
+                    break;
 
-                case ZipArchive::ER_INTERNAL     : $result = 'Internal error';
-                break;
+                case ZipArchive::ER_INTERNAL:
+                    $result = 'Internal error';
+                    break;
 
-                case ZipArchive::ER_INCONS       : $result = 'Zip archive inconsistent';
-                break;
+                case ZipArchive::ER_INCONS:
+                    $result = 'Zip archive inconsistent';
+                    break;
 
-                case ZipArchive::ER_REMOVE       : $result = 'Can\'t remove file';
-                break;
+                case ZipArchive::ER_REMOVE:
+                    $result = 'Can\'t remove file';
+                    break;
 
-                case ZipArchive::ER_DELETED      : $result = 'Entry has been deleted';
-                break;
+                case ZipArchive::ER_DELETED:
+                    $result = 'Entry has been deleted';
+                    break;
 
                 default:
                     $result = sprintf('Unknown status %s', $result);
