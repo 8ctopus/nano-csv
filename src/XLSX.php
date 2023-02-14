@@ -230,7 +230,13 @@ class XLSX extends CSV
                         $sharedString = $xml->getAttribute('t') === 's';
 
                         // get cell column
-                        $column = $xml->getAttribute('r')[0];
+                        $attribute = $xml->getAttribute('r');
+
+                        if ($attribute === null) {
+                            throw new CSVException('invalid cell column');
+                        }
+
+                        $column = $attribute[0];
 
                         // insert empty cells if any
                         $diff = ord($column) - ord('A') - count($row);
