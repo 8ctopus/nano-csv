@@ -88,6 +88,12 @@ class CSV extends File
 
                 // no break
             case 'set':
+                $type = gettype($this->{$property});
+
+                if ($type !== gettype($args[0])) {
+                    throw new CSVException("value {$args[0]} must be of type {$type}");
+                }
+
                 if (in_array($property, [
                     'separator',
                     'enclosure',
@@ -261,7 +267,7 @@ class CSV extends File
      *
      * @param string $line
      *
-     * @return array<string>
+     * @return array<int, mixed>
      *
      * @throws CSVException
      */
