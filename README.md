@@ -3,9 +3,10 @@
 Parse csv and Excel xlsx files
 
 [![Latest Stable Version](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/8ctopus/nano-csv/ci.yaml?branch=master)
 [![Total Downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
-[![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
 [![PHP Version Require](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
+[![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
 
 ## features
 
