@@ -1,12 +1,15 @@
 # nano csv
 
+[![packagist](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
+[![downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
+[![min php version](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
+[![license](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
+[![tests](https://github.com/8ctopus/nano-csv/actions/workflows/tests.yml/badge.svg)](https://github.com/8ctopus/nano-csv/actions/workflows/tests.yml)
+![code coverage badge](https://raw.githubusercontent.com/8ctopus/nano-csv/image-data/coverage.svg)
+![lines of code](https://raw.githubusercontent.com/8ctopus/nano-csv/image-data/lines.svg)
+
 Parse csv and Excel xlsx files
 
-[![Latest Stable Version](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/8ctopus/nano-csv/tests.yml?branch=master)
-[![Total Downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
-[![PHP Version Require](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
-[![License](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
 
 ## features
 
@@ -61,7 +64,7 @@ Nov, 0.5, 3, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1
 Dec, 0.0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
 ```
 
-- More complex
+- More compnano-csv
 
 ```php
 $csv = new CSV(__DIR__ .'/samples/ascii-mac-header.csv');
