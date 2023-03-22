@@ -34,7 +34,7 @@ final class XLSXTest extends TestCase
         //echo implode(', ', $row) . PHP_EOL;
     }
 
-    public function getAutoDetectCases() : array
+    public static function getAutoDetectCases() : array
     {
         return [
             [

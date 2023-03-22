@@ -33,7 +33,7 @@ final class FileTest extends TestCase
         static::assertSame($expected, (string) $file);
     }
 
-    public function getAutoDetectCases() : array
+    public static function getAutoDetectCases() : array
     {
         return [
             [
@@ -141,7 +141,7 @@ final class FileTest extends TestCase
         static::assertSame($expected, $file->readLine(0));
     }
 
-    public function getFirstLineCases() : array
+    public static function getFirstLineCases() : array
     {
         return [
             [
@@ -207,7 +207,7 @@ final class FileTest extends TestCase
         static::assertSame($expected, $file->readLine(1));
     }
 
-    public function getSecondLineCases() : array
+    public static function getSecondLineCases() : array
     {
         return [
             [

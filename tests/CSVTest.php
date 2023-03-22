@@ -30,7 +30,7 @@ final class CSVTest extends TestCase
         static::assertSame($expected, (string) $csv);
     }
 
-    public function getAutoDetectCases() : array
+    public static function getAutoDetectCases() : array
     {
         return [
             [
@@ -178,7 +178,7 @@ final class CSVTest extends TestCase
         static::assertSame($expected, $csv->readRow(0));
     }
 
-    public function getFirstRowCases() : array
+    public static function getFirstRowCases() : array
     {
         return [
             [
@@ -246,7 +246,7 @@ final class CSVTest extends TestCase
         static::assertSame($expected, $csv->readNextRow());
     }
 
-    public function getFourthRowCases() : array
+    public static function getFourthRowCases() : array
     {
         return [
             [
@@ -297,7 +297,7 @@ final class CSVTest extends TestCase
         static::assertSame($expected, $csv->readRow(3));
     }
 
-    public function getTestNumericRowsCases() : array
+    public static function getTestNumericRowsCases() : array
     {
         return [
             [
@@ -349,7 +349,7 @@ final class CSVTest extends TestCase
         static::assertSame($expected, $csv->readRow(3));
     }
 
-    public function getTestAssociativeArrayCases() : array
+    public static function getTestAssociativeArrayCases() : array
     {
         return [
             [
