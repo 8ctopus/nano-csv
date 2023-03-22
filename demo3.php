@@ -1,12 +1,13 @@
 <?php
 
 use Oct8pus\CSV\CSV;
-use Oct8pus\CSV\File;
 
 require_once './vendor/autoload.php';
 
 // command line error handler
 (new \NunoMaduro\Collision\Provider())->register();
+
+$dir = __DIR__ . '/samples/';
 
 $files = scandir($dir);
 
