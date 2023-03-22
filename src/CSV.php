@@ -202,8 +202,8 @@ class CSV extends File
     public function rowsCount() : int
     {
         // get cached value
-        if (isset($this->linesCount)) {
-            return $this->linesCount;
+        if (isset($this->rowsCount)) {
+            return $this->rowsCount;
         }
 
         // save offset
