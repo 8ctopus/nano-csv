@@ -19,6 +19,8 @@ final class XLSXTest extends TestCase
      *
      * @param string $file
      * @param string $expected
+     *
+     * @return void
      */
     public function testAutoDetect(string $file, string $expected) : void
     {
@@ -64,6 +66,42 @@ final class XLSXTest extends TestCase
                     'header: true' . PHP_EOL .
                     'rows count: 7' . PHP_EOL .
                     'columns (12): TransactionID, TransactionDate, MerchantAccName, BillingDescriptor, PaymentType, OrderID, Amount, CurrencySymbol, CardBrand, Result, ResponseCode, ResponseDescription' . PHP_EOL,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getHeaderCases()
+     *
+     * @param string $file
+     * @param array $expected
+     *
+     * @return void
+     */
+    public function testHeader(string $file, array $expected) : void
+    {
+        $xlsx = new XLSX($file);
+        $xlsx->autoDetect();
+
+        //echo $xlsx;
+
+        static::assertSame($expected, $xlsx->getColumns());
+    }
+
+    public static function getHeaderCases() : array
+    {
+        return [
+            [
+                'file' => 'samples/test.xlsx',
+                'expected' => [
+                    'name', 'class', 'weight', 'empty', 'height'
+                ],
+            ],
+            [
+                'file' => 'samples/test2.xlsx',
+                'expected' => [
+                    'TransactionID', 'TransactionDate', 'MerchantAccName', 'BillingDescriptor', 'PaymentType', 'OrderID', 'Amount', 'CurrencySymbol', 'CardBrand', 'Result', 'ResponseCode', 'ResponseDescription',
+                ],
             ],
         ];
     }
