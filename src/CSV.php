@@ -15,7 +15,7 @@ class CSV extends File
     /**
      * @var array<int, mixed>
      */
-    private array $columns;
+    protected array $columns;
     private int $columnsCount;
 
     private int $rowsCount;
@@ -117,7 +117,7 @@ class CSV extends File
 
                 // no break
             default:
-                throw new CSVException("unknown property {$property}");
+                throw new CSVException("unknown operation {$operation}");
         }
     }
 
