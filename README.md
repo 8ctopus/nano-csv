@@ -15,7 +15,7 @@ Parse csv and Excel xlsx files
 
 - parse csv and Excel xlsx files
 - no dependencies, fast and low memory footprint
-- small code base: 1270 lines of code
+- very small code base: 1100 lines of code
 - auto detect file encoding and line endings
 - auto detect csv separator, enclosure and header presence
 - unicode support
@@ -64,7 +64,7 @@ Nov, 0.5, 3, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1
 Dec, 0.0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
 ```
 
-- More compnano-csv
+- And some handy options
 
 ```php
 $csv = new CSV(__DIR__ .'/samples/ascii-mac-header.csv');
