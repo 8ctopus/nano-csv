@@ -29,7 +29,7 @@ final class XLSXTest extends TestCase
 
         //echo $xlsx;
 
-        static::assertSame($expected, (string) $xlsx);
+        self::assertSame($expected, (string) $xlsx);
 
         // test loop (detect incomplete rows)
         while (/*$row = */ $xlsx->readNextRow());
@@ -74,7 +74,7 @@ final class XLSXTest extends TestCase
      * @dataProvider getHeaderCases()
      *
      * @param string $file
-     * @param array $expected
+     * @param array  $expected
      *
      * @return void
      */
@@ -85,7 +85,7 @@ final class XLSXTest extends TestCase
 
         //echo $xlsx;
 
-        static::assertSame($expected, $xlsx->getColumns());
+        self::assertSame($expected, $xlsx->getColumns());
     }
 
     public static function getHeaderCases() : array
@@ -94,7 +94,7 @@ final class XLSXTest extends TestCase
             [
                 'file' => 'samples/test.xlsx',
                 'expected' => [
-                    'name', 'class', 'weight', 'empty', 'height'
+                    'name', 'class', 'weight', 'empty', 'height',
                 ],
             ],
             [

@@ -6,16 +6,15 @@ namespace Oct8pus\CSV;
 
 class CSV extends File
 {
+    /**
+     * @var array<int, mixed>
+     */
+    protected array $columns;
     private string $separator;
     private string $enclosure;
     private string $escape;
 
     private bool $header;
-
-    /**
-     * @var array<int, mixed>
-     */
-    protected array $columns;
     private int $columnsCount;
 
     private int $rowsCount;
