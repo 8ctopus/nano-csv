@@ -25,7 +25,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Oct8pus\\CSV\\": "src/"
+            "Oct8pus\\CSV\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
         }
     },
     "scripts": {
