@@ -1,15 +1,14 @@
 # nano csv
 
-[![packagist](http://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
-[![downloads](http://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
-[![min php version](http://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
-[![license](http://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
+[![packagist](https://poser.pugx.org/8ctopus/nano-csv/v)](https://packagist.org/packages/8ctopus/nano-csv)
+[![downloads](https://poser.pugx.org/8ctopus/nano-csv/downloads)](https://packagist.org/packages/8ctopus/nano-csv)
+[![min php version](https://poser.pugx.org/8ctopus/nano-csv/require/php)](https://packagist.org/packages/8ctopus/nano-csv)
+[![license](https://poser.pugx.org/8ctopus/nano-csv/license)](https://packagist.org/packages/8ctopus/nano-csv)
 [![tests](https://github.com/8ctopus/nano-csv/actions/workflows/tests.yml/badge.svg)](https://github.com/8ctopus/nano-csv/actions/workflows/tests.yml)
 ![code coverage badge](https://raw.githubusercontent.com/8ctopus/nano-csv/image-data/coverage.svg)
 ![lines of code](https://raw.githubusercontent.com/8ctopus/nano-csv/image-data/lines.svg)
 
 Parse csv and Excel xlsx files
-
 
 ## features
 
