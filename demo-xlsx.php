@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 use Oct8pus\CSV\XLSX;
 
-require_once './vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 // command line error handler
-(new \NunoMaduro\Collision\Provider())->register();
+(new \NunoMaduro\Collision\Provider())
+    ->register();
 
 $xlsx = new XLSX(__DIR__ . '/samples/test.xlsx');
 

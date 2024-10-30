@@ -28,7 +28,7 @@ Parse csv and Excel xlsx files
 ```php
 use Oct8pus\CSV\CSV;
 
-require_once './vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $csv = new CSV(__DIR__ .'/samples/ascii-mac-header.csv');
 
