@@ -282,7 +282,8 @@ class CSV extends File
     {
         // line to array using separator
         //$columns = explode($this->separator, $line);
-        $columns = str_getcsv($line, $this->separator, $this->enclosure, $this->escape);
+        // https://github.com/php/php-src/issues/16931
+        $columns = str_getcsv($line, $this->separator, !empty($this->enclosure) ? $this->enclosure : '"', $this->escape);
 
         if (isset($this->columnsCount) && count($columns) !== $this->columnsCount) {
             $count = count($columns);
