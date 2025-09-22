@@ -25,7 +25,6 @@ enum LineEnding
             case 'linux':
                 return self::Linux;
 
-            // no break
             case 'windows':
                 return self::Windows;
 

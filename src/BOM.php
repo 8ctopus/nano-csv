@@ -27,7 +27,6 @@ enum BOM
             case 'none':
                 return self::None;
 
-            // no break
             case 'utf8':
             case 'utf-8':
                 return self::Utf8;

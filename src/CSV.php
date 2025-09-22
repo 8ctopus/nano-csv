@@ -54,12 +54,12 @@ class CSV extends File
         $header = $this->header ? 'true' : 'false';
 
         return
-            parent::__toString() .
-            "separator: {$this->separator()}" . PHP_EOL .
-            "enclosure: {$this->enclosure()}" . PHP_EOL .
-            "header: {$header}" . PHP_EOL .
-            "rows count: {$this->rowsCount()}" . PHP_EOL .
-            "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
+            parent::__toString()
+            . "separator: {$this->separator()}" . PHP_EOL
+            . "enclosure: {$this->enclosure()}" . PHP_EOL
+            . "header: {$header}" . PHP_EOL
+            . "rows count: {$this->rowsCount()}" . PHP_EOL
+            . "columns ({$this->columnsCount}): {$columns}" . PHP_EOL;
     }
 
     /**
@@ -292,7 +292,7 @@ class CSV extends File
 
         // cleanup whitespace multibyte
         foreach ($columns as &$column) {
-            $column = preg_replace('/^\\s+|\\s+$/u', '', $column);
+            $column = preg_replace('/^\s+|\s+$/u', '', $column);
         }
 
         if (isset($this->enclosure)) {

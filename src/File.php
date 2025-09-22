@@ -47,12 +47,12 @@ class File
     public function __toString() : string
     {
         return
-            "file: {$this->file}" . PHP_EOL .
-            "size: {$this->size}" . PHP_EOL .
-            "BOM: {$this->bom->toStr()}" . PHP_EOL .
-            "encoding: {$this->encoding}" . PHP_EOL .
-            "line ending: {$this->lineEnding->toStr()}" . PHP_EOL .
-            "lines count: {$this->linesCount()}" . PHP_EOL;
+            "file: {$this->file}" . PHP_EOL
+            . "size: {$this->size}" . PHP_EOL
+            . "BOM: {$this->bom->toStr()}" . PHP_EOL
+            . "encoding: {$this->encoding}" . PHP_EOL
+            . "line ending: {$this->lineEnding->toStr()}" . PHP_EOL
+            . "lines count: {$this->linesCount()}" . PHP_EOL;
     }
 
     /**

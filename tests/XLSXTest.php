@@ -41,31 +41,31 @@ final class XLSXTest extends TestCase
         return [
             [
                 'file' => 'samples/test.xlsx',
-                'expected' => 'file: ' . sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'test.csv' . PHP_EOL .
-                    'size: 174' . PHP_EOL .
-                    'BOM: UTF-8' . PHP_EOL .
-                    'encoding: UTF-8' . PHP_EOL .
-                    'line ending: Linux' . PHP_EOL .
-                    'lines count: 9' . PHP_EOL .
-                    'separator: ,' . PHP_EOL .
-                    'enclosure: none' . PHP_EOL .
-                    'header: true' . PHP_EOL .
-                    'rows count: 7' . PHP_EOL .
-                    'columns (5): name, class, weight, empty, height' . PHP_EOL,
+                'expected' => 'file: ' . sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'test.csv' . PHP_EOL
+                    . 'size: 174' . PHP_EOL
+                    . 'BOM: UTF-8' . PHP_EOL
+                    . 'encoding: UTF-8' . PHP_EOL
+                    . 'line ending: Linux' . PHP_EOL
+                    . 'lines count: 9' . PHP_EOL
+                    . 'separator: ,' . PHP_EOL
+                    . 'enclosure: none' . PHP_EOL
+                    . 'header: true' . PHP_EOL
+                    . 'rows count: 7' . PHP_EOL
+                    . 'columns (5): name, class, weight, empty, height' . PHP_EOL,
             ],
             [
                 'file' => 'samples/test2.xlsx',
-                'expected' => 'file: ' . sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'test2.csv' . PHP_EOL .
-                    'size: 1009' . PHP_EOL .
-                    'BOM: UTF-8' . PHP_EOL .
-                    'encoding: UTF-8' . PHP_EOL .
-                    'line ending: Linux' . PHP_EOL .
-                    'lines count: 9' . PHP_EOL .
-                    'separator: ,' . PHP_EOL .
-                    'enclosure: none' . PHP_EOL .
-                    'header: true' . PHP_EOL .
-                    'rows count: 7' . PHP_EOL .
-                    'columns (12): TransactionID, TransactionDate, MerchantAccName, BillingDescriptor, PaymentType, OrderID, Amount, CurrencySymbol, CardBrand, Result, ResponseCode, ResponseDescription' . PHP_EOL,
+                'expected' => 'file: ' . sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'test2.csv' . PHP_EOL
+                    . 'size: 1009' . PHP_EOL
+                    . 'BOM: UTF-8' . PHP_EOL
+                    . 'encoding: UTF-8' . PHP_EOL
+                    . 'line ending: Linux' . PHP_EOL
+                    . 'lines count: 9' . PHP_EOL
+                    . 'separator: ,' . PHP_EOL
+                    . 'enclosure: none' . PHP_EOL
+                    . 'header: true' . PHP_EOL
+                    . 'rows count: 7' . PHP_EOL
+                    . 'columns (12): TransactionID, TransactionDate, MerchantAccName, BillingDescriptor, PaymentType, OrderID, Amount, CurrencySymbol, CardBrand, Result, ResponseCode, ResponseDescription' . PHP_EOL,
             ],
         ];
     }

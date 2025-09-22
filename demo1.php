@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
+use NunoMaduro\Collision\Provider;
 use Oct8pus\CSV\CSV;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 // command line error handler
-(new \NunoMaduro\Collision\Provider())
+(new Provider())
     ->register();
 
 $csv = new CSV(__DIR__ . '/samples/ascii-mac-header.csv');
