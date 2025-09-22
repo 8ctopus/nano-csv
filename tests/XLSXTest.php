@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Oct8pus\CSV;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\CSV\CSVException
- * @covers \Oct8pus\CSV\XLSX
  */
+#[CoversClass(CSVException::class)]
+#[CoversClass(XLSX::class)]
 final class XLSXTest extends TestCase
 {
     /**
-     * @dataProvider provideAutoDetectCases
-     *
      * @param string $file
      * @param string $expected
      *
      * @return void
      */
+    #[DataProvider('provideAutoDetectCases')]
     public function testAutoDetect(string $file, string $expected) : void
     {
         $xlsx = new XLSX($file);
@@ -71,13 +71,12 @@ final class XLSXTest extends TestCase
     }
 
     /**
-     * @dataProvider provideHeaderCases()
-     *
      * @param string $file
      * @param array  $expected
      *
      * @return void
      */
+    #[DataProvider('provideHeaderCases')]
     public function testHeader(string $file, array $expected) : void
     {
         $xlsx = new XLSX($file);

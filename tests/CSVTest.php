@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Oct8pus\CSV;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\CSV\CSV
- * @covers \Oct8pus\CSV\CSVException
  */
+#[CoversClass(CSV::class)]
+#[CoversClass(CSVException::class)]
 final class CSVTest extends TestCase
 {
     /**
-     * @dataProvider provideAutoDetectCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('provideAutoDetectCases')]
     public function testAutoDetect(string $file, string $expected) : void
     {
         $csv = new CSV($file);
@@ -149,11 +149,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getFirstRowCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('getFirstRowCases')]
     public function testReadNextRow(string $file, array $expected) : void
     {
         $csv = new CSV($file);
@@ -164,11 +163,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getFirstRowCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('getFirstRowCases')]
     public function testReadFirstRow(string $file, array $expected) : void
     {
         $csv = new CSV($file);
@@ -213,11 +211,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getFourthRowCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('getFourthRowCases')]
     public function testReadFourthRow(string $file, array $expected) : void
     {
         $csv = new CSV($file);
@@ -228,11 +225,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getFourthRowCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('getFourthRowCases')]
     public function testReadNextRow2(string $file, array $expected) : void
     {
         $csv = new CSV($file);
@@ -281,11 +277,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider provideNumericRowsCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('provideNumericRowsCases')]
     public function testNumericRows(string $file, array $expected) : void
     {
         $csv = new CSV($file);
@@ -332,11 +327,10 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider provideAssociativeArrayCases
-     *
      * @param string $file
      * @param array  $expected
      */
+    #[DataProvider('provideAssociativeArrayCases')]
     public function testAssociativeArray(string $file, array $expected) : void
     {
         $csv = new CSV($file);

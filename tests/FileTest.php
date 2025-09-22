@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Oct8pus\CSV;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @covers \Oct8pus\CSV\BOM
- * @covers \Oct8pus\CSV\File
- * @covers \Oct8pus\CSV\FileException
- * @covers \Oct8pus\CSV\LineEnding
  */
+#[CoversClass(BOM::class)]
+#[CoversClass(File::class)]
+#[CoversClass(FileException::class)]
+#[CoversClass(LineEnding::class)]
 final class FileTest extends TestCase
 {
     /**
-     * @dataProvider provideAutoDetectCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('provideAutoDetectCases')]
     public function testAutoDetect(string $file, string $expected) : void
     {
         $file = new File($file);
@@ -112,11 +112,10 @@ final class FileTest extends TestCase
     }
 
     /**
-     * @dataProvider getFirstLineCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('getFirstLineCases')]
     public function testReadNextRow(string $file, string $expected) : void
     {
         $file = new File($file);
@@ -127,11 +126,10 @@ final class FileTest extends TestCase
     }
 
     /**
-     * @dataProvider getFirstLineCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('getFirstLineCases')]
     public function testReadFirstRow(string $file, string $expected) : void
     {
         $file = new File($file);
@@ -176,11 +174,10 @@ final class FileTest extends TestCase
     }
 
     /**
-     * @dataProvider getSecondLineCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('getSecondLineCases')]
     public function testReadNextLine2(string $file, string $expected) : void
     {
         $file = new File($file);
@@ -193,11 +190,10 @@ final class FileTest extends TestCase
     }
 
     /**
-     * @dataProvider getSecondLineCases
-     *
      * @param string $file
      * @param string $expected
      */
+    #[DataProvider('getSecondLineCases')]
     public function testReadSecondLine(string $file, string $expected) : void
     {
         $file = new File($file);
