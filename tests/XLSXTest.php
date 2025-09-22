@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 final class XLSXTest extends TestCase
 {
     /**
-     * @dataProvider getAutoDetectCases
+     * @dataProvider provideAutoDetectCases
      *
      * @param string $file
      * @param string $expected
@@ -36,7 +36,7 @@ final class XLSXTest extends TestCase
         //echo implode(', ', $row) . PHP_EOL;
     }
 
-    public static function getAutoDetectCases() : array
+    public static function provideAutoDetectCases() : iterable
     {
         return [
             [
@@ -71,7 +71,7 @@ final class XLSXTest extends TestCase
     }
 
     /**
-     * @dataProvider getHeaderCases()
+     * @dataProvider provideHeaderCases()
      *
      * @param string $file
      * @param array  $expected
@@ -88,7 +88,7 @@ final class XLSXTest extends TestCase
         self::assertSame($expected, $xlsx->getColumns());
     }
 
-    public static function getHeaderCases() : array
+    public static function provideHeaderCases() : iterable
     {
         return [
             [

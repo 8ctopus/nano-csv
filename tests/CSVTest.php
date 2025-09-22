@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 final class CSVTest extends TestCase
 {
     /**
-     * @dataProvider getAutoDetectCases
+     * @dataProvider provideAutoDetectCases
      *
      * @param string $file
      * @param string $expected
@@ -30,7 +30,7 @@ final class CSVTest extends TestCase
         self::assertSame($expected, (string) $csv);
     }
 
-    public static function getAutoDetectCases() : array
+    public static function provideAutoDetectCases() : iterable
     {
         return [
             [
@@ -178,7 +178,7 @@ final class CSVTest extends TestCase
         self::assertSame($expected, $csv->readRow(0));
     }
 
-    public static function getFirstRowCases() : array
+    public static function getFirstRowCases() : iterable
     {
         return [
             [
@@ -246,7 +246,7 @@ final class CSVTest extends TestCase
         self::assertSame($expected, $csv->readNextRow());
     }
 
-    public static function getFourthRowCases() : array
+    public static function getFourthRowCases() : iterable
     {
         return [
             [
@@ -281,7 +281,7 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getTestNumericRowsCases
+     * @dataProvider provideNumericRowsCases
      *
      * @param string $file
      * @param array  $expected
@@ -297,7 +297,7 @@ final class CSVTest extends TestCase
         self::assertSame($expected, $csv->readRow(3));
     }
 
-    public static function getTestNumericRowsCases() : array
+    public static function provideNumericRowsCases() : iterable
     {
         return [
             [
@@ -332,7 +332,7 @@ final class CSVTest extends TestCase
     }
 
     /**
-     * @dataProvider getTestAssociativeArrayCases
+     * @dataProvider provideAssociativeArrayCases
      *
      * @param string $file
      * @param array  $expected
@@ -349,7 +349,7 @@ final class CSVTest extends TestCase
         self::assertSame($expected, $csv->readRow(3));
     }
 
-    public static function getTestAssociativeArrayCases() : array
+    public static function provideAssociativeArrayCases() : iterable
     {
         return [
             [

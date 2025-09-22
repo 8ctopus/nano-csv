@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class FileTest extends TestCase
 {
     /**
-     * @dataProvider getAutoDetectCases
+     * @dataProvider provideAutoDetectCases
      *
      * @param string $file
      * @param string $expected
@@ -33,7 +33,7 @@ final class FileTest extends TestCase
         self::assertSame($expected, (string) $file);
     }
 
-    public static function getAutoDetectCases() : array
+    public static function provideAutoDetectCases() : iterable
     {
         return [
             [
@@ -141,7 +141,7 @@ final class FileTest extends TestCase
         self::assertSame($expected, $file->readLine(0));
     }
 
-    public static function getFirstLineCases() : array
+    public static function getFirstLineCases() : iterable
     {
         return [
             [
@@ -207,7 +207,7 @@ final class FileTest extends TestCase
         self::assertSame($expected, $file->readLine(1));
     }
 
-    public static function getSecondLineCases() : array
+    public static function getSecondLineCases() : iterable
     {
         return [
             [
